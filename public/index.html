@@ -1,0 +1,81 @@
+<html>
+<head>
+  <title>Jay and Brent's Movie Challenges</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+ <link rel="stylesheet" href="/stylesheets/style.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+   <!-- Main Module -->
+   <script src="core.js"></script>
+   <!-- Controller -->
+   <script src="javascripts/controllers/MainController.js"></script>
+   <script src="javascripts/searchtitles.js"></script>
+</head>
+   <body ng-app="Movies" ng-controller="MainController">
+   
+     <div id="sitebanner">
+      <h1 style="text-align: center"> {{ title }} </h1>
+      <p style="text-align: center">{{ challenge }}</p>
+     </div>
+      <!-- Wrapper-->
+      <div id="wrapper">
+        
+         <div style="text-align: center" id="entries">
+            <h2>The Contenders</h2>
+              <div class="col-xs-3">
+              <label>
+                  Title
+                <input id="movieTitle" class="form-control" type="text" placeholder="Title">
+              </label>
+              </div>
+              <div class="col-xs-2">
+              <label>
+                  Year
+                <input id="movieYear" class="form-control" type="text" placeholder="Year">
+              </label>
+              </div>
+              <div class="col-xs-2">
+              <h1>VS.</h1>
+              </div>
+              <div class="col-xs-3">
+              <label>
+                  Title
+                <input id="movieTitle2" class="form-control" type="text" placeholder="Title">
+              </label>
+              </div>
+              <div class="col-xs-2">
+              <label>
+                  Year
+                <input id="movieYear2" class="form-control" type="text" placeholder="Year">
+              </label>
+              </div>
+     
+         <button type="button" class="btn btn-default" id="loadmovie">Load Jay's Movie</button>
+         <button type="button" class="btn btn-default" id="loadmovie2">Load Brent's Movie</button>
+         
+        </div>
+
+         <div class="col-xs-6" style="text-align: center"  id="result1">
+            <!--Content Generated from searchtitles.js -->
+         </div>
+
+         <div class="col-xs-6" style="text-align: center"  id="result2">
+            <!--Content Generated from searchtitles.js -->
+         </div>
+
+        
+
+         
+        
+      </div>
+      <!-- /WRAPPER-->
+
+
+     
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+   </body>
+</html>
