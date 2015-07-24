@@ -8,10 +8,10 @@ var bodyParser = require('body-parser');
 // Database
 var mongo = require('mongodb');
 var monk = require('monk');
-var db = monk('localhost:27017/forum');
+var db = monk('localhost:27017/movies');
 
 
-//TODO 
+
 //var routes = require('./routes/index');
 //var users = require('./routes/posts');
 
@@ -20,7 +20,7 @@ var app = express();
 
 // view engine setup
 app.get('/',function(req,res){
-  res.sendFile(path.join(__dirname+'/views/index.html'));
+  res.sendFile(path.join(__dirname+'/public/index.html'));
  
 });
 
