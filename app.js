@@ -4,6 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var stylus = require('stylus')
+var nib = require('nib')
 
 // Database
 var mongo = require('mongodb');
@@ -18,11 +20,37 @@ var db = monk('localhost:27017/movies');
 
 var app = express();
 
+// compile stylus & nibg
+function compile(str, path) {
+  return stylus(str)
+  .set('filename', path)
+  .use(nib())
+}
+
 // view engine setup
-app.get('/',function(req,res){
+// removed path.join(__dirname, 'pathname')
+app.set('views', __dirname + '/views')
+app.set('view engine', 'jade')
+app.use(stylus.middleware(
+  { src: __dirname + '/public'
+    , compile:compile
+  }
+))
+app.use(express.static(__dirname + '/public'))
+
+// render the webpage through node
+app.get('/', function (req, res) {
+  res.render('index',
+  { title : 'Home' }
+  )
+})
+// app.listen(3000)
+
+// view engine setup
+/*app.get('/',function(req,res){
   res.sendFile(path.join(__dirname+'/public/index.html'));
  
-});
+});*/
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));

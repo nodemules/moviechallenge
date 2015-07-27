@@ -1,0 +1,41 @@
+extend layout
+block header
+	h1 Movie Battles
+block search
+	.search-bar.col-xs-6
+		input.form-control(
+			type='text', 
+			ng-model='search1',
+			ng-change='change()', 
+			onclick='select()', 
+			placeholder='Enter full movie name', 
+			autofocus='')
+	.search-bar.col-xs-6
+		input.form-control(type='text', 
+			ng-model='search2', 
+			ng-change='change()', 
+			onclick='select()', 
+			placeholder='Enter full movie name', 
+			autofocus='')
+block results
+	div(ng-if='!details' && '!details2')
+		| Loading results...
+	block 
+		.poster.col-xs-6
+			.image
+				img(ng-src="{{ details1.Poster=='N/A' ? 'http://placehold.it/150x220&text=N/A' : 'http://imdb.wemakesites.net/api/1.0/img?url='+details1.Poster }}")
+				.overlay
+				.text
+					p Director: {{ details1.Director }}
+					p Year: {{ details1.Year }}
+					p Actors: {{ details1.Actors }}
+					p Plot: {{ details1.Plot }}
+		.poster.col-xs-6
+			.image
+				img(ng-src="{{ details2.Poster=='N/A' ? 'http://placehold.it/150x220&text=N/A' : 'http://imdb.wemakesites.net/api/1.0/img?url='+details2.Poster }}")
+				.overlay
+				.text
+					p Director: {{ details2.Director }}
+					p Year: {{ details2.Year }}
+					p Actors: {{ details2.Actors }}
+					p Plot: {{ details2.Plot }}

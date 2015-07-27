@@ -1,0 +1,114 @@
+
+ * Import nib
+ */
+@import 'nib'
+
+/*
+ * Grab a custom font from Google
+ */
+@import url('http://fonts.googleapis.com/css?family=Quicksand')
+
+/*
+ * Nib provides a CSS reset
+ */
+global-reset()
+
+/*
+ * Store the main color and
+ * background color as variables
+ */
+main-color = #0066FF
+background-color = lightgrey
+
+body
+  padding 30px
+  font-family 'Georgia'
+  background none repeat scroll left top
+  background-color background-color
+  color #444
+
+header
+  font-family 'Quicksand'
+  padding 30px 10px
+  color #fff
+  font-size 25px
+  text-align center
+
+  /*
+   * Note the use of the `main-color`
+   * variable and the `darken` function
+   */
+  background-color main-color
+  border-bottom 1px solid darken(main-color, 30%)
+  text-shadow 0px -1px 0px darken(main-color, 30%)
+
+.search
+  padding 10px
+  
+.results
+  padding 40px
+  
+.poster
+  border-radius 3px
+  height 500
+  padding-top 20px
+
+.image
+  position relative
+  border-radius 10px
+  width 300
+  height 450
+  vertical-align middle
+  
+.image .text
+  position absolute
+  top 0em
+  padding 10px
+  width 300px
+  text-align left
+  visibility hidden
+  color white
+  
+.image .overlay
+  position absolute
+  top 0em
+  background rgba(black,0.85)
+  visibility hidden
+  transition opacity 1s ease
+  
+  width 300px
+  height 450px
+  
+.image:hover .overlay
+  opacity 1
+  visibility visible
+  
+.image:hover .text
+  visibility visible
+  
+
+/* deprecated style
+
+  /*.image:hover overlay
+  box-shadow:inset 1px 1px 40px 0
+  position relative
+  position -450
+  width 300
+  height 450
+  color:rbga 255 255 255 .85*/
+
+/*.overlay
+  width 300
+  height 450
+  color:rbga 255 255 255 .85*/
+  
+/*.poster:hover .overlay
+  width 300
+  height 450
+  color:rbga 255 255 255 .85*/
+  
+/*.poster:hover .image
+  box-shadow:inset 1px 1px 40px 0
+  width 300
+  height 450
+  color:rbga 255 255 255 .85*/

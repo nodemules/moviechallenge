@@ -1,84 +1,198 @@
+*Import: nib;
+*
+/*
+ * Grab a custom font from Google
+ */
+@import url("http://fonts.googleapis.com/css?family=Quicksand");
+/*
+ * Nib provides a CSS reset
+ */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-family: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+body {
+  line-height: 1;
+  color: #000;
+  background: #fff;
+}
+ol,
+ul {
+  list-style: none;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  vertical-align: middle;
+}
+caption,
+th,
+td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+a img {
+  border: none;
+}
+/*
+ * Store the main color and
+ * background color as variables
+ */
 body {
   padding: 30px;
-    background: #eeeeee none repeat scroll left top;
-    color: #444444;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-
+  font-family: 'Georgia';
+  background: none repeat scroll left top;
+  background-color: #d3d3d3;
+  color: #444;
 }
-
-h2 {
-	margin:0 0 .5em 0;
+header {
+  font-family: 'Quicksand';
+  padding: 30px 10px;
+  color: #fff;
+  font-size: 25px;
+  text-align: center;
+/*
+   * Note the use of the `main-color`
+   * variable and the `darken` function
+   */
+  background-color: #06f;
+  border-bottom: 1px solid #0047b3;
+  text-shadow: 0px -1px 0px #0047b3;
 }
-
-a {
-  color: #00B7FF;
+.search {
+  padding: 10px;
 }
-
-#wrapper {
-	width: 900px;
-	margin: 0 auto;
-	position: relative;
-	background-color: white;
-	border: 1px;
-	box-shadow: 10px 10px 40px #888888;
-
+.results {
+  padding: 40px;
 }
-
-#sitebanner {
-	width: 900px;
-	margin: 0 auto;
-	position: relative;
-	background-color: white;
-	box-shadow: 10px 10px 40px #888888;
-	
+.poster {
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  height: 500;
+  padding-top: 20px;
 }
-#post {
-	width: 900px;
-	margin: 0 auto;
-	position: relative;
-	background-color: white;
-	border: 1px;
-	padding-bottom: 15px;
-	box-shadow: 10px 10px 40px #888888;
-
+.image {
+  position: relative;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  width: 300;
+  height: 450;
+  vertical-align: middle;
 }
-
-#postcontainer {
-    width: 85%;
-    margin: 0 auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
-
-
+.image .text {
+  position: absolute;
+  top: 0em;
+  padding: 10px;
+  width: 300px;
+  text-align: left;
+  visibility: hidden;
+  color: #fff;
 }
-#posttitle {
-	color: white;
-	background-color: #007A7A;
-	font-weight: bold;
-	text-align: left;
-	margin-bottom: 10px;
-	padding-left: 15px;
-	padding-bottom: 8px;
-	padding-top: 8px;
-	
-	box-shadow: 2px 2px 5px #888888;
-	
+.image .overlay {
+  position: absolute;
+  top: 0em;
+  background: rgba(0,0,0,0.85);
+  visibility: hidden;
+  -webkit-transition: opacity 1s ease;
+  -moz-transition: opacity 1s ease;
+  -o-transition: opacity 1s ease;
+  -ms-transition: opacity 1s ease;
+  transition: opacity 1s ease;
+  width: 300px;
+  height: 450px;
 }
-#posttitle span {
-	text-align: right;
-	font-weight: normal;
-	font-style: italic;
-	padding-left: 10px;
-	font-size: 0.8em;
+.image:hover .overlay {
+  opacity: 1;
+  -ms-filter: none;
+  filter: none;
+  visibility: visible;
+}
+.image:hover .text {
+  visibility: visible;
+}
+/* deprecated style
 
-}
-
-#postbody {
-	text-align: left;
-	padding-left: 15px;
-}
-
-fieldset {
-	border:0;
-	padding:0; margin:0;
-}
+  /*.image:hover overlay
+  box-shadow:inset 1px 1px 40px 0
+  position relative
+  position -450
+  width 300
+  height 450
+  color:rbga 255 255 255 .85*/
+/*.overlay
+  width 300
+  height 450
+  color:rbga 255 255 255 .85*/
+/*.poster:hover .overlay
+  width 300
+  height 450
+  color:rbga 255 255 255 .85*/
+/*.poster:hover .image
+  box-shadow:inset 1px 1px 40px 0
+  width 300
+  height 450
+  color:rbga 255 255 255 .85*/
