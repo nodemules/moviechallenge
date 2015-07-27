@@ -1,89 +1,61 @@
+<!DOCTYPE html>
 <html>
-<head>
-  <title>Jay and Brent's Movie Challenges</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <head>
+    <!-- Load Scripts-->
+    <!-- Load Angular-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <!-- Stylesheets-->
+        <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <!-- Controllers-->
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
- <link rel="stylesheet" href="/stylesheets/style.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
-   <!-- Main Module -->
-   <script src="core.js"></script>
-   <!-- Controller -->
-   <script src="javascripts/controllers/MainController.js"></script>
-   <script src="javascripts/searchtitles.js"></script>
-</head>
-   <body ng-app="Movies" ng-controller="MainController">
-   
-     <div id="sitebanner">
-      <h1 style="text-align: center"> {{ title }} </h1>
-      <p style="text-align: center">{{ challenge }}</p>
-     </div>
-      <!-- Wrapper-->
-      <div id="wrapper">
-        
-         <div style="text-align: center" id="entries">
-            <h2>The Contenders</h2>
-              <div class="col-xs-3">
-              <label>
-                  Title
-                <input id="movieTitle" class="form-control" type="text" placeholder="Title">
-              </label>
-              </div>
-              <div class="col-xs-2">
-              <label>
-                  Year
-                <input id="movieYear" class="form-control" type="text" placeholder="Year">
-              </label>
-              </div>
-              <div class="col-xs-2">
-              <h1>VS.</h1>
-              </div>
-              <div class="col-xs-3">
-              <label>
-                  Title
-                <input id="movieTitle2" class="form-control" type="text" placeholder="Title">
-              </label>
-              </div>
-              <div class="col-xs-2">
-              <label>
-                  Year
-                <input id="movieYear2" class="form-control" type="text" placeholder="Year">
-              </label>
-              </div>
-     
-         <button type="button" class="btn btn-default" id="loadmovie">Load Jay's Movie</button>
-         <button type="button" class="btn btn-default" id="loadmovie2">Load Brent's Movie</button>
-         
+    <script src="javascripts/search.js"></script>
+    <!-- Find how to dynamically change page title with Angular + render through Jade	-->
+    <title>PLACEHOLDER</title>
+  </head>
+  <!-- Body-->
+  <body>
+
+    <!-- Search fields	-->
+    <div ng-app="myApp" ng-controller="MovieController">
+
+
+      <div class="search-bar col-xs-6">
+        <input type="text" ng-model="search1" ng-change="change()" onclick="select()" class="form-control" placeholder="Enter full movie name" autofocus />
+      </div>
+
+      <div class="search-bar col-xs-6">
+          <input type="text" ng-model="search2" ng-change="change()" onclick="select()" class="form-control" placeholder="Enter full movie name" autofocus />
+      </div>
+
+
+      <div id="main-info">
+        <div ng-if="!details1 && !details2">
+          Loading results...
         </div>
 
-         <div class="col-xs-6" style="text-align: center"  id="result1">
+        <div class="col-xs-6" ng-if="details1.Response==='True'">
+            <img ng-src="{{ details1.Poster=='N/A' ? 'http://placehold.it/150x220&text=N/A' : 'http://imdb.wemakesites.net/api/1.0/img?url='+details1.Poster }}">
+          <span class="span-outer">
+            <a href="http://imdb.com/title/{{ details1.imdbID }}" target="_blank">
+              {{ details1.Title }}</a></span>, {{ details1.Year }}
+            
+        </div>
 
-            <!--Content Generated from searchtitles.js -->
-         </div>
+        <div class="col-xs-6" ng-if="details2.Response==='True'">
+            <img ng-src="{{ details2.Poster=='N/A' ? 'http://placehold.it/150x220&text=N/A' : 'http://imdb.wemakesites.net/api/1.0/img?url='+details2.Poster }}">
+          <span class="span-outer">
+            <a href="http://imdb.com/title/{{ details2.imdbID }}" target="_blank">
+              {{ details2.Title }}</a></span>, {{ details2.Year }}
+            
+        </div>
 
-         <div class="col-xs-6" style="text-align: center"  id="result2">
-            <!--Content Generated from searchtitles.js -->
-         </div>
-         <div class="col-xs-6" style="text-align: center"  id="poster1">
-          
-            <!--Content Generated from searchtitles.js -->
-         </div>
-
-         <div class="col-xs-6" style="text-align: center"  id="poster2">
-            <!--Content Generated from searchtitles.js -->
-         </div>
-        
-
-         
-        
+        <div ng-if="details.Response==='False'">
+          <p>You're fucked</p>
+        </div>
       </div>
-      <!-- /WRAPPER-->
-
-
-     
-      <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-   </body>
+    </div>
+      
+    </div>
+  </body>
 </html>
