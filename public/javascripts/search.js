@@ -67,7 +67,16 @@ angular.module('myApp', [])
      //Lock in button:
      //Store movie selection in mongo
      //db.moviearchive.insert(next available id, $scope.search1, user)
-
+/*router.post('/addpost', function(req, res) {
+    var db = req.db;
+    var collection = db.get('postings');
+    collection.insert(req.body, function(err, result){
+        res.send(
+            (err === null) ? { msg: '' } : { msg: err }
+        );
+    });
+});
+*/
 
 /*    $scope.update = function(movie) {
       $scope.search = movie.Title;
