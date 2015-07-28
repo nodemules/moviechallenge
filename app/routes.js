@@ -28,12 +28,12 @@ module.exports = function(app) {
 
         // create a movie, information comes from AJAX request from Angular
         Movie.create({
-            text : req.body.text,
-            done : false
+            title : req.body.title
         }, function(err, movie) {
             if (err)
                 res.send(err);
 
+            res.json({ message: 'Movie created!' });
             // get and return all the movies after you create another
             getMovies(res);
         });

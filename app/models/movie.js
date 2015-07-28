@@ -1,7 +1,12 @@
-var mongoose = require('mongoose');
+// app/models/movies.js
 
-// define model ============================
-module.exports = mongoose.model('Movie', {
+var mongoose 	= require('mongoose');
+var Schema		= mongoose.Schema;
+
+var MovieSchema	= new Schema(
+	{
     title : {type: String, default: ' '},
     owner : {type: String, default: ' '}
 });
+
+module.exports = mongoose.model('Movie', MovieSchema);
