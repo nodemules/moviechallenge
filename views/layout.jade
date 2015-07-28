@@ -9,8 +9,11 @@ html
     link(rel='stylesheet prefetch', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css')
     link(rel='stylesheet', href='stylesheets/style.css')
     // Controllers
-    script(src='javascripts/search.js')
-  body(ng-app='myApp', ng-controller='MovieController')
+    script(src='javascripts/controllers/search.js')
+    script(src='javascripts/core.js')
+    script(src='javascripts/controllers/main.js')
+    script(src='javascripts/services/movies.js')
+  body(ng-app='SearchApp', ng-controller='SearchController')
     header
         block header
     .search
