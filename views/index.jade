@@ -2,7 +2,7 @@ extend layout
 block header
 	h1 Movie Battles
 block search
-	.search-bar.col-xs-6
+	.search-bar.col-xs-5
 		input.form-control(
 			type='text', 
 			ng-model='search1',
@@ -10,14 +10,17 @@ block search
 			onclick='select()', 
 			placeholder='Enter full movie name', 
 			autofocus='')
-	button#submit1.btn.btn-default(type='button') Submit
-	.search-bar.col-xs-6
+	.col-xs-1
+		button#submit1.btn.btn-default(type='button' ng-click="saveMovie1()") Lock #1
+	.search-bar.col-xs-5
 		input.form-control(type='text', 
 			ng-model='search2', 
 			ng-change='change()', 
 			onclick='select()', 
 			placeholder='Enter full movie name', 
 			autofocus='')
+	.col-xs-1
+		button#submit2.btn.btn-default(type='button' ng-click="saveMovie2()") Lock #2
 block results
 	div(ng-if='!details' && '!details2')
 		| Loading results...
