@@ -24,8 +24,22 @@ router.get('/', function(req, res) {
 	res.json({ message: 'hooray! welcome to our api!'});
 });
 
+<<<<<<< HEAD
 
 // more routes for our API will happen here
+=======
+        // create a movie, information comes from AJAX request from Angular
+        Movie.create({
+            title : req.body.title
+        }, function(err, movie) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Movie created!' });
+            // get and return all the movies after you create another
+            getMovies(res);
+        });
+>>>>>>> ecabc223286e9a421559c9c0de610d9663fe1a91
 
 // on routes that end in /movie
 router.route('/movies')
