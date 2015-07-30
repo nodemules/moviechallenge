@@ -26,13 +26,11 @@ angular.module('SearchApp', [])
         });
     };
       
-      //var $scope.details1;
 
     $scope.saveMovie1 = function() {
       var movietitle = {
               name : $scope.search1
           }
-
 
       $http.post("/api/movies", movietitle)
         .success(function(response) {
