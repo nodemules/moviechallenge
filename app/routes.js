@@ -30,8 +30,10 @@ router.route('/movies')
 	// create a movie (accessed at POST /api/movies)
 	.post(function(req, res) {
 
-		var movie = new Movie();		// create a new instance of the Movie model
-		movie.name = req.body.name;		// set the movies name (comes from the request)
+		var movie = new Movie();		    // create a new instance of the Movie model
+		movie.name = req.body.name;	        // set the movies name (comes from the request)
+		movie.creator = req.body.creator;   // get lock 1 or 2
+		movie.date_submitted = Date();	    // set date
 
 		// save the movie and check for errors
 		movie.save(function(err) {
@@ -99,7 +101,16 @@ router.route('/movies/:movie_id')
 
 	});
 
+// get latest film entered into the Db by ID of creator
+router.route('/latest/:creator')
+    .get(function(req, res) {
+         Movie.find({creator: req.params.creator}).sort('-date_submitted').limit(1).exec(function(err, movies) { 
+        	if (err)
+				res.send(err);
 
+			res.json(movies);
+    });
+});
 
 
 module.exports = router;      // somehow connects back to server.js (??)

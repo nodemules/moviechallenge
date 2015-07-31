@@ -11,7 +11,7 @@ block search
 			placeholder='Enter full movie name', 
 			autofocus='')
 	.col-xs-1
-		button#submit1.btn.btn-default(type='button' ng-click="saveMovie1()") Lock #1
+		button#submit1.btn.btn-default(type='button' ng-click="saveMovie(1)") Lock #1
 	.search-bar.col-xs-5
 		input.form-control(type='text', 
 			ng-model='search2', 
@@ -20,7 +20,7 @@ block search
 			placeholder='Enter full movie name', 
 			autofocus='')
 	.col-xs-1
-		button#submit2.btn.btn-default(type='button' ng-click="saveMovie2()") Lock #2
+		button#submit2.btn.btn-default(type='button' ng-click="saveMovie(2)") Lock #2
 block results
 	div(ng-if='!details' && '!details2')
 		| Loading results...
