@@ -1,4 +1,5 @@
 var Movie 			= require('./models/movie');
+var Challenge		= require('./models/challenge');
 var express 		= require('express'),
 	app				= express();					// define our app using express
 
@@ -111,6 +112,38 @@ router.route('/latest/:creator')
 			res.json(movies);
     });
 });
+
+// on routes that end in /challenges
+router.route('/challenges/')
+
+	// create a challenge (accessed at POST /api/movies)
+	.post(function(req, res) {
+
+		var challenge = new Challenge();		    // create a new instance of the Challenge model
+		challenge.challenge = req.body.challenge;	       		// set the movies name (comes from the request)
+		challenge.date_submitted = Date();	    	// set date
+
+		// save the challenge and check for errors
+		challenge.save(function(err) {
+			if (err)
+				res.send(err);
+
+			res.json({ message: 'Challenge created!' });
+		});
+
+	})
+
+// get latest challenged entered into the db
+router.route('/latest/')
+    .get(function(req, res) {
+         Challenge.find({}).sort('-date_submitted').limit(1).exec(function(err, response) { 
+        	if (err)
+				res.send(err);
+
+			res.json(response);
+    });
+});
+
 
 
 module.exports = router;      // somehow connects back to server.js (??)

@@ -4,10 +4,15 @@ angular.module('SearchApp', [])
     .controller('SearchController', function($scope, $http) {
         var pendingTask;
         var latestTitle;
+        var latestChallenge;
 
 
         getlatest(1);
         getlatest(2);
+
+        getlatestChallenge();
+
+        fetch();
 
         $scope.change = function() {
             if (pendingTask) {
@@ -16,6 +21,26 @@ angular.module('SearchApp', [])
             pendingTask = setTimeout(fetch, 800);
         };
 
+        function getlatestChallenge() {
+            $http.get("/api/latest")
+                .success(function(response) {
+
+                    angular.forEach(response, function(result) {
+                        latestChallenge = response[0].challenge;
+
+                    });
+                    $scope.challenge = latestChallenge;
+                });
+        };
+
+        $scope.saveChallenge = function() {
+            var challenge = {
+                challenge : $scope.challenge,
+                date_submitted: Date()
+            }
+            $http.post("/api/challenges/", challenge)
+
+        };
         function getlatest(user) {
             $http.get("/api/latest/" + user)
                 .success(function(response) {
@@ -24,7 +49,13 @@ angular.module('SearchApp', [])
                         latestTitle = response[0].name;
 
                     });
-
+                    
+                    if (user == 1) {
+                        $scope.search1 = latestTitle;
+                    };
+                    if (user == 2) {
+                        $scope.search2 = latestTitle;
+                    };
                     $http.get("http://www.omdbapi.com/?t=" + latestTitle + "&tomatoes=true&plot=full")
                         .success(function(response) {
                             if (user == 1) {
@@ -74,15 +105,7 @@ angular.module('SearchApp', [])
             }
 
             $http.post("/api/movies", movietitle)
-                .success(function(response) {
-                    return response;
-                    /*          if (err)
-                                res.send(err);
 
-                              res.json({ message: 'Movie saved!' });*/
-                });
         };
-
-
 
     });

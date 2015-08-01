@@ -111,7 +111,7 @@ body {
 }
 header {
   font-family: 'Quicksand';
-  padding: 30px 10px;
+  padding: 30px 30px 30px 10px;
   color: #fff;
   font-size: 25px;
   text-align: center;
@@ -119,9 +119,22 @@ header {
    * Note the use of the `main-color`
    * variable and the `darken` function
    */
-  background-color: #06f;
-  border-bottom: 1px solid #0047b3;
-  text-shadow: 0px -1px 0px #0047b3;
+  background-color: #a9a9a9;
+  border-bottom: 3px solid #000;
+  text-shadow: 0px -1px 0px #000;
+}
+.challenge {
+  padding: 10px 0px 30px;
+}
+.challenge .input {
+  padding: 10px;
+  border: none;
+  border-bottom: solid 2px #c9c9c9;
+  -webkit-transition: border 0.3s;
+  -moz-transition: border 0.3s;
+  -o-transition: border 0.3s;
+  -ms-transition: border 0.3s;
+  transition: border 0.3s;
 }
 .search {
   padding: 10px;
@@ -141,7 +154,12 @@ header {
   border-radius: 10px;
   width: 300;
   height: 450;
-  vertical-align: middle;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 .image .text {
   position: absolute;

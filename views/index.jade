@@ -1,6 +1,16 @@
 extend layout
 block header
 	h1 Movie Battles
+block challenge
+	.col-xs-3
+	.col-xs-6
+		.search-bar.col-xs-9
+			input.form-control(
+				type='text'
+				ng-model='challenge'
+				placeholder='Choose your challenge')
+		button#submitchallenge.btn.btn-default(type='button' ng-click="saveChallenge()") Save Challenge
+	.col-xs-3
 block search
 	.search-bar.col-xs-5
 		input.form-control(
