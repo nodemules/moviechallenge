@@ -27,33 +27,46 @@ body
   background-color background-color
   color #444  
 
-header
-  font-family: "Oswald";
-  font-size: 1000px; text-transform: uppercase;
-  color: #fff;
+.header
+  font-family: "Oswald"
+  font-size 1000px
+  text-transform uppercase 
+  color black
   padding 30px 30px 30px 10px
   font-size 25px
-  text-align center/*
+  text-align center
   min-width 400px
   max-width 900px
-  position relative*/
+  position relative
   
+
   
   
   /*
    * Note the use of the `main-color`
    * variable and the `darken` function
    */
-  background white
+  background lightblue
   border-bottom linear-gradient(bottom, 3% black, white);
   /*  background-color darkgrey
   border-bottom 30px solid darken(main-color, 30%)*/
   border-radius 0px
-  box-shadow 0.75px 0.75px 0 blue, 1.5px 1.5px 1px red, 5px 5px 0 black
-  text-shadow: -0.3px -0.3px 1px black, 0.1px 0.1px 0 blue, 0.25px 0.25px 0 red
-  
+
+
+.maincontainer
+  width 900px
+  position absolute
+  top 0
+  bottom 0
+  left 0
+  right 0
+  margin auto
+  background white
+  height 900px
+  box-shadow: 10px 10px 40px #888888
+
 .challenge
-  padding 10px 0px 30px
+  padding 30px 0px 50px
   
 .challenge .input 
   padding 10px
@@ -67,20 +80,22 @@ header
   
   
 .results
-  padding 40px
+  
   
 .poster
   border-radius 3px
   height 500
   padding-top 20px
+  
 
 .image
   position relative
   border-radius 10px
   width 300
   height 450
-  top 50%
-  transform translateY(-50%)
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   
 .image .text
   position absolute
