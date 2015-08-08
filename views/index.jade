@@ -82,6 +82,8 @@ block results
 			.image
 				img(ng-src="{{ details1.Poster=='N/A' ? 'http://placehold.it/150x220&text=N/A' : 'http://imdb.wemakesites.net/api/1.0/img?url='+details1.Poster }}")
 				.overlay
+				.finished
+					img(ng-src="images/checkmark.png", ng-show="showwatched1  || postcomment1.length > 0")
 				.text
 					p Director: {{ details1.Director }}
 					p Year: {{ details1.Year }}
@@ -91,6 +93,8 @@ block results
 			.image
 				img(ng-src="{{ details2.Poster=='N/A' ? 'http://placehold.it/150x220&text=N/A' : 'http://imdb.wemakesites.net/api/1.0/img?url='+details2.Poster }}")
 				.overlay
+				.finished
+					img(ng-src="images/checkmark.png", ng-show="showwatched2  || postcomment2.length > 0")
 				.text
 					p Director: {{ details2.Director }}
 					p Year: {{ details2.Year }}
@@ -98,8 +102,10 @@ block results
 					p Plot: {{ details2.Plot }}
 block aftermath
 	.row
-		.col-xs-6
-			.input-group
+		.col-xs-1
+			button.btn.btn-default(id='watched1' type='button' ng-click="showwatched1=true") Watched 
+		.col-xs-5
+			.input-group(ng-show='showwatched1 || postcomment1.length > 0')
 				input.form-control(
 					type='text', 
 					ng-model='postcomment1',
@@ -108,14 +114,16 @@ block aftermath
 				span.input-group-btn
 					button.btn.btn-default(type='button' ng-click="postcomment()")
 						span.glyphicon.glyphicon-lock
-		.col-xs-6			
-			.input-group
-				span.input-group-btn
-					button.btn.btn-default(type='button' ng-click="postcomment()")
-						span.glyphicon.glyphicon-lock
+		.col-xs-1
+			button.btn.btn-default(id='watched1' type='button' ng-click="showwatched2=true") Watched 
+		.col-xs-5			
+			.input-group(ng-show='showwatched2 || postcomment2.length > 0')
 				input.form-control(
 					type='text', 
 					ng-model='postcomment2',
 					placeholder='How was it?', 
 					autofocus='')
+				span.input-group-btn
+					button.btn.btn-default(type='button' ng-click="postcomment()")
+						span.glyphicon.glyphicon-lock
 
