@@ -209,6 +209,15 @@ body {
 .image:hover .text {
   visibility: visible;
 }
+.currentchallenge {
+  text-align: center;
+  padding: 30px 30px 30px 30px;
+  background-color: #add8e6;
+  -webkit-box-shadow: 10px 10px 40px #888;
+  box-shadow: 10px 10px 40px #888;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
 /* deprecated style
 
   /*.image:hover overlay
