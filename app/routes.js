@@ -120,7 +120,7 @@ router.route('/challenges/')
 	.post(function(req, res) {
 
 		var challenge = new Challenge();		    // create a new instance of the Challenge model
-		challenge.challenge = req.body.challenge;	       		// set the movies name (comes from the request)
+		challenge.challenge = req.body.challenge;	       		
 		challenge.date_submitted = Date();	    	// set date
 
 		// save the challenge and check for errors
@@ -129,6 +129,31 @@ router.route('/challenges/')
 				res.send(err);
 
 			res.json({ message: 'Challenge created!' });
+		});
+
+	})
+router.route('/challenges/:chal_id')
+	.put(function(req, res) {
+
+	
+		Challenge.findById(req.params.chal_id, function(err, challenge) {
+
+			if (err)
+				res.send(err);
+
+			
+			challenge.precomment1 = req.body.precomment1;
+			challenge.postcomment1 = req.body.postcomment1;		
+			challenge.precomment2 = req.body.precomment2;		
+			challenge.postcomment2 = req.body.postcomment2;				
+
+			// save comments
+			challenge.save(function(err) {
+				if (err)
+					res.send(err);
+
+				res.json({ message:  'updated!' });
+			});
 		});
 
 	})

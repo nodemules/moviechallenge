@@ -5,6 +5,8 @@ angular.module('SearchApp', [])
         var pendingTask;
         var latestTitle;
         var latestChallenge;
+        var precomment1, precomment2, postcomment1, postcomment2;
+        var chal_id;
 
 
         getlatest(1);
@@ -27,11 +29,47 @@ angular.module('SearchApp', [])
 
                     angular.forEach(response, function(result) {
                         latestChallenge = response[0].challenge;
+                        precomment1 = response[0].precomment1;
+                        postcomment1 = response[0].postcomment1;
+                        precomment2 = response[0].precomment2;
+                        postcomment2 = response[0].postcomment2;
 
                     });
                     $scope.challenge = latestChallenge;
+                    $scope.precomment1 = precomment1;
+                    $scope.postcomment1 = postcomment1;
+                    $scope.precomment2 = precomment2;
+                    $scope.postcomment2 = postcomment2;
+
+
                 });
         };
+
+        $scope.postcomment = function(){
+            //first get latest challenge
+            $http.get("/api/latest")
+                .success(function(response) {
+
+            angular.forEach(response, function(result) {
+                chal_id = response[0]._id;
+            });
+            
+                        var comments = {
+                        precomment1  : $scope.precomment1,
+                        postcomment1  : $scope.postcomment1,
+                        precomment2  : $scope.precomment2,
+                        postcomment2  : $scope.postcomment2
+            }
+
+            //feed ID into put
+            $http.put("/api/challenges/" + chal_id, comments)
+            
+            });
+
+           
+
+        };
+
 
         $scope.saveChallenge = function() {
             var challenge = {
