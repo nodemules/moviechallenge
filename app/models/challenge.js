@@ -4,12 +4,20 @@ var mongoose			= require('mongoose');
 var	Schema 				= mongoose.Schema;
 
 var	ChallengeSchema			= new Schema({
+		instance: String,
 		challenge: String,
-		date_submitted: Date,
+		chal_date_submitted: Date,
+		movie1: String,
+		movie2: String,
+		movie1_postdate: Date,
+		movie2_postdate: Date,
+		user1: String,
+		user2: String,
 		precomment1: String,
 		postcomment1: String,
 		precomment2: String,
 		postcomment2: String
+
 	});
 
 module.exports = mongoose.model('Challenge', ChallengeSchema);

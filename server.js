@@ -50,7 +50,13 @@
     app.use(morgan('dev'));                                         // log every request
 
 
-// render the webpage through node
+// render the webpage through node with instances
+    app.get('/:inst', function (req, res) {
+      res.render('index',
+      { title : 'Home' }
+      )
+    })
+//default (broken- just need something here)
     app.get('/', function (req, res) {
       res.render('index',
       { title : 'Home' }

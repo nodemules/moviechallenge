@@ -1,16 +1,29 @@
 'use strict';
 
 angular.module('SearchApp', [])
-    .controller('SearchController', function($scope, $http) {
+
+/* Configure usage so we can provide instances via the URL with no hash sign */
+.config(function($locationProvider) {
+       $locationProvider.html5Mode({
+  enabled: true,
+  requireBase: false
+});
+})
+
+.controller('SearchController', function($scope, $http, $location) {
         var pendingTask;
         var latestTitle;
         var latestChallenge;
         var precomment1, precomment2, postcomment1, postcomment2;
+        var movie1, movie2, user1, user2;
         var chal_id;
 
+        /*GET INSTANCE */
+        var inst = $location.path().substring(1); //substring chops off the slash
+      
 
-        getlatest(1);
-        getlatest(2);
+        //getlatest(1);
+        //getlatest(2);
 
         getlatestChallenge();
 
@@ -24,7 +37,7 @@ angular.module('SearchApp', [])
         };
 
         function getlatestChallenge() {
-            $http.get("/api/latest")
+            $http.get("/api/getchalbyinst/" + inst)
                 .success(function(response) {
 
                     angular.forEach(response, function(result) {
@@ -33,6 +46,8 @@ angular.module('SearchApp', [])
                         postcomment1 = response[0].postcomment1;
                         precomment2 = response[0].precomment2;
                         postcomment2 = response[0].postcomment2;
+                        movie1 = response[0].movie1;
+                        movie2 = response[0].movie2;
 
                     });
                     $scope.challenge = latestChallenge;
@@ -40,14 +55,21 @@ angular.module('SearchApp', [])
                     $scope.postcomment1 = postcomment1;
                     $scope.precomment2 = precomment2;
                     $scope.postcomment2 = postcomment2;
+                    $scope.search1 = movie1;
+                    $scope.search2 = movie2;
+
+                    fetch();
 
 
                 });
         };
 
         $scope.postcomment = function(){
-            //first get latest challenge
-            $http.get("/api/latest")
+            //first get instance challenge
+
+            //make this more robust: currently all buttons will update all fields.
+
+            $http.get("/api/getchalbyinst/" + inst)
                 .success(function(response) {
 
             angular.forEach(response, function(result) {
@@ -74,18 +96,31 @@ angular.module('SearchApp', [])
         $scope.saveChallenge = function() {
             var challenge = {
                 challenge : $scope.challenge,
-                date_submitted: Date()
+                date_submitted: Date(),
+                instance: inst,
+               /* movie1: "",
+                movie2: "",
+                precomment1: "",
+                precomment2: "",
+                postcomment1: "",
+                postcomment2: "",
+                user1: "",
+                user2: "",
+                movie1_date_submitted: "",
+                movie2_date_submitted: "",*/
+
             }
-            $http.post("/api/challenges/", challenge)
+            $http.post("/api/postchallenge/", challenge)
 
         };
-        function getlatest(user) {
-            $http.get("/api/latest/" + user)
+        function getlatest() {
+           $http.get("/api/getchalbyinst/" + inst)
+           // $http.get("/api/latest/" + user)
                 .success(function(response) {
 
                     angular.forEach(response, function(result) {
-                        latestTitle = response[0].name;
-
+                        latestTitle1 = response[0].movie1;
+                        latestTitle2 = response[0].movie2;
                     });
                     
                     if (user == 1) {
@@ -127,23 +162,31 @@ angular.module('SearchApp', [])
             var movietitle;
             if (field == 1) {
                 movietitle = {
-                    name: $scope.search1,
-                    creator: "1",
-                    date_submitted: Date()
+                    movie1: $scope.search1,
+                    user1: "1",
+                    movie1_date_submitted: Date()
 
                 }
             }
             if (field == 2) {
                 movietitle = {
-                    name: $scope.search2,
-                    creator: "2",
-                    date_submitted: Date()
+                    movie2: $scope.search2,
+                    user2: "2",
+                    movie2_date_submitted: Date()
 
                 }
             }
 
-            $http.post("/api/movies", movietitle)
+            $http.get("/api/getchalbyinst/" + inst)
+            .success(function(response) {
 
+            angular.forEach(response, function(result) {
+                chal_id = response[0]._id;
+            });
+        
+            //why does put only seem to work with findbyid in node? why do I have to do the above step and not just find by instance
+            $http.put("/api/challenges/" + chal_id, movietitle)
+            });
         };
 
     });
