@@ -29,6 +29,18 @@ angular.module('SearchApp', [])
 
         fetch();
 
+
+        // display the last 10 challenges for the view
+        $scope.last10challenges = function () {
+            $http.get("/api/latest/")
+                .success(function(response) {
+                    angular.forEach(response, function(result) {
+                        $scope.movie1 = response[0].movie1;
+                        $scope.movie2 = response[0].movie2;
+                    });
+                });
+        };
+
         $scope.change = function() {
             if (pendingTask) {
                 clearTimeout(pendingTask);

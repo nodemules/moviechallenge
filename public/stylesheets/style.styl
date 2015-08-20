@@ -88,6 +88,7 @@ body
   border-radius 3px
   height 500
   padding-top 20px
+  background-size 100%
   
 
 .image
@@ -98,6 +99,7 @@ body
   display: block;
   margin-left: auto;
   margin-right: auto;
+  background-size 100%
   
 .image .text
   position absolute
@@ -120,10 +122,12 @@ body
 
 .image .finished
   position absolute
-  top 0em
+  top 75px
   width 300px
+  height auto
   text-align left
-
+  background rgba(green, 0.30)
+  background-size 100%
   color white
   
 .image:hover .overlay
@@ -132,6 +136,9 @@ body
   
 .image:hover .text
   visibility visible
+  
+.image .finished:hover .overlay
+  visibility hidden
 
 .currentchallenge
   text-align center

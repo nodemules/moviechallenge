@@ -167,6 +167,9 @@ body {
   border-radius: 3px;
   height: 500;
   padding-top: 20px;
+  -webkit-background-size: 100%;
+  -moz-background-size: 100%;
+  background-size: 100%;
 }
 .image {
   position: relative;
@@ -177,6 +180,9 @@ body {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  -webkit-background-size: 100%;
+  -moz-background-size: 100%;
+  background-size: 100%;
 }
 .image .text {
   position: absolute;
@@ -202,9 +208,14 @@ body {
 }
 .image .finished {
   position: absolute;
-  top: 0em;
+  top: 75px;
   width: 300px;
+  height: auto;
   text-align: left;
+  background: rgba(0,128,0,0.3);
+  -webkit-background-size: 100%;
+  -moz-background-size: 100%;
+  background-size: 100%;
   color: #fff;
 }
 .image:hover .overlay {
@@ -215,6 +226,9 @@ body {
 }
 .image:hover .text {
   visibility: visible;
+}
+.image .finished:hover .overlay {
+  visibility: hidden;
 }
 .currentchallenge {
   text-align: center;

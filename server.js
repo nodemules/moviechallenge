@@ -50,9 +50,18 @@
     app.use(morgan('dev'));                                         // log every request
 
 
+<<<<<<< Updated upstream
 // render the webpage through node with instances
     app.get('/:inst', function (req, res) {
       res.render('index',
+=======
+
+// render the webpage through node
+
+// render the webpage through node with instances
+    app.get('/:inst', function (req, res) {
+      res.render('challenge',
+>>>>>>> Stashed changes
       { title : 'Home' }
       )
     })
