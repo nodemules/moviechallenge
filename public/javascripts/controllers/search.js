@@ -25,7 +25,8 @@ angular.module('SearchApp', [])
         //getlatest(1);
         //getlatest(2);
 
-        getlatestChallenge();
+        getChallengeByInstance();
+        last10Challenges();
 
         fetch();
 
@@ -33,24 +34,16 @@ angular.module('SearchApp', [])
             var inst = ("00000" + (Math.random()*Math.pow(36,5) << 0).toString(36)).slice(-5);
             $location.url("/" + inst)
             $window.location.reload();
-
         };
 
         // display the last  challenges for the view
-        $scope.latestchallenge = function () {
+        function last10Challenges() {
             $http.get("/api/latest/")
                 .success(function(response) {
-
-
-
-                    // $scope.latest = response;
-
-                    /*angular.forEach(response, function(result) {
-                        movie1 = response[0].movie1;
-                        movie2 = response[0].movie2;
-                    });*/
+                    $scope.latest = response;
                 });
         };
+
 
         $scope.change = function() {
             if (pendingTask) {
@@ -59,27 +52,22 @@ angular.module('SearchApp', [])
             pendingTask = setTimeout(fetch, 800);
         };
 
-        function getlatestChallenge() {
+        function getChallengeByInstance() {
             $http.get("/api/getchalbyinst/" + inst)
                 .success(function(response) {
 
-                    angular.forEach(response, function(result) {
-                        latestChallenge = response[0].challenge;
-                        precomment1 = response[0].precomment1;
-                        postcomment1 = response[0].postcomment1;
-                        precomment2 = response[0].precomment2;
-                        postcomment2 = response[0].postcomment2;
-                        movie1 = response[0].movie1;
-                        movie2 = response[0].movie2;
+                    // Bring this back later when we work out how to integrate it with the inputs
+                    // or have the input fields change to div so we can use expressions
+                    // $scope.challenge = response;
 
-                    });
-                    $scope.challenge = latestChallenge;
-                    $scope.precomment1 = precomment1;
-                    $scope.postcomment1 = postcomment1;
-                    $scope.precomment2 = precomment2;
-                    $scope.postcomment2 = postcomment2;
-                    $scope.search1 = movie1;
-                    $scope.search2 = movie2;
+
+                    $scope.challenge = response[0].challenge;
+                    $scope.precomment1 = response[0].precomment1;
+                    $scope.postcomment1 = response[0].postcomment1;
+                    $scope.precomment2 = response[0].precomment2;
+                    $scope.postcomment2 = response[0].postcomment2;
+                    $scope.search1 = response[0].movie1;
+                    $scope.search2 = response[0].movie2;                  
 
                     fetch();
 

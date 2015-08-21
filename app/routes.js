@@ -193,7 +193,7 @@ router.route('/challenges/:chal_id')
 // get latest challenged entered into the db
 router.route('/latest/')
     .get(function(req, res) {
-         Challenge.find({}).sort('-chal_date_submitted').limit(1).exec(function(err, response) { 
+         Challenge.find({}).sort('-chal_date_submitted').limit(10).exec(function(err, response) { 
         	if (err)
 				res.send(err);
 
