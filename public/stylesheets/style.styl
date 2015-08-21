@@ -27,16 +27,38 @@ body
   background-color background-color
   color #444  
 
-.last10list
-  float right
+#newchalbtn
+  width 400
+  margin 0px auto
   position relative
-  left -50%
-  text-align center
+
+#listwrap
+  width 400
+  margin 80px auto
+
+.lastlist
+  counter-reset my-badass-counter
   
-.last10list ul
-  list-style none
+.lastlist nl
   position relative
-  left 50%
+  font bold 16px Georgia
+  padding 4px 0px 10px 0px
+  margin 0 0 50px 0
+  
+.lastlist nl:before
+  content counter(my-badass-counter)
+  counter-increment my-badass-counter
+  position absolute
+  left 0
+  top 0
+  font bold 50px/1 Sans-Serif
+  
+.lastlist nm
+  margin 0 0 50px 0
+  
+.lastlist nc, .lastlist nm
+  padding-top 5em
+  padding-left 60px
 
 .header
   font-family: "Oswald"
