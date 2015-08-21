@@ -2,8 +2,14 @@ extend layout
 block header
 	h1 Movie Battles
 block challenge
-	.col-xs-offset-4.col-xs-4
+	//
+		.col-xs-offset-4.col-xs-4
+			{{ latest.movie1 }} vs {{ latest.movie2 }}
+	.col-xs-offset-5
+		button.btn.btn-default(id='newchal' type='button' ng-click="generateInstanceID();") New Challenge
+
+	//
 		ul(id="last10")
 			// li(class="" ng-repeat="stuff in last10challenges()")
-			li 
-				{{stuff.movie1}} vs {{stuff.movie2}}
+			li
+				{{ latest.movie1 }} vs {{ latest.movie2 }}

@@ -10,7 +10,7 @@ angular.module('SearchApp', [])
 });
 })
 
-.controller('SearchController', function($scope, $http, $location) {
+.controller('SearchController', function($scope, $http, $location, $window) {
         var pendingTask;
         var latestTitle;
         var latestChallenge;
@@ -29,15 +29,26 @@ angular.module('SearchApp', [])
 
         fetch();
 
+        $scope.generateInstanceID = function() {
+            var inst = ("00000" + (Math.random()*Math.pow(36,5) << 0).toString(36)).slice(-5);
+            $location.url("/" + inst)
+            $window.location.reload();
 
-        // display the last 10 challenges for the view
-        $scope.last10challenges = function () {
+        };
+
+        // display the last  challenges for the view
+        $scope.latestchallenge = function () {
             $http.get("/api/latest/")
                 .success(function(response) {
-                    angular.forEach(response, function(result) {
-                        $scope.movie1 = response[0].movie1;
-                        $scope.movie2 = response[0].movie2;
-                    });
+
+
+
+                    // $scope.latest = response;
+
+                    /*angular.forEach(response, function(result) {
+                        movie1 = response[0].movie1;
+                        movie2 = response[0].movie2;
+                    });*/
                 });
         };
 
