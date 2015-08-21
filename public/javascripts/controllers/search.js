@@ -60,40 +60,56 @@ app.controller('SearchController', function($scope, $http, $location, $window) {
                 // or have the input fields change to div so we can use expressions
                 // $scope.challenge = response;
 
-            //first check that this is an existing challenge otherwise the console errors
-            if (response.length > 0) {
-                $scope.challenge = response[0].challenge;
-                $scope.precomment1 = response[0].precomment1;
-                $scope.postcomment1 = response[0].postcomment1;
-                $scope.precomment2 = response[0].precomment2;
-                $scope.postcomment2 = response[0].postcomment2;
-                $scope.search1 = response[0].movie1;
-                $scope.search2 = response[0].movie2;
+                //first check that this is an existing challenge otherwise the console errors
+                if (response.length > 0) {
+                    $scope.challenge = response[0].challenge;
+                    $scope.precomment1 = response[0].precomment1;
+                    $scope.postcomment1 = response[0].postcomment1;
+                    $scope.precomment2 = response[0].precomment2;
+                    $scope.postcomment2 = response[0].postcomment2;
+                    $scope.search1 = response[0].movie1;
+                    $scope.search2 = response[0].movie2;
 
-                fetch();
-            }
+                    fetch();
+                }
 
             });
     };
 
-    $scope.postcomment = function() {
+    $scope.postcomment = function(com) {
         //first get instance challenge
-
-        //make this more robust: currently all buttons will update all fields.
 
         $http.get("/api/getchalbyinst/" + inst)
             .success(function(response) {
 
-                angular.forEach(response, function(result) {
-                    chal_id = response[0]._id;
-                });
+                chal_id = response[0]._id;
 
-                var comments = {
-                    precomment1: $scope.precomment1,
-                    postcomment1: $scope.postcomment1,
-                    precomment2: $scope.precomment2,
-                    postcomment2: $scope.postcomment2
+                switch (com) {
+                    case 1:
+                        comments = {
+                            precomment1: $scope.precomment1
+                        };
+                        break;
+                    case 2:
+                        comments = {
+                            precomment2: $scope.precomment2
+                        };
+                        break;
+                    case 3:
+                        comments = {
+                            postcomment1: $scope.postcomment1
+                        };
+                        break;
+                    case 4:
+                        comments = {
+                            postcomment2: $scope.postcomment2
+                        };
+                        break;
+
+                    default:
+                        comments = null;
                 }
+
 
                 //feed ID into put
                 $http.put("/api/challenges/" + chal_id, comments)
@@ -113,7 +129,7 @@ app.controller('SearchController', function($scope, $http, $location, $window) {
         $http.get("/api/getchalbyinst/" + inst)
             .success(function(response) {
 
-                // if there is something in the response put, otherwise post
+                // if there is something in the response do a put, otherwise post
                 if (response.length > 0) {
 
                     chal_id = response[0]._id;
@@ -125,7 +141,7 @@ app.controller('SearchController', function($scope, $http, $location, $window) {
 
                     $http.put("/api/challenges/" + chal_id, challenge)
                 } else {
-                 
+
                     challenge = {
                         challenge: $scope.challenge,
                         date_chal_submitted: Date(),
