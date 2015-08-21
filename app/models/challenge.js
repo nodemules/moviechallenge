@@ -4,7 +4,12 @@ var mongoose			= require('mongoose');
 var	Schema 				= mongoose.Schema;
 
 var	ChallengeSchema			= new Schema({
-		instance: String,
+		instance: { 
+			type: String, 
+			index: true,
+			unique: true, 
+			dropDups: true
+		},
 		challenge: String,
 		chal_date_submitted: Date,
 		movie1: String,
