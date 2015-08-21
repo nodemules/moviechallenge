@@ -5,28 +5,21 @@ block header
 block challenge
 	.col-xs-3
 	.col-xs-6
-		.input-group.ng-hide(ng-show='showinput')
+		.input-group(ng-hide='hideinput')
 			input.form-control(
 				id='chalinput'
 				type='text'
 				ng-model='challenge'
 				placeholder='Choose your challenge')
 			span.input-group-btn
-				button.btn.btn-default(id='submitchal' type='button' ng-click="saveChallenge(); showinput=false")
+				button.btn.btn-default(id='submitchal' type='button' ng-click="saveChallenge(); hideinput=true; showchal=true; showedit=true;")
 					span.glyphicon.glyphicon-lock
-
-	//
-		.search-bar.col-xs-9
-				input.form-control(
-				type='text'
-				ng-model='challenge'
-				placeholder='Choose your challenge')
-		button#submitchallenge.btn.btn-default(type='button' ng-click="saveChallenge()") Save Challenge 
 	.col-xs-3
-	.col-xs-offset-3.col-xs-6.currentchallenge
+	.col-xs-offset-3.col-xs-6.currentchallenge.ng-hide(ng-show='showchal')
 		.col-xs-12
 			span(ng-model='challenge') CHALLENGE: <br> <br> {{ challenge }}
-	button.btn.btn-default(id='newchal' type='button' ng-click="showinput=true" style="float: right") Edit Challenge
+	button.btn.btn-default(id='newchal' type='button' ng-click="hideinput=false; showchal=false; showedit=false;" ng-show='showedit') Edit Challenge
+
 block search
 	.row
 		.col-xs-6
