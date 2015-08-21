@@ -40,6 +40,10 @@ body
   a
     text-decoration none
 
+#vs
+  color red
+  text-align center
+
 .lastlist
   counter-reset my-badass-counter
   display table
@@ -60,10 +64,18 @@ body
   
 .lastlist nc
   font 14px
-  display block
   
 .lastlist nc, .lastlist nm
   margin-left 50px
+  display block
+
+
+/*
+messing with some stuff here, comment this out 
+to uncenter the movie titles in lastlist
+*/
+.lastlist nm
+  text-align center
   
 
 .header
@@ -95,12 +107,16 @@ body
   width 900px
   position absolute
   top 0
+  /*  I commented this out to extend the maincontainer
+      because it wasnt big enough for a large list (even
+      removing 'height'). Ideally it should grow/shrink
+      for our needs on the page.
   bottom 0
+    */
   left 0
   right 0
   margin auto
   background white
-  height 950px
   box-shadow: 10px 10px 40px #888888
 
 
