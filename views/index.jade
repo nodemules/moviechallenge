@@ -8,11 +8,11 @@ block challenge
 		div(class="lastlist")
 			nl(ng-repeat="chal in latest")
 				// (ng-style="{ margin 0 0 50px 0, padding-left 50px }")			
-				nm
+				nc
 					a(href="/{{ chal.instance }}" target="_self") {{ chal.challenge }}
 					br
 				// (ng-style="{ padding-left 50px }")
-				nc
+				nm
 					{{ chal.movie1 }} vs {{ chal.movie2 }}
 					br
 					br

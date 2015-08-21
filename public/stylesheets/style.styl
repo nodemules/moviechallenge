@@ -26,6 +26,8 @@ body
   background none repeat scroll left top
   background-color background-color
   color #444  
+  a
+    text-decoration none
 
 #newchalbtn
   width 400
@@ -35,28 +37,34 @@ body
 #listwrap
   width 420
   margin 80px auto
+  a
+    text-decoration none
 
 .lastlist
   counter-reset my-badass-counter
+  display table
   
 .lastlist nl
   position relative
-  font bold 16px Georgia
+  font bold 18px Oswald
   padding 4px 0px 12px 0px
+  display table-row
   
 .lastlist nl:before
   content counter(my-badass-counter)
   counter-increment my-badass-counter
   position absolute
-  left 0
-  top 0
   font bold 50px/1 Sans-Serif
+  display table-cell
+  text-align left
   
-.lastlist nm
-  margin 0 0 50px 0px
+.lastlist nc
+  font 14px
+  display block
   
 .lastlist nc, .lastlist nm
-  margin-left 60px
+  margin-left 50px
+  
 
 .header
   font-family: "Oswald"
@@ -69,20 +77,18 @@ body
   min-width 400px
   max-width 900px
   position relative
-  
-  
-
-  
-  
+  background lightblue
+  border-bottom linear-gradient(bottom, 3% black, white);
+  border-radius 0px
+  a
+    text-decoration none
+    
   /*
    * Note the use of the `main-color`
    * variable and the `darken` function
    */
-  background lightblue
-  border-bottom linear-gradient(bottom, 3% black, white);
   /*  background-color darkgrey
   border-bottom 30px solid darken(main-color, 30%)*/
-  border-radius 0px
 
 
 .maincontainer
