@@ -158,7 +158,7 @@ router.route('/challenges/:chal_id')
 				res.send(err);
 
 
-			//var challenge = new Challenge();
+			if (req.body.challenge) { challenge.challenge = req.body.challenge;}
 			if (req.body.movie1) { challenge.movie1 = req.body.movie1;}
 			if (req.body.user1) { challenge.user1 = req.body.user1;}
 			if (req.body.movie1_date_submitted) { challenge.movie1_date_submitted = req.body.movie1_date_submitted; }
