@@ -4,6 +4,11 @@ block header
 block challenge
 	.col-xs-offset-5
 		button.btn.btn-default(id='newchal' type='button' ng-click="generateInstanceID();") New Challenge
+		br
+		br
+	block(id="last10list")			
 		ul(ng-repeat="chal in latest")		
 			li
-				a(href="/{{ chal.instance }}" target="_self") {{ chal.movie1 }} vs {{ chal.movie2 }}
+				a(href="/{{ chal.instance }}" target="_self") {{ chal.challenge }}
+				br
+				{{ chal.movie1 }} vs {{ chal.movie2 }}

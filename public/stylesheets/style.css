@@ -110,9 +110,20 @@ body {
   background-color: #d3d3d3;
   color: #444;
 }
+.last10list {
+  float: right;
+  position: relative;
+  left: -50%;
+  text-align: center;
+}
+.last10list ul {
+  list-style: none;
+  position: relative;
+  left: 50%;
+}
 .header {
   font-family: "Oswald";
-  font-size: 1000px;
+  font-size: 2em;
   text-transform: uppercase;
   color: #000;
   padding: 30px 30px 30px 10px;

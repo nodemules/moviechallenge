@@ -1,16 +1,16 @@
 'use strict';
 
-angular.module('SearchApp', [])
+var app = angular.module('SearchApp', [])
 
 /* Configure usage so we can provide instances via the URL with no hash sign */
-.config(function($locationProvider) {
+app.config(function($locationProvider) {
        $locationProvider.html5Mode({
   enabled: true,
   requireBase: false
 });
 })
 
-.controller('SearchController', function($scope, $http, $location, $window) {
+app.controller('SearchController', function($scope, $http, $location, $window) {
         var pendingTask;
         var latestTitle;
         var latestChallenge;
@@ -25,7 +25,7 @@ angular.module('SearchApp', [])
         //getlatest(1);
         //getlatest(2);
 
-        getChallengeByInstance();
+        getChallengeByInstance();   // should only run on instanced pages
         last10Challenges();
 
         fetch();
@@ -175,7 +175,7 @@ angular.module('SearchApp', [])
                 movietitle = {
                     movie1: $scope.search1,
                     user1: "1",
-                    movie1_date_submitted: Date()
+                    movie1_postdate: Date()
 
                 }
             }
@@ -183,7 +183,7 @@ angular.module('SearchApp', [])
                 movietitle = {
                     movie2: $scope.search2,
                     user2: "2",
-                    movie2_date_submitted: Date()
+                    movie2_postdate: Date()
 
                 }
             }
@@ -199,5 +199,13 @@ angular.module('SearchApp', [])
             $http.put("/api/challenges/" + chal_id, movietitle)
             });
         };
+
+    });
+
+app.controller('ListController', function($scope, $http, $location, $window) {
+
+    });
+
+app.controller('thirdController', function($scope, $http, $location, $window) {
 
     });
