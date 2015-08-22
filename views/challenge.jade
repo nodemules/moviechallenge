@@ -4,22 +4,19 @@ block header
 		a(ng-href="/" target="_self") Movie Battles
 block challenge
 	.col-xs-3
-	.col-xs-6
-		// contenteditable div nonsense				div(contenteditable="true" ng-model="challenge") Choose your challenge
-		.input-group(ng-hide='hideinput')
-			input.form-control(
-				id='chalinput'
-				type='text'
-				ng-model='challenge'
-				placeholder='Choose your challenge')
-			span.input-group-btn
-				button.btn.btn-default(id='submitchal' type='button' ng-click="saveChallenge(); hideinput=true; showchal=true; showedit=true;")
-					span.glyphicon.glyphicon-lock
-	.col-xs-3
-	.col-xs-offset-3.col-xs-6.currentchallenge.ng-hide(ng-show='showchal')
+	.col-xs-6.currentchallenge
 		.col-xs-12
-			span(ng-model='challenge') CHALLENGE: <br> <br> {{ challenge }}
-	button.btn.btn-default(id='newchal' type='button' ng-click="hideinput=false; showchal=false; showedit=false;" ng-show='showedit') Edit Challenge
+			span(ng-model='challenge') CHALLENGE: <br> <br>
+		.col-xs-12.challengeinput(
+				contenteditable="true"
+				id='chalinput'
+				ng-model='challenge'
+				placeholder='Choose Your Challenge'
+				)) {{ challenge }}
+		.col-xs-12
+			button.btn.btn-default(id='submitchal' type='button' ng-click="saveChallenge();")
+				span.glyphicon.glyphicon-lock
+	.col-xs-3
 
 block search
 	.row
@@ -30,8 +27,8 @@ block search
 					ng-model='search1',
 					ng-change='change()', 
 					onclick='select()', 
-					placeholder='Enter full movie name', 
-					autofocus='')
+					placeholder='Enter full movie name'
+					)
 				span.input-group-btn
 					button#submit1.btn.btn-default(type='button' ng-click="saveMovie(1)")
 						span.glyphicon.glyphicon-lock
@@ -44,28 +41,24 @@ block search
 					ng-model='search2', 
 					ng-change='change()', 
 					onclick='select()', 
-					placeholder='Enter full movie name', 
-					autofocus='')
+					placeholder='Enter full movie name'
+					)
 		.col-xs-6
-			.input-group
-				input.form-control(
-					type='text', 
-					ng-model='precomment1',
-					placeholder='How do you feel going into this movie?', 
-					autofocus='')
-				span.input-group-btn
-					button.btn.btn-default(type='button' ng-click="postcomment(1)")
-						span.glyphicon.glyphicon-lock
-		.col-xs-6			
-			.input-group
-				span.input-group-btn
-					button.btn.btn-default(type='button' ng-click="postcomment(2)")
-						span.glyphicon.glyphicon-lock
-				input.form-control(
-					type='text', 
-					ng-model='precomment2',
-					placeholder='How do you feel going into this movie?', 
-					autofocus='')
+			.col-xs-12.commentinput(
+				contenteditable="true", 
+				ng-model='precomment1',
+				placeholder='How do you feel going into this movie?', 
+				autofocus='')
+		.col-xs-6
+			.col-xs-12.commentinput(
+				contenteditable="true", 
+				ng-model='precomment2',
+				placeholder='How do you feel going into this movie?', 
+				autofocus='')			
+		.col-xs-6
+			button.btn.btn-default(type='button' ng-click="postcomment(1)") Post Comment
+		.col-xs-6
+			button.btn.btn-default(type='button' ng-click="postcomment(2)") Post Comment
 
 
 

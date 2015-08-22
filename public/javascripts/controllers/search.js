@@ -82,7 +82,7 @@ app.controller('SearchController', function($scope, $http, $location, $window) {
 
     $scope.postcomment = function(com) {
         //first get instance challenge
-
+        var comments;
         $http.get("/api/getchalbyinst/" + inst)
             .success(function(response) {
 
