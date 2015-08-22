@@ -30,6 +30,10 @@ app.controller('SearchController', function($scope, $http, $location, $window) {
 
     fetch();
 
+    $scope.showThings = function() {
+
+    };
+
     $scope.generateInstanceID = function() {
         var inst = ("00000" + (Math.random() * Math.pow(36, 5) << 0).toString(36)).slice(-5);
         $location.url("/" + inst)
@@ -243,4 +247,24 @@ app.controller('ListController', function($scope, $http, $location, $window) {
 
 app.controller('thirdController', function($scope, $http, $location, $window) {
 
+});
+
+app.directive("contenteditable", function() {
+  return {
+    require: "ngModel",
+    link: function(scope, element, attrs, ngModel) {
+
+      function read() {
+        ngModel.$setViewValue(element.html());
+      }
+
+      ngModel.$render = function() {
+        element.html(ngModel.$viewValue || "");
+      };
+
+      element.bind("blur keyup change", function() {
+        scope.$apply(read);
+      });
+    }
+  };
 });
