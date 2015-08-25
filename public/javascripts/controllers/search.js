@@ -1,16 +1,32 @@
 'use strict';
 
-var app = angular.module('SearchApp', [])
+var app = angular.module('SearchApp', ['ngRoute'])
 
 /* Configure usage so we can provide instances via the URL with no hash sign */
-app.config(function($locationProvider) {
+app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+    
+    // clearly none of this $routeProvider bullshit works
+    $routeProvider
+    .when('/instances/:param', {
+            templateUrl: 'views/challenge',
+            controller: 'SearchController'
+        })
+    .when('/', {
+            templateUrl: 'views/index',
+            controller: 'SearchController'
+        });
     $locationProvider.html5Mode({
         enabled: true,
         requireBase: false
     });
-})
+}]);
 
-app.controller('SearchController', function($scope, $http, $location, $window) {
+app.controller('RouteController', function($scope, $routeParams) {
+    $scope.param = $routeParams.param;
+    console.log($scope.param)
+});
+
+app.controller('SearchController', function($scope, $http, $location, $window, $routeParams) {
     var pendingTask;
     var latestTitle;
     var latestChallenge;
@@ -18,10 +34,15 @@ app.controller('SearchController', function($scope, $http, $location, $window) {
     var movie1, movie2, user1, user2;
     var chal_id;
 
+
     /*GET INSTANCE */
  //   var inst = $location.path().substring(6); //substring chops off the slash
     var inst = $location.path().split(/[\s/]+/).pop();
-    console.log(inst);
+
+    /*    $scope.inst_id = $routeParams.param;
+    var inst_id;
+    console.log(inst_id);*/
+    console.log($routeParams.param)
 
     //getlatest(1);
     //getlatest(2);

@@ -30,8 +30,8 @@
      var routes = require('./app/routes');
      app.use('/api', routes);
 
-     var instances = require('./app/instances');
-     app.use('/instances', instances);
+/*     var instances = require('./app/instances');
+     app.use('/instances', instances);*/
   
 
 // compile stylus & nibg
@@ -56,11 +56,11 @@
 // render the webpage through node
 
 // render the webpage through node with instances
-/*    app.get('/:inst', function (req, res) {
+    app.get('/instances/:param', function (req, res) {
       res.render('challenge',
       { title : 'Home' }
       )
-    })*/
+    })
 //default (broken- just need something here)
     app.get('/', function (req, res) {
       res.render('index',
