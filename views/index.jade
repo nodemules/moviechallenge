@@ -2,22 +2,30 @@ extend layout
 block header
 	h1 Movie Battles
 block challenge
-	div		
-		button.btn.btn-default.col-xs-offset-4.col-xs-4(id='newchal' type='button' ng-click="generateInstanceID();") New Challenge
+	div(class="newchalbtndiv")
+		button.btn.btn-default(id='newchal' type='button' ng-click="generateInstanceID();") #[i(class="fa fa-fire")] {{ 'Start New Challenge' | uppercase }}
+	h4 Last 10 Challenges
 	div(id="listwrap")
 		div(class="lastlist")
 			nl(ng-repeat="chal in latest")
 				// (ng-style="{ margin 0 0 50px 0, padding-left 50px }")			
 				nc
-					a(href="/instances/{{ chal.instance }}" target="_self") {{ chal.challenge }}
+					a(href="/instances/{{ chal.instance }}" target="_self") {{ chal.challenge | uppercase }}
 					br
 				// (ng-style="{ padding-left 50px }")
 				nm
 					// style here, one line or multi line, 
 					// use 'span' instead of 'p' for inline styling
-					br
-					{{ chal.movie1 }} 
-					p(id="vs") vs 
-					{{ chal.movie2 }}
-					br
-					br
+					row
+						{{ chal.movie1 }} 
+						br
+						{{ 'vs' }} 
+						br
+						{{ chal.movie2 }}
+					//
+						.col-xs-5
+							{{ chal.movie1 }}
+						.col-xs-2
+							{{ 'vs ' }}
+						.col-xs-5
+							{{ chal.movie2 }}
