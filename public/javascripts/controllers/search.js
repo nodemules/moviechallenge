@@ -19,8 +19,9 @@ app.controller('SearchController', function($scope, $http, $location, $window) {
     var chal_id;
 
     /*GET INSTANCE */
-    var inst = $location.path().substring(1); //substring chops off the slash
-
+ //   var inst = $location.path().substring(6); //substring chops off the slash
+    var inst = $location.path().split(/[\s/]+/).pop();
+    console.log(inst);
 
     //getlatest(1);
     //getlatest(2);
@@ -30,13 +31,9 @@ app.controller('SearchController', function($scope, $http, $location, $window) {
 
     fetch();
 
-    $scope.showThings = function() {
-
-    };
-
     $scope.generateInstanceID = function() {
         var inst = ("00000" + (Math.random() * Math.pow(36, 5) << 0).toString(36)).slice(-5);
-        $location.url("/" + inst)
+        $location.url("/instances/" + inst)
         $window.location.reload();
     };
 

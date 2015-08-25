@@ -1,4 +1,6 @@
 extend layout
+block extendhead
+
 block header
 	h1 
 		a(ng-href="/" target="_self") Movie Battles
@@ -71,7 +73,7 @@ block results
 				img(ng-src="{{ details1.Poster=='N/A' ? 'http://placehold.it/150x220&text=N/A' : 'http://imdb.wemakesites.net/api/1.0/img?url='+details1.Poster }}")
 				.overlay
 				.finished(ng-show="showwatched1  || postcomment1.length > 0")
-					img(ng-src="images/checkmark.png")
+					img(ng-src="/images/checkmark.png")
 				.text
 					p Director: {{ details1.Director }}
 					p Year: {{ details1.Year }}
@@ -82,7 +84,7 @@ block results
 				img(ng-src="{{ details2.Poster=='N/A' ? 'http://placehold.it/150x220&text=N/A' : 'http://imdb.wemakesites.net/api/1.0/img?url='+details2.Poster }}")
 				.overlay
 				.finished(ng-show="showwatched2  || postcomment2.length > 0")
-					img(ng-src="images/checkmark.png")
+					img(ng-src="/images/checkmark.png")
 				.text
 					p Director: {{ details2.Director }}
 					p Year: {{ details2.Year }}

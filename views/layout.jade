@@ -7,12 +7,14 @@ html
     script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js')
     // Stylesheets
     link(rel='stylesheet prefetch', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css')
-    link(rel='stylesheet', href='stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', type='text/css' href='https://fonts.googleapis.com/css?family=Oswald')
     // Controllers
-    script(src='javascripts/controllers/search.js')
+    script(src='/javascripts/controllers/search.js')
     // Load Scripts
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js')
+
+    block extendhead
 
   body(ng-app='SearchApp', ng-controller='SearchController')
   .maincontainer

@@ -9,7 +9,7 @@ block challenge
 			nl(ng-repeat="chal in latest")
 				// (ng-style="{ margin 0 0 50px 0, padding-left 50px }")			
 				nc
-					a(href="/{{ chal.instance }}" target="_self") {{ chal.challenge }}
+					a(href="/instances/{{ chal.instance }}" target="_self") {{ chal.challenge }}
 					br
 				// (ng-style="{ padding-left 50px }")
 				nm
