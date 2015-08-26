@@ -56,17 +56,25 @@
 // render the webpage through node
 
 // render the webpage through node with instances
-    app.get('/instances/:param', function (req, res) {
+    app.get('/challenge', function (req, res) {
       res.render('challenge',
       { title : 'Home' }
       )
     })
 //default (broken- just need something here)
     app.get('/', function (req, res) {
-      res.render('index',
+      res.render('layout',
       { title : 'Home' }
       )
     })
+
+    app.get('/index', function (req, res) {
+      res.render('index')
+    })
+
+/*    app.get('*', function (req, res) {
+      res.render('layout')
+    })*/
 
 //if needed re-enabled
 //app.use(favicon(__dirname + '/public/favicon.ico'));   // uncomment after placing your favicon in /public

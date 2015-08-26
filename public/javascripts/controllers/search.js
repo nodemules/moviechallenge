@@ -5,16 +5,18 @@ var app = angular.module('SearchApp', ['ngRoute'])
 /* Configure usage so we can provide instances via the URL with no hash sign */
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     
-    // clearly none of this $routeProvider bullshit works
+    // <3 routeprovider
     $routeProvider
-    .when('/instances/:param', {
-            templateUrl: 'views/challenge',
+    .when('/', {
+            templateUrl: 'index',
             controller: 'SearchController'
         })
-    .when('/', {
-            templateUrl: 'views/index',
+    .when('/instances/:param', {
+            templateUrl: '/challenge',
             controller: 'SearchController'
-        });
+        })
+    .otherwise({redirectTo: '/'}
+        );
     $locationProvider.html5Mode({
         enabled: true,
         requireBase: false
@@ -37,7 +39,7 @@ app.controller('SearchController', function($scope, $http, $location, $window, $
 
     /*GET INSTANCE */
  //   var inst = $location.path().substring(6); //substring chops off the slash
-    var inst = $location.path().split(/[\s/]+/).pop();
+ //   var inst = $location.path().split(/[\s/]+/).pop();
 
     /*    $scope.inst_id = $routeParams.param;
     var inst_id;
@@ -53,9 +55,8 @@ app.controller('SearchController', function($scope, $http, $location, $window, $
     fetch();
 
     $scope.generateInstanceID = function() {
-        var inst = ("00000" + (Math.random() * Math.pow(36, 5) << 0).toString(36)).slice(-5);
-        $location.url("/instances/" + inst)
-        $window.location.reload();
+        var inst_id = ("00000" + (Math.random() * Math.pow(36, 5) << 0).toString(36)).slice(-5);    // how do we add capital letters?
+        $location.path("/instances/" + inst_id);
     };
 
     // display the last  challenges for the view
@@ -75,7 +76,7 @@ app.controller('SearchController', function($scope, $http, $location, $window, $
     };
 
     function getChallengeByInstance() {
-        $http.get("/api/getchalbyinst/" + inst)
+        $http.get("/api/getchalbyinst/" + $routeParams.param)
             .success(function(response) {
 
                 // Bring this back later when we work out how to integrate it with the inputs
@@ -101,7 +102,7 @@ app.controller('SearchController', function($scope, $http, $location, $window, $
     $scope.postcomment = function(com) {
         //first get instance challenge
         var comments;
-        $http.get("/api/getchalbyinst/" + inst)
+        $http.get("/api/getchalbyinst/" + $routeParams.param)
             .success(function(response) {
 
                 chal_id = response[0]._id;
@@ -148,7 +149,7 @@ app.controller('SearchController', function($scope, $http, $location, $window, $
         var chal_id = 0;
 
         //see if challenge exists yet
-        $http.get("/api/getchalbyinst/" + inst)
+        $http.get("/api/getchalbyinst/" + $routeParams.param)
             .success(function(response) {
 
                 // if there is something in the response do a put, otherwise post
@@ -167,7 +168,7 @@ app.controller('SearchController', function($scope, $http, $location, $window, $
                     challenge = {
                         challenge: $scope.challenge,
                         date_chal_submitted: Date(),
-                        instance: inst,
+                        instance: $routeParams.param,
                     }
 
                     $http.post("/api/postchallenge/", challenge)
@@ -181,8 +182,10 @@ app.controller('SearchController', function($scope, $http, $location, $window, $
 
     };
 
+    // is getlatest() completely deprecated?
+
     function getlatest() {
-        $http.get("/api/getchalbyinst/" + inst)
+        $http.get("/api/getchalbyinst/" + $routeParams.param)
             // $http.get("/api/latest/" + user)
             .success(function(response) {
 
@@ -212,13 +215,13 @@ app.controller('SearchController', function($scope, $http, $location, $window, $
 
     function fetch() {
         if ($scope.search1) {
-            $http.get("http://www.omdbapi.com/?t=" + $scope.search1 + "&tomatoes=true&plot=full")
+            $http.get("http://www.omdbapi.com/?t=" + $scope.search1 + "&tomatoes=true&plot=short")
                 .success(function(response) {
                     $scope.details1 = response;
                 });
         };
         if ($scope.search2) {
-            $http.get("http://www.omdbapi.com/?t=" + $scope.search2 + "&tomatoes=true&plot=full")
+            $http.get("http://www.omdbapi.com/?t=" + $scope.search2 + "&tomatoes=true&plot=short")
                 .success(function(response) {
                     $scope.details2 = response;
                 });
@@ -245,7 +248,7 @@ app.controller('SearchController', function($scope, $http, $location, $window, $
             }
         }
 
-        $http.get("/api/getchalbyinst/" + inst)
+        $http.get("/api/getchalbyinst/" + $routeParams.param)
             .success(function(response) {
 
                 angular.forEach(response, function(result) {

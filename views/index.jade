@@ -1,7 +1,4 @@
-extend layout
-block header
-	h1 Movie Battles
-block challenge
+.index-container
 	div(class="newchalbtndiv")
 		button.btn.btn-default.resonate(id='newchal' type='button' ng-click="generateInstanceID();") #[i(class="fa fa-fire")] {{ 'Start New Challenge' | uppercase }}
 	h4 Last 10 Challenges
@@ -10,7 +7,7 @@ block challenge
 			nl(ng-repeat="chal in latest")
 				// (ng-style="{ margin 0 0 50px 0, padding-left 50px }")			
 				nc
-					a(href="/instances/{{ chal.instance }}" target="_self") {{ chal.challenge | uppercase }}
+					a(ng-href="/instances/{{ chal.instance }}") {{ chal.challenge | uppercase }}
 					br
 				// (ng-style="{ padding-left 50px }")
 				nm

@@ -1,10 +1,4 @@
-extend layout
-block extendhead
-
-block header
-	h1 
-		a(ng-href="/" target="_self") Movie Battles
-block challenge
+.challenge
 	.col-xs-3
 	.col-xs-6.currentchallenge
 		.col-xs-12
@@ -20,7 +14,7 @@ block challenge
 				span.glyphicon.glyphicon-lock
 	.col-xs-3
 
-block search
+.search
 	.row
 		.col-xs-6
 			.input-group
@@ -64,38 +58,36 @@ block search
 
 
 
-block results
-	div(ng-if='!details' && '!details2')
-		| Loading results...
+.results
 	block 
 		.poster.col-xs-6
 			.image
-				img(ng-src="{{ details1.Poster=='N/A' ? 'http://placehold.it/150x220&text=N/A' : 'http://imdb.wemakesites.net/api/1.0/img?url='+details1.Poster }}")
-				.overlay
-				.finished(ng-show="showwatched1  || postcomment1.length > 0")
+				img(ng-src="{{ !details1.Poster ? 'http://placehold.it/300x450&text=Choose+your+movie' : 'http://imdb.wemakesites.net/api/1.0/img?url='+details1.Poster }}")
+				.overlay(ng-hide="showwatched1")
+				.finished(ng-show="showwatched1  || postcomment1")
 					img(ng-src="/images/checkmark.png")
-				.text
+				.text(ng-show="details1")
 					p Director: {{ details1.Director }}
 					p Year: {{ details1.Year }}
 					p Actors: {{ details1.Actors }}
 					p Plot: {{ details1.Plot }}
 		.poster.col-xs-6
 			.image
-				img(ng-src="{{ details2.Poster=='N/A' ? 'http://placehold.it/150x220&text=N/A' : 'http://imdb.wemakesites.net/api/1.0/img?url='+details2.Poster }}")
-				.overlay
-				.finished(ng-show="showwatched2  || postcomment2.length > 0")
+				img(ng-src="{{ !details2.Poster ? 'http://placehold.it/300x450&text=Choose+your+movie' : 'http://imdb.wemakesites.net/api/1.0/img?url='+details2.Poster }}")
+				.overlay(ng-hide="showwatched2")
+				.finished(ng-show="showwatched2  || postcomment2")
 					img(ng-src="/images/checkmark.png")
-				.text
+				.text(ng-show="details2")
 					p Director: {{ details2.Director }}
 					p Year: {{ details2.Year }}
 					p Actors: {{ details2.Actors }}
 					p Plot: {{ details2.Plot }}
-block aftermath
+.aftermath
 	.row
 		.col-xs-1
 			button.btn.btn-default(id='watched1' type='button' ng-click="showwatched1=true") Watched 
 		.col-xs-5
-			.input-group(ng-show='showwatched1 || postcomment1.length > 0')
+			.input-group(ng-show='showwatched1 || postcomment1')
 				input.form-control(
 					type='text', 
 					ng-model='postcomment1',
@@ -107,7 +99,7 @@ block aftermath
 		.col-xs-1
 			button.btn.btn-default(id='watched1' type='button' ng-click="showwatched2=true") Watched 
 		.col-xs-5			
-			.input-group(ng-show='showwatched2 || postcomment2.length > 0')
+			.input-group(ng-show='showwatched2 || postcomment2')
 				input.form-control(
 					type='text', 
 					ng-model='postcomment2',
