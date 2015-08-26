@@ -57,6 +57,7 @@ nav
 
 #newchal
 	width 500
+	border 2px solid rgba(0, 0, 0, .5) 
 	border-radius 12px
 	font-size 36px !important
 	margin-bottom 4px
@@ -71,9 +72,10 @@ nav
 #listwrap
 	width 500
 	margin auto
-	border 3px solid white
+	box-shadow: 0 -2px 0 #666, 0 0 0 #444, 0 6px 6px rgba(0,0,0,0.6)
 	padding 16px
 	border-radius 16px
+	margin-bottom 20px
 	a
 		text-decoration none
 
@@ -86,11 +88,13 @@ nav
 	counter-reset my-badass-counter
 	display table
 	
+	
 .lastlist nl
 	position relative
 	font bold 18px Oswald
 	padding 4px 0px 12px 0px
 	display table-row
+
 	
 .lastlist nl:before
 	content counter(my-badass-counter)
@@ -101,6 +105,7 @@ nav
 	
 .lastlist nc
 	font-size 24px
+	text-align center
 	
 .lastlist nc, .lastlist nm
 	margin-left 50px
