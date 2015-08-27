@@ -1,34 +1,8 @@
 'use strict';
 
-var app = angular.module('SearchApp', ['ngRoute'])
+angular.module('MainApp.Controllers', [])
 
-/* Configure usage so we can provide instances via the URL with no hash sign */
-app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
-    
-    // <3 routeprovider
-    $routeProvider
-    .when('/', {
-            templateUrl: 'index',
-            controller: 'SearchController'
-        })
-    .when('/instances/:param', {
-            templateUrl: '/challenge',
-            controller: 'SearchController'
-        })
-    .otherwise({redirectTo: '/'}
-        );
-    $locationProvider.html5Mode({
-        enabled: true,
-        requireBase: false
-    });
-}]);
-
-app.controller('RouteController', function($scope, $routeParams) {
-    $scope.param = $routeParams.param;
-    console.log($scope.param)
-});
-
-app.controller('SearchController', function($scope, $http, $location, $window, $routeParams) {
+.controller('challengeController', function($scope, $http, $location, $routeParams) {
     var pendingTask;
     var latestTitle;
     var latestChallenge;
@@ -36,46 +10,36 @@ app.controller('SearchController', function($scope, $http, $location, $window, $
     var movie1, movie2, user1, user2;
     var chal_id;
 
-
-    /*GET INSTANCE */
- //   var inst = $location.path().substring(6); //substring chops off the slash
- //   var inst = $location.path().split(/[\s/]+/).pop();
-
-    /*    $scope.inst_id = $routeParams.param;
-    var inst_id;
-    console.log(inst_id);*/
-    console.log($routeParams.param)
-
-    //getlatest(1);
-    //getlatest(2);
-
     getChallengeByInstance(); // should only run on instanced pages
-    last10Challenges();
 
     fetch();
 
-    $scope.generateInstanceID = function() {
-        var inst_id = ("00000" + (Math.random() * Math.pow(36, 5) << 0).toString(36)).slice(-5);    // how do we add capital letters?
-        $location.path("/instances/" + inst_id);
-    };
-
-    // display the last  challenges for the view
-    function last10Challenges() {
-        $http.get("/api/latest/")
-            .success(function(response) {
-                $scope.latest = response;
-            });
-    };
-
-
     $scope.change = function() {
+
         if (pendingTask) {
             clearTimeout(pendingTask);
         }
         pendingTask = setTimeout(fetch, 800);
     };
 
-    function getChallengeByInstance() {
+    function fetch() {
+        if ($scope.search1) {
+
+            $http.get("http://www.omdbapi.com/?t=" + $scope.search1 + "&tomatoes=true&plot=short")
+                .success(function(response) {
+                    $scope.details1 = response;
+                });
+
+        };
+        if ($scope.search2) {
+            $http.get("http://www.omdbapi.com/?t=" + $scope.search2 + "&tomatoes=true&plot=short")
+                .success(function(response) {
+                    $scope.details2 = response;
+                });
+        };
+    };
+
+     function getChallengeByInstance() {
         $http.get("/api/getchalbyinst/" + $routeParams.param)
             .success(function(response) {
 
@@ -92,8 +56,9 @@ app.controller('SearchController', function($scope, $http, $location, $window, $
                     $scope.postcomment2 = response[0].postcomment2;
                     $scope.search1 = response[0].movie1;
                     $scope.search2 = response[0].movie2;
-
                     fetch();
+
+                    
                 }
 
             });
@@ -139,8 +104,6 @@ app.controller('SearchController', function($scope, $http, $location, $window, $
 
             });
 
-
-
     };
 
 
@@ -177,55 +140,6 @@ app.controller('SearchController', function($scope, $http, $location, $window, $
 
             });
 
-
-
-
-    };
-
-    // is getlatest() completely deprecated?
-
-    function getlatest() {
-        $http.get("/api/getchalbyinst/" + $routeParams.param)
-            // $http.get("/api/latest/" + user)
-            .success(function(response) {
-
-                angular.forEach(response, function(result) {
-                    latestTitle1 = response[0].movie1;
-                    latestTitle2 = response[0].movie2;
-                });
-
-                if (user == 1) {
-                    $scope.search1 = latestTitle;
-                };
-                if (user == 2) {
-                    $scope.search2 = latestTitle;
-                };
-                $http.get("http://www.omdbapi.com/?t=" + latestTitle + "&tomatoes=true&plot=full")
-                    .success(function(response) {
-                        if (user == 1) {
-                            $scope.details1 = response;
-                        };
-                        if (user == 2) {
-                            $scope.details2 = response;
-                        }
-                    });
-            });
-
-    }
-
-    function fetch() {
-        if ($scope.search1) {
-            $http.get("http://www.omdbapi.com/?t=" + $scope.search1 + "&tomatoes=true&plot=short")
-                .success(function(response) {
-                    $scope.details1 = response;
-                });
-        };
-        if ($scope.search2) {
-            $http.get("http://www.omdbapi.com/?t=" + $scope.search2 + "&tomatoes=true&plot=short")
-                .success(function(response) {
-                    $scope.details2 = response;
-                });
-        };
     };
 
 
@@ -260,32 +174,39 @@ app.controller('SearchController', function($scope, $http, $location, $window, $
             });
     };
 
-});
 
-app.controller('ListController', function($scope, $http, $location, $window) {
+})
 
-});
+.controller('miscController', function($scope, $http, $location) {
+    $scope.generateInstanceID = function() {
+        var inst_id = ("00000" + (Math.random() * Math.pow(36, 5) << 0).toString(36)).slice(-5);    // how do we add capital letters?
+        $location.path("/instances/" + inst_id);
+    };
+})
 
-app.controller('thirdController', function($scope, $http, $location, $window) {
+.controller('indexController', function($scope, $http, $location, $routeParams) {
 
-});
+        last10Challenges();
 
-app.directive("contenteditable", function() {
-  return {
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
+    // display the last  challenges for the view
+    function last10Challenges() {
+        $http.get("/api/latest/")
+            .success(function(response) {
+                $scope.latest = response;
+            });
+    };
 
-      function read() {
-        ngModel.$setViewValue(element.html());
-      }
 
-      ngModel.$render = function() {
-        element.html(ngModel.$viewValue || "");
-      };
+})
 
-      element.bind("blur keyup change", function() {
-        scope.$apply(read);
-      });
-    }
-  };
+
+
+
+
+
+
+
+.controller('RouteController', function($scope, $routeParams) {
+    $scope.param = $routeParams.param;
+    console.log($scope.param)
 });

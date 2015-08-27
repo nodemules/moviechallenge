@@ -9,11 +9,11 @@
     // var path = require('path');
     // var favicon = require('serve-favicon');
     // var logger = require('morgan');
-    // var cookieParser = require('cookie-parser');
+    // var cookieParser = require('cookie-parser');  // comes into play with user sessions
 
 // Database
 
-    //var mongo = require('mongodb');                       // still needed?
+
     var mongoose = require('mongoose');                     // mongoose for mongodb
     var database = require('./config/database');            // load the database config
 
@@ -27,11 +27,12 @@
 
 // routes ======================================================================
    // all of our api routes will be prefixed with /api
-     var routes = require('./app/routes');
-     app.use('/api', routes);
+     var api = require('./app/api');
+     app.use('/api', api);
 
-/*     var instances = require('./app/instances');
-     app.use('/instances', instances);*/
+     var routes = require('./app/routes');
+
+  //   app.use('/instances', routes);
   
 
 // compile stylus & nibg
@@ -50,31 +51,17 @@
       }
     ))
     app.use(express.static(__dirname + '/public'))
-    app.use(morgan('dev'));                                         // log every request
+    app.use(morgan('dev'));                              // log every request
 
 
 // render the webpage through node
 
-// render the webpage through node with instances
-    app.get('/challenge', function (req, res) {
-      res.render('challenge',
-      { title : 'Home' }
-      )
-    })
-//default (broken- just need something here)
-    app.get('/', function (req, res) {
-      res.render('layout',
-      { title : 'Home' }
-      )
-    })
+    app.get('/challenge', routes.challenge);
+    app.get('/page', routes.page);
+    app.get('/', routes.layout);
+    app.get('/index', routes.index);
+    app.get('*', routes.layout);
 
-    app.get('/index', function (req, res) {
-      res.render('index')
-    })
-
-/*    app.get('*', function (req, res) {
-      res.render('layout')
-    })*/
 
 //if needed re-enabled
 //app.use(favicon(__dirname + '/public/favicon.ico'));   // uncomment after placing your favicon in /public

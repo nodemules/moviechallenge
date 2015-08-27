@@ -1,5 +1,5 @@
-.index-container
-	div(class="newchalbtndiv")
+.index-container(ng-controller="miscController")
+	div(class="newchalbtndiv" ng-controller='miscController')
 		button.btn.btn-default.resonate(id='newchal' type='button' ng-click="generateInstanceID();") #[i(class="fa fa-fire")] {{ 'Start New Challenge' | uppercase }}
 	h4 Last 10 Challenges
 	div(id="listwrap")

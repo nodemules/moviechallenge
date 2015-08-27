@@ -8,7 +8,7 @@
 				id='chalinput'
 				ng-model='challenge'
 				placeholder='Choose Your Challenge'
-				)) {{ challenge }}
+				) {{ challenge }}
 		.col-xs-12
 			button.btn.btn-default(id='submitchal' type='button' ng-click="saveChallenge();")
 				span.glyphicon.glyphicon-lock
@@ -39,6 +39,7 @@
 					onclick='select()', 
 					placeholder='Enter full movie name'
 					)
+	.row
 		.col-xs-6
 			.col-xs-12.commentinput(
 				contenteditable="true", 
@@ -55,11 +56,8 @@
 			button.btn.btn-default(type='button' ng-click="postcomment(1)") Post Comment
 		.col-xs-6
 			button.btn.btn-default(type='button' ng-click="postcomment(2)") Post Comment
-
-
-
 .results
-	block 
+	.row 
 		.poster.col-xs-6
 			.image
 				img(ng-src="{{ !details1.Poster ? 'http://placehold.it/300x450&text=Choose+your+movie' : 'http://imdb.wemakesites.net/api/1.0/img?url='+details1.Poster }}")
