@@ -1,0 +1,25 @@
+h4 Last 10 Challenges
+div(id="listwrap")
+	div(class="lastlist")
+		nl(ng-repeat="chal in latest")
+			// (ng-style="{ margin 0 0 50px 0, padding-left 50px }")			
+			nc
+				a(ng-href="/instances/{{ chal.instance }}") {{ chal.challenge | uppercase }}
+				br
+			// (ng-style="{ padding-left 50px }")
+			nm
+				// style here, one line or multi line, 
+				// use 'span' instead of 'p' for inline styling
+				row
+					{{ chal.movie1 }} 
+					br
+					{{ 'vs' }} 
+					br
+					{{ chal.movie2 }}
+				//
+					.col-xs-5
+						{{ chal.movie1 }}
+					.col-xs-2
+						{{ 'vs ' }}
+					.col-xs-5
+						{{ chal.movie2 }}
