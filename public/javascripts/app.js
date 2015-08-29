@@ -1,10 +1,14 @@
 'use strict';
 
-angular.module('MainApp', ['ngRoute', 'ui.bootstrap', 'MainApp.Controllers', 'MainApp.Directives'])
+angular.module('MainApp', ['ngRoute', 'ui.bootstrap', 'MainApp.Controllers', 'MainApp.Directives', 'xeditable'])
+    .run(function(editableOptions) {
+  editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+})
+
 
 /* Configure usage so we can provide instances via the URL with no hash sign */
 .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
-    
+
     // <3 routeprovider
     $routeProvider
     .when('/', {

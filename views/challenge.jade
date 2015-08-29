@@ -4,11 +4,14 @@
 		.col-xs-12
 			span(ng-model='challenge') CHALLENGE: <br> <br>
 		.col-xs-12.challengeinput(
-				contenteditable="true"
+				editable-text="challengeinput.name"
 				id='chalinput'
 				ng-model='challenge'
 				placeholder='Choose Your Challenge'
-				) {{ challenge }}
+				tooltip="Create a challenge here to start!"
+				tooltip-trigger="focus"
+				tooltip-placement="top"
+				) {{ challengeinput.name || empty }}
 		.col-xs-12
 			button.btn.btn-default(id='submitchal' type='button' ng-click="saveChallenge();")
 				span.glyphicon.glyphicon-lock
@@ -23,7 +26,10 @@
 					ng-model='search1',
 					ng-change='change()', 
 					onclick='select()', 
-					placeholder='Enter full movie name'
+					placeholder='Enter full movie name',
+					tooltip="Type in the name of a movie and click the lock to submit",
+					tooltip-trigger="focus",
+					tooltip-placement="top"
 					)
 				span.input-group-btn
 					button#submit1.btn.btn-default(type='button' ng-click="saveMovie(1)")

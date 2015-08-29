@@ -10,6 +10,10 @@ angular.module('MainApp.Controllers', [])
     var movie1, movie2, user1, user2;
     var chal_id;
 
+      $scope.challengeinput = {
+       name: 'New Challenge!'
+        };
+
     getChallengeByInstance(); // should only run on instanced pages
 
     fetch();
@@ -39,6 +43,7 @@ angular.module('MainApp.Controllers', [])
         };
     };
 
+
      function getChallengeByInstance() {
         $http.get("/api/getchalbyinst/" + $routeParams.param)
             .success(function(response) {
@@ -49,7 +54,7 @@ angular.module('MainApp.Controllers', [])
 
                 //first check that this is an existing challenge otherwise the console errors
                 if (response.length > 0) {
-                    $scope.challenge = response[0].challenge;
+                    $scope.challengeinput.name = response[0].challenge;
                     $scope.precomment1 = response[0].precomment1;
                     $scope.postcomment1 = response[0].postcomment1;
                     $scope.precomment2 = response[0].precomment2;
@@ -121,7 +126,7 @@ angular.module('MainApp.Controllers', [])
                     chal_id = response[0]._id;
 
                     challenge = {
-                        challenge: $scope.challenge,
+                        challenge: $scope.challengeinput.name,
                         date_chal_submitted: Date()
                     }
 
@@ -129,7 +134,7 @@ angular.module('MainApp.Controllers', [])
                 } else {
 
                     challenge = {
-                        challenge: $scope.challenge,
+                        challenge: $scope.challengeinput.name,
                         date_chal_submitted: Date(),
                         instance: $routeParams.param,
                     }
