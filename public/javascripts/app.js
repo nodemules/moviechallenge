@@ -12,15 +12,14 @@ angular.module('MainApp', ['ngRoute', 'ui.bootstrap', 'MainApp.Controllers', 'Ma
     // <3 routeprovider
     $routeProvider
     .when('/', {
-            templateUrl: 'index',
-            controller: 'indexController'
+            templateUrl: 'index'
         })
     .when('/instances/:param', {
             templateUrl: '/challenge',
             controller: 'challengeController'
         })
-        .when('/page', {
-            templateUrl: 'page'
+    .when('/page/page/:page', {
+        templateUrl: 'page'
         })
     .otherwise({redirectTo: '/'}
         );

@@ -189,7 +189,7 @@ angular.module('MainApp.Controllers', [])
     };
 })
 
-.controller('indexController', function($scope, $http, $location, $routeParams) {
+.controller('listController', function($scope, $http, $location, $routeParams) {
 
         last10Challenges();
 

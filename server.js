@@ -60,6 +60,7 @@
     app.get('/page', routes.page);
     app.get('/', routes.layout);
     app.get('/index', routes.index);
+    app.get('/partials/:name', routes.partials);
     app.get('*', routes.layout);
 
 
