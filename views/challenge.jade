@@ -5,18 +5,26 @@ new-challenge-button
 		.col-xs-12
 			span(ng-model='challenge') CHALLENGE: <br> <br>
 		.col-xs-12.challengeinput(
-				editable-textarea="challengeinput.name"
 				id='chalinput'
-				ng-model='challenge'
-				placeholder='Choose Your Challenge'
 				tooltip="Create a challenge here to start!"
-				tooltip-trigger="focus"
-				tooltip-placement="top"
+				tooltip-enable="true"
+				tooltip-placement="left"
+				editable-text="challengeinput.name"
+				buttons="no"
+				blur="submit"
+				ng-click="unlockchal();"
+				ng-blur="saveChallenge(); lockchal()"
+				ng-model='challenge'
 				) {{ challengeinput.name || empty }}
 		.col-xs-12
 			i.fa.fa-unlock-alt.fa-3x(
 				id='submitchal'
-				ng-click="saveChallenge();")
+				ng-href="#"
+				ng-if="locked==false;"
+				ng-click="saveChallenge(); lockchal();")
+			i.fa.fa-lock.fa-3x(
+				ng-if="locked==true;"
+				)
 	.col-xs-3
 .search
 	.row

@@ -41,4 +41,20 @@ angular.module('MainApp.Directives', [])
     restrict: 'E',
     templateUrl: '../../partials/challenge-posters'
   }
-});
+})
+
+//make this work at some point- needs to be formatted for x-editable
+.directive('selectOnClick', ['$window', function ($window) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            element.on('click', function () {
+
+                if (!$window.getSelection().toString()) {
+                    // Required for mobile Safari
+                    this.setSelectionRange(0, this.value.length)
+                }
+            });
+        }
+    };
+}]);

@@ -11,7 +11,7 @@ angular.module('MainApp.Controllers', [])
     var chal_id;
 
       $scope.challengeinput = {
-       name: 'New Challenge!'
+       name: 'I dare you to watch this movie!'
         };
 
     getChallengeByInstance(); // should only run on instanced pages
@@ -111,11 +111,33 @@ angular.module('MainApp.Controllers', [])
 
     };
 
+    lockint();
+    function lockint() {
+      $http.get("/api/getchalbyinst/" + $routeParams.param)
+            .success(function(response) {
+
+                if (response.length > 0) {
+                    $scope.locked = true;
+                }else{
+                    $scope.locked = false;
+                }
+            });
+    }
+
+    $scope.lockchal = function() {
+        $scope.locked = true;
+
+    }
+    $scope.unlockchal = function() {
+
+        $scope.locked = false;
+
+    }
 
     $scope.saveChallenge = function() {
         var challenge;
         var chal_id = 0;
-
+        console.log("blur..");
         //see if challenge exists yet
         $http.get("/api/getchalbyinst/" + $routeParams.param)
             .success(function(response) {
