@@ -20,9 +20,9 @@ angular.module('MainApp', ['ngRoute', 'ui.bootstrap', 'MainApp.Controllers', 'Ma
         })
     .when('/page/page/:page', {
         templateUrl: 'page'
-        })
-    .otherwise({redirectTo: '/'}
-        );
+        });
+   // .otherwise({redirectTo: '/'}
+    //    );
     $locationProvider.html5Mode({
         enabled: true,
         requireBase: false

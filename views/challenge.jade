@@ -5,7 +5,7 @@ new-challenge-button
 		.col-xs-12
 			span(ng-model='challenge') CHALLENGE: <br> <br>
 		.col-xs-12.challengeinput(
-				editable-text="challengeinput.name"
+				editable-textarea="challengeinput.name"
 				id='chalinput'
 				ng-model='challenge'
 				placeholder='Choose Your Challenge'
@@ -14,10 +14,10 @@ new-challenge-button
 				tooltip-placement="top"
 				) {{ challengeinput.name || empty }}
 		.col-xs-12
-			button.btn.btn-default(id='submitchal' type='button' ng-click="saveChallenge();")
-				span.glyphicon.glyphicon-lock
+			i.fa.fa-unlock-alt.fa-3x(
+				id='submitchal'
+				ng-click="saveChallenge();")
 	.col-xs-3
-
 .search
 	.row
 		.col-xs-6
@@ -63,31 +63,7 @@ new-challenge-button
 			button.btn.btn-default(type='button' ng-click="postcomment(1)") Post Comment
 		.col-xs-6
 			button.btn.btn-default(type='button' ng-click="postcomment(2)") Post Comment
-// challenge-posters
-.results
-	.row 
-		.poster.col-xs-6
-			.image
-				img(ng-src="{{ !details1.Poster ? 'http://placehold.it/300x450&text=Choose+your+movie' : 'http://imdb.wemakesites.net/api/1.0/img?url='+details1.Poster }}")
-				.overlay(ng-hide="showwatched1")
-				.finished(ng-show="showwatched1  || postcomment1")
-					img(ng-src="/images/checkmark.png")
-				.text(ng-show="details1")
-					p Director: {{ details1.Director }}
-					p Year: {{ details1.Year }}
-					p Actors: {{ details1.Actors }}
-					p Plot: {{ details1.Plot }}
-		.poster.col-xs-6
-			.image
-				img(ng-src="{{ !details2.Poster ? 'http://placehold.it/300x450&text=Choose+your+movie' : 'http://imdb.wemakesites.net/api/1.0/img?url='+details2.Poster }}")
-				.overlay(ng-hide="showwatched2")
-				.finished(ng-show="showwatched2  || postcomment2")
-					img(ng-src="/images/checkmark.png")
-				.text(ng-show="details2")
-					p Director: {{ details2.Director }}
-					p Year: {{ details2.Year }}
-					p Actors: {{ details2.Actors }}
-					p Plot: {{ details2.Plot }}
+challenge-posters
 .aftermath
 	.row
 		.col-xs-1

@@ -61,7 +61,7 @@
     app.get('/', routes.layout);
     app.get('/index', routes.index);
     app.get('/partials/:name', routes.partials);
-    app.get('*', routes.layout);
+    app.get('*');
 
 
 //if needed re-enabled
