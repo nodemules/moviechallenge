@@ -1,0 +1,17 @@
+.mainsearch(
+	editable-text='mainsearch'
+	ng-model='mainsearch'
+	placeholder='Placeholder'
+	blur='submit'
+	onaftersave='getMovie()'
+	typeahead='a for a in getMovie'
+) {{ mainsearch || empty}}
+.poster.col-xs-offset-3.col-xs-6
+	.image
+		img(ng-src="{{ !details.Poster ? 'http://placehold.it/300x450&text=Choose+your+movie' : 'http://imdb.wemakesites.net/api/1.0/img?url='+details.Poster }}")
+		.overlay
+		.text(ng-show="details")
+			p Director: {{ details.Director }}
+			p Year: {{ details.Year }}
+			p Actors: {{ details.Actors }}
+			p Plot: {{ details.Plot }}

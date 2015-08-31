@@ -1,4 +1,4 @@
-angular.module('movieService', [])
+angular.module('MainApp.Services')
 
 	// each function returns a promise object
 	.factory('Movies', ['$http',function($http){

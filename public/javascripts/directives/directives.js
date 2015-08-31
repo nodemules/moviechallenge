@@ -43,6 +43,13 @@ angular.module('MainApp.Directives', [])
   }
 })
 
+.directive("mainSearch", function() {
+  return {
+    restrict: 'E',
+    templateUrl: '../../partials/main-search'
+  }
+})
+
 //make this work at some point- needs to be formatted for x-editable
 .directive('selectOnClick', ['$window', function ($window) {
     return {

@@ -13,13 +13,13 @@
     };
     
     exports.layout = function (req, res) {
-      res.render('layout',
-      { title : 'Home' }
+      res.render('layout'
       )
     };
 
     exports.index = function (req, res) {
-      res.render('index')
+      res.render('index'),
+      { title : 'Home' }
     };
 
     exports.partials = function (req, res) {
