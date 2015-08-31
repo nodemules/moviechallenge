@@ -10,9 +10,9 @@ angular.module('MainApp.Controllers', [])
     var movie1, movie2, user1, user2;
     var chal_id;
 
-      $scope.challengeinput = {
-       name: 'I dare you to watch this movie!'
-        };
+    $scope.challengeinput = {
+        name: 'I dare you to watch this movie!'
+    };
 
     getChallengeByInstance(); // should only run on instanced pages
 
@@ -44,7 +44,7 @@ angular.module('MainApp.Controllers', [])
     };
 
 
-     function getChallengeByInstance() {
+    function getChallengeByInstance() {
         $http.get("/api/getchalbyinst/" + $routeParams.param)
             .success(function(response) {
 
@@ -63,7 +63,7 @@ angular.module('MainApp.Controllers', [])
                     $scope.search2 = response[0].movie2;
                     fetch();
 
-                    
+
                 }
 
             });
@@ -111,33 +111,82 @@ angular.module('MainApp.Controllers', [])
 
     };
 
-    lockint();
-    function lockint() {
-      $http.get("/api/getchalbyinst/" + $routeParams.param)
+    /**************************/
+    //Handle flow and lock and /
+    //unlock animations.       /
+    //Refactor the shit out of /
+    //this.                    /
+    /**************************/
+
+    lockinit();
+
+    function lockinit() {
+        $http.get("/api/getchalbyinst/" + $routeParams.param)
             .success(function(response) {
 
                 if (response.length > 0) {
-                    $scope.locked = true;
-                }else{
-                    $scope.locked = false;
+
+                    if (response[0].challenge) {
+                        $scope.challocked = true;
+                    } else {
+                        $scope.challocked = false;
+                    }
+                    if (response[0].movie1) {
+                        $scope.movie1locked = true;
+                    } else {
+                        $scope.movie1locked = false;
+                    }
+                    if (response[0].movie2) {
+                        $scope.movie2locked = true;
+                    } else {
+                        $scope.movie2locked = false;
+                    }
+                    if (response[0].movie2 && response[0].movie1) {
+                        $scope.movieslocked = true;
+                    } else {
+                        $scope.movieslocked = false;
+                    }
+
+                } else {
+                    $scope.challocked = false;
+                }
+            });
+    }
+
+    $scope.movieslocked = function() {
+        $http.get("/api/getchalbyinst/" + $routeParams.param)
+            .success(function(response) {
+                if (response.length > 0) {
+                    if (response[0].movie2 && response[0].movie1) {
+                        $scope.movieslocked = true;
+                    } else {
+                        $scope.movieslocked = false;
+                    }
                 }
             });
     }
 
     $scope.lockchal = function() {
-        $scope.locked = true;
+        $scope.challocked = true;
 
     }
     $scope.unlockchal = function() {
-
-        $scope.locked = false;
-
+        $scope.challocked = false;
     }
+
+    $scope.lockmovie1 = function() {
+        $scope.movie1locked = true;
+    }
+
+    $scope.lockmovie2 = function() {
+        $scope.movie2locked = true;
+    }
+
 
     $scope.saveChallenge = function() {
         var challenge;
         var chal_id = 0;
-        console.log("blur..");
+
         //see if challenge exists yet
         $http.get("/api/getchalbyinst/" + $routeParams.param)
             .success(function(response) {
@@ -206,14 +255,14 @@ angular.module('MainApp.Controllers', [])
 
 .controller('miscController', function($scope, $http, $location) {
     $scope.generateInstanceID = function() {
-        var inst_id = ("00000" + (Math.random() * Math.pow(36, 5) << 0).toString(36)).slice(-5);    // how do we add capital letters?
+        var inst_id = ("00000" + (Math.random() * Math.pow(36, 5) << 0).toString(36)).slice(-5); // how do we add capital letters?
         $location.path("/instances/" + inst_id);
     };
 })
 
 .controller('listController', function($scope, $http, $location, $routeParams) {
 
-        last10Challenges();
+    last10Challenges();
 
     // display the last  challenges for the view
     function last10Challenges() {
@@ -225,10 +274,6 @@ angular.module('MainApp.Controllers', [])
 
 
 })
-
-
-
-
 
 
 

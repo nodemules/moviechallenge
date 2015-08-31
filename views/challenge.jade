@@ -20,59 +20,64 @@ new-challenge-button
 			i.fa.fa-unlock-alt.fa-3x(
 				id='submitchal'
 				ng-href="#"
-				ng-if="locked==false;"
+				ng-if="challocked==false;"
 				ng-click="saveChallenge(); lockchal();")
 			i.fa.fa-lock.fa-3x(
-				ng-if="locked==true;"
+				ng-if="challocked==true;"
 				)
 	.col-xs-3
-.search
+.search(ng-show="challocked==true")
 	.row
 		.col-xs-6
 			.input-group
 				input.form-control(
 					type='text', 
 					ng-model='search1',
-					ng-change='change()', 
-					onclick='select()', 
+					ng-change='change()',
+					ng-blur="saveMovie(1); lockmovie1();  movieslocked();",
 					placeholder='Enter full movie name',
-					tooltip="Type in the name of a movie and click the lock to submit",
+					tooltip="Type in the name of a movie and click away to lock",
 					tooltip-trigger="focus",
 					tooltip-placement="top"
 					)
-				span.input-group-btn
-					button#submit1.btn.btn-default(type='button' ng-click="saveMovie(1)")
-						span.glyphicon.glyphicon-lock
 		.col-xs-6
 			.input-group
-				span.input-group-btn
-					button#submit2.btn.btn-default(type='button' ng-click="saveMovie(2)")
-						span.glyphicon.glyphicon-lock
-				input.form-control(type='text', 
+				input.form-control(
+					type='text', 
 					ng-model='search2', 
 					ng-change='change()', 
 					onclick='select()', 
-					placeholder='Enter full movie name'
+					ng-blur="saveMovie(2); lockmovie2();  movieslocked();",
+					placeholder='Enter full movie name',
+					tooltip="Type in the name of a movie and click away to lock",
+					tooltip-trigger="focus",
+					tooltip-placement="top"
 					)
 	.row
 		.col-xs-6
 			.col-xs-12.commentinput(
-				contenteditable="true", 
+				contenteditable="true",
+				ng-show="movie1locked == true"
 				ng-model='precomment1',
-				placeholder='How do you feel going into this movie?', 
-				autofocus='')
+				placeholder='Comments', 
+				autofocus='',
+				ng-blur="postcomment(1);",
+				tooltip="Tell them how you feel about having to watch {{search1}}. Be Honest.",
+				tooltip-trigger="focus",
+				tooltip-placement="bottom")
 		.col-xs-6
 			.col-xs-12.commentinput(
-				contenteditable="true", 
+				contenteditable="true",
+				ng-show="movie2locked == true"
 				ng-model='precomment2',
-				placeholder='How do you feel going into this movie?', 
-				autofocus='')			
-		.col-xs-6
-			button.btn.btn-default(type='button' ng-click="postcomment(1)") Post Comment
-		.col-xs-6
-			button.btn.btn-default(type='button' ng-click="postcomment(2)") Post Comment
-challenge-posters
-.aftermath
+				placeholder='Comments', 
+				autofocus='',
+				ng-blur="postcomment(2);",
+				tooltip="Tell them how you feel about having to watch {{search2}}. Be Honest.",
+				tooltip-trigger="focus",
+				tooltip-placement="bottom")			
+	challenge-posters
+.aftermath(ng-show="challocked==true && movieslocked==true")
 	.row
 		.col-xs-1
 			button.btn.btn-default(id='watched1' type='button' ng-click="showwatched1=true") Watched 
@@ -82,10 +87,12 @@ challenge-posters
 					type='text', 
 					ng-model='postcomment1',
 					placeholder='How was it?', 
-					autofocus='')
-				span.input-group-btn
-					button.btn.btn-default(type='button' ng-click="postcomment(3)")
-						span.glyphicon.glyphicon-lock
+					autofocus='',
+					ng-blur="postcomment(3)",
+					tooltip="Tell them how you felt about {{search1}}. Be Honest.",
+					tooltip-trigger="focus",
+					tooltip-placement="bottom")
+
 		.col-xs-1
 			button.btn.btn-default(id='watched1' type='button' ng-click="showwatched2=true") Watched 
 		.col-xs-5			
@@ -94,8 +101,8 @@ challenge-posters
 					type='text', 
 					ng-model='postcomment2',
 					placeholder='How was it?', 
-					autofocus='')
-				span.input-group-btn
-					button.btn.btn-default(type='button' ng-click="postcomment(4)")
-						span.glyphicon.glyphicon-lock
-
+					autofocus='',
+					ng-blur="postcomment(4)"
+					tooltip="Tell them how you felt about {{search2}}. Be Honest.",
+					tooltip-trigger="focus",
+					tooltip-placement="bottom")
