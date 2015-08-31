@@ -5,13 +5,15 @@ new-challenge-button
 		.col-xs-12
 			span(ng-model='challenge') CHALLENGE: <br> <br>
 		.col-xs-12.challengeinput(
-				id='chalinput'
+				e-id='chalinput'
 				tooltip="Create a challenge here to start!"
 				tooltip-enable="true"
 				tooltip-placement="left"
 				editable-text="challengeinput.name"
 				buttons="no"
 				blur="submit"
+				onshow="selectText()"
+				e-ng-readonly="flag"
 				ng-click="unlockchal();"
 				ng-blur="saveChallenge(); lockchal()"
 				ng-model='challenge'
@@ -21,7 +23,7 @@ new-challenge-button
 				id='submitchal'
 				ng-href="#"
 				ng-if="challocked==false;"
-				ng-click="saveChallenge(); lockchal();")
+				ng-click="saveChallenge(); lockchal(); flag=true;")
 			i.fa.fa-lock.fa-3x(
 				ng-if="challocked==true;"
 				)

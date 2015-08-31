@@ -9,7 +9,7 @@ angular.module('MainApp.Controllers', [])
     var precomment1, precomment2, postcomment1, postcomment2;
     var movie1, movie2, user1, user2;
     var chal_id;
-
+$scope.flag = false;
     $scope.challengeinput = {
         name: 'I dare you to watch this movie!'
     };
@@ -117,6 +117,12 @@ angular.module('MainApp.Controllers', [])
     //Refactor the shit out of /
     //this.                    /
     /**************************/
+    $scope.selectText = function() {
+        setTimeout(function() {
+          document.querySelector('#chalinput').select();
+        }, 0);
+    };
+
 
     lockinit();
 
