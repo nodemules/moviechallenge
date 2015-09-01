@@ -14,15 +14,17 @@ angular.module('MainApp.Controllers')
 
 })
 
+// TMDB API STRING == https://api.themoviedb.org/3/movie?api_key=11897eb1c7662904ef04389140fb6638
+
 /*.controller('typeaheadController', function($scope, $http) {
 	$scope.getMovieTypeahead = function(val) {
 		return $http.jsonp('https://api.themoviedb.org/3/movie?api_key=11897eb1c7662904ef04389140fb6638', {
 			params: {
-				t: val
+				query: val
 			}
 		}).then(function(response) {
 			$scope.results = response.data.Title
-			console.log(response.data.Title);
+			console.log(response.data);
 			return $scope.results.map(function(item) {
 				return item;
 			});

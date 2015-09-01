@@ -8,3 +8,10 @@ main-search
 		)
 	ul(id='suggestionList')
 		li(ng-repeat="movie in movies" ng-click="$parent.searchText = movie.title") {{ movie.title }}
+//
+	input(
+		type='text'
+		ng-model='searchText'
+		typeahead='a for a in getMovieTypeahead($viewValue)'
+		class='form-control'
+		)
