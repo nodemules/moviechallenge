@@ -16,23 +16,27 @@ angular.module('MainApp.Controllers')
 
 // TMDB API STRING == https://api.themoviedb.org/3/movie?api_key=11897eb1c7662904ef04389140fb6638
 
-/*.controller('typeaheadController', function($scope, $http) {
+.controller('typeaheadController', function($scope, $http) {
 	$scope.getMovieTypeahead = function(val) {
-		return $http.jsonp('https://api.themoviedb.org/3/movie?api_key=11897eb1c7662904ef04389140fb6638', {
+		console.log("hello type ahead");
+        return $http.jsonp('http://api.themoviedb.org/3/search/movie', {
 			params: {
-				query: val
+                api_key: '11897eb1c7662904ef04389140fb6638',
+                query: val,
+                search_type: 'ngram',
+                rnd: Math.random(),   // prevent cache
+                //page: 1,
+                callback: 'JSON_CALLBACK'
 			}
 		}).then(function(response) {
-			$scope.results = response.data.Title
-			console.log(response.data);
-			return $scope.results.map(function(item) {
-				return item;
-			});
-		})
+      return response.data.results.map(function(item){
+        return item.title + ' - ' + item.release_date;
+      });
+	})
 	}
-})*/
+})
 
-.controller('typeaheadController', ['$scope', 'MovieDB', function($scope, MovieDB){
+/*.controller('typeaheadController', ['$scope', 'MovieDB', function($scope, MovieDB){
     $scope.searchText = "";
     $scope.movies = [];
 
@@ -45,4 +49,4 @@ angular.module('MainApp.Controllers')
     }
 
     $scope.$watch('searchText', refreshSuggestions);
-}])
+}])*/

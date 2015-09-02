@@ -20,7 +20,7 @@ angular.module('MainApp', ['ngRoute', 'ui.bootstrap', 'MainApp.Controllers', 'Ma
         })
     .when('/search', {
         templateUrl: 'page',
-        controller: 'searchController'
+        controller: 'typeaheadController'
         })
     .otherwise({redirectTo: '/'}
         );

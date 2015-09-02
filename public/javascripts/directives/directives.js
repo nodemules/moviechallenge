@@ -20,6 +20,14 @@ angular.module('MainApp.Directives', [])
   };
 })
 
+.directive("typeaheadSearch", function(){
+  return{
+  restrict: 'E',
+  templateUrl: '../../partials/typeahead-search'
+
+  }
+})
+
 .directive("newChallengeButton", function() {
   return {
     restrict: 'E',
@@ -46,7 +54,8 @@ angular.module('MainApp.Directives', [])
 .directive("mainSearch", function() {
   return {
     restrict: 'E',
-    templateUrl: '../../partials/main-search'
+    templateUrl: '../../partials/main-search',
+    controller: 'searchController'
   }
 })
 
