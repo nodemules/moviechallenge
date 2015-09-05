@@ -10,41 +10,100 @@ angular.module('MainApp.Controllers')
     var movie1, movie2, user1, user2;
     var chal_id;
     $scope.flag = false;
+
+    $scope.negroidian = 'sMKoNBRZM1M';
     $scope.challengeinput = {
         name: 'I dare you to watch this movie!'
     };
 
-    getChallengeByInstance(); // should only run on instanced pages
+    // getChallengeByInstance(); // should only run on instanced pages
+    // fetch();
 
-    fetch();
+    angular.element(document).ready(function() {
+        $scope.getChallengeByInstance();
+    });
 
     $scope.change = function() {
 
         if (pendingTask) {
             clearTimeout(pendingTask);
         }
-        pendingTask = setTimeout(fetch, 800);
+        pendingTask = setTimeout($scope.fetch(), 800);
     };
 
-    function fetch() {
+    $scope.fetch = function() {
         if ($scope.search1) {
 
-            $http.get("http://www.omdbapi.com/?t=" + $scope.search1 + "&tomatoes=true&plot=short")
-                .success(function(response) {
-                    $scope.details1 = response;
-                });
+            $http.jsonp('http://api.themoviedb.org/3/search/movie', {
+            params: {
+                api_key: '11897eb1c7662904ef04389140fb6638',
+                query: $scope.search1,
+                search_type: 'ngram',
+                rnd: Math.random(),   // prevent cache
+                append_to_response: "credits",
+                //page: 1,
+                callback: 'JSON_CALLBACK'
+            }
 
-        };
-        if ($scope.search2) {
-            $http.get("http://www.omdbapi.com/?t=" + $scope.search2 + "&tomatoes=true&plot=short")
+            })
+            .success(function(response) {
+                console.log(response);
+                // $scope.details1 = response.results[0];
+                var tmdb_id = response.results[0].id;
+
+                $http.jsonp('http://api.themoviedb.org/3/movie/' + tmdb_id, {
+                    params: {
+
+                api_key: '11897eb1c7662904ef04389140fb6638',
+                append_to_response: "id,credits,videos",
+                //page: 1,
+                callback: 'JSON_CALLBACK'
+                    }
+                })
                 .success(function(response) {
+                    console.log(response)
+                    $scope.details1 = response;
+                })                
+            });
+        };
+
+        if ($scope.search2) {
+            $http.jsonp('http://api.themoviedb.org/3/search/movie', {
+            params: {
+                api_key: '11897eb1c7662904ef04389140fb6638',
+                query: $scope.search2,
+                search_type: 'ngram',
+                rnd: Math.random(),   // prevent cache
+                append_to_response: "credits",
+                //page: 1,
+                callback: 'JSON_CALLBACK'
+            }
+
+            })
+            .success(function(response) {
+                console.log(response);
+                // $scope.details1 = response.results[0];
+                var tmdb_id = response.results[0].id;
+
+                $http.jsonp('http://api.themoviedb.org/3/movie/' + tmdb_id, {
+                    params: {
+
+                api_key: '11897eb1c7662904ef04389140fb6638',
+                append_to_response: "id,credits,videos",
+                //page: 1,
+                callback: 'JSON_CALLBACK'
+                    }
+                })
+                .success(function(response) {
+                    console.log(response)
                     $scope.details2 = response;
-                });
+                })                
+            });
         };
     };
 
 
-    function getChallengeByInstance() {
+    $scope.getChallengeByInstance = function() {
         $http.get("/api/getchalbyinst/" + $routeParams.param)
             .success(function(response) {
 
@@ -61,11 +120,29 @@ angular.module('MainApp.Controllers')
                     $scope.postcomment2 = response[0].postcomment2;
                     $scope.search1 = response[0].movie1;
                     $scope.search2 = response[0].movie2;
-                    fetch();
 
-
+                    if (response[0].challenge) {
+                        $scope.challocked = true;
+                    } else {
+                        $scope.challocked = false;
+                    }
+                    if (response[0].movie1) {
+                        $scope.movie1locked = true;
+                    } else {
+                        $scope.movie1locked = false;
+                    }
+                    if (response[0].movie2) {
+                        $scope.movie2locked = true;
+                    } else {
+                        $scope.movie2locked = false;
+                    }
+                    if (response[0].movie2 && response[0].movie1) {
+                        $scope.movieslocked = true;
+                    } else {
+                        $scope.movieslocked = false;
+                    }
                 }
-
+                    $scope.fetch();
             });
     };
 
@@ -124,7 +201,7 @@ angular.module('MainApp.Controllers')
     };
 
 
-    lockinit();
+    // lockinit();
 
     function lockinit() {
         $http.get("/api/getchalbyinst/" + $routeParams.param)
@@ -159,11 +236,22 @@ angular.module('MainApp.Controllers')
             });
     }
 
+    $scope.consoleLogBrah = function() {
+        console.log("HERES YOUR CONSOLE BRAH");
+    };
+
+
+    // deprecated shite
+
     $scope.movieslocked = function() {
+        console.log("REALLY DOUBLE QUOTES BRAH?");
+        
         $http.get("/api/getchalbyinst/" + $routeParams.param)
             .success(function(response) {
+                        console.log('text!' + response);
                 if (response.length > 0) {
                     if (response[0].movie2 && response[0].movie1) {
+                        console.log('text' + response);
                         $scope.movieslocked = true;
                     } else {
                         $scope.movieslocked = false;
