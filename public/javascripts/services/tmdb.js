@@ -1,5 +1,9 @@
 'use strict';
 
+// *************************************
+// DEPRECATED --- *** REFERENCE ONLY ***
+// *************************************
+
 angular.module('MainApp.Services')
 
 .service('MovieDB', ['$q', '$http', function($q, $http){

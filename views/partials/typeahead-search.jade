@@ -7,16 +7,3 @@
 			ng-model='searchText'
 			placeholder='Typeahead test'
 			)
-	//
-		ul(id='suggestionList') Results: 
-			li(ng-repeat="movie in movies" ng-click="$parent.searchText=movie.title") Title: {{ movie.title }}
-		
-			a(ng-href="/") click me
-				.test(ng-controller="miscController")
-			p(ng-click='generateInstanceID()' style="color: black") SOme text yo
-		input(
-			type='text'
-			ng-model='searchText'
-			typeahead='a for a in getMovieTypeahead($viewValue)'
-			class='form-control'
-			)

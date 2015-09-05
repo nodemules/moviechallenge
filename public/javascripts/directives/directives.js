@@ -1,25 +1,5 @@
 angular.module('MainApp.Directives', [])
 
-.directive("contenteditable", function() {
-  return {
-    require: "ngModel",
-    link: function(scope, element, attrs, ngModel) {
-
-      function read() {
-        ngModel.$setViewValue(element.html());
-      }
-
-      ngModel.$render = function() {
-        element.html(ngModel.$viewValue || "");
-      };
-
-      element.bind("blur keyup change", function() {
-        scope.$apply(read);
-      });
-    }
-  };
-})
-
 .directive("typeaheadSearch", function(){
   return{
   restrict: 'E',
@@ -57,20 +37,4 @@ angular.module('MainApp.Directives', [])
     templateUrl: '../../partials/main-search',
     controller: 'searchController'
   }
-})
-
-//make this work at some point- needs to be formatted for x-editable
-.directive('selectOnClick', ['$window', function ($window) {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attrs) {
-            element.on('click', function () {
-
-                if (!$window.getSelection().toString()) {
-                    // Required for mobile Safari
-                    this.setSelectionRange(0, this.value.length)
-                }
-            });
-        }
-    };
-}]);
+});

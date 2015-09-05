@@ -34,19 +34,4 @@ angular.module('MainApp.Controllers')
       });
 	})
 	}
-})
-
-/*.controller('typeaheadController', ['$scope', 'MovieDB', function($scope, MovieDB){
-    $scope.searchText = "";
-    $scope.movies = [];
-
-    function refreshSuggestions(newValue, oldValue, scope){
-        if (newValue.length > 2){
-            MovieDB.searchMovies(newValue).then(function(result){
-                $scope.movies = result;
-            });
-        }
-    }
-
-    $scope.$watch('searchText', refreshSuggestions);
-}])*/
+});
