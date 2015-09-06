@@ -8,12 +8,14 @@
 				.overlay(ng-hide="showwatched1")
 				.finished(ng-show="showwatched1  || postcomment1")
 					img(ng-src="/images/checkmark.png")
-				.text(ng-show="details1")
+				.text(ng-show="details1" ng-controller='ModalDemoCtrl')
 					p(style="font-style:italic; font-size:2em; text-align: center") {{ details1.tagline }}
 					p Director: {{ details1.credits.crew[0].name }}
 					p Release Date: {{ details1.release_date | date }}
 					p Actors: {{ details1.credits.cast[0].name }}, {{ details1.credits.cast[1].name }}, {{ details1.credits.cast[2].name }}
 					p Plot: {{ details1.overview }}
+					.youtube-play-button
+						i(style="text-align: center" class="fa fa-youtube fa-2x" ng-click="open('lg')")
 		.poster.col-xs-6
 			.image
 				img(style="height:450; width:300" ng-src="{{ !details2.poster_path ? 'http://placehold.it/300x450&text=Choose+your+movie' : 'http://image.tmdb.org/t/p/w500'+details2.poster_path }}") 

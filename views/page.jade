@@ -1,2 +1,9 @@
+.modal-test
+    div(ng-controller='ModalDemoCtrl')
+      button.btn.btn-default(type='button', ng-click='open()') Open me!
+      button.btn.btn-default(type='button', ng-click="open('lg')") Large modal
+      button.btn.btn-default(type='button', ng-click="open('sm')") Small modal
+      button.btn.btn-default(type='button', ng-click='toggleAnimation()') Toggle Animation ({{ animationsEnabled }})
+      div(ng-show='selected') Selection from a modal: {{ selected }}
 main-search
 typeahead-search

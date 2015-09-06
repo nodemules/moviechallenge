@@ -11,7 +11,7 @@ angular.module('MainApp.Controllers')
     var chal_id;
     $scope.flag = false;
 
-    $scope.negroidian = 'sMKoNBRZM1M';
+    $scope.testVideo = 'sMKoNBRZM1M';
     $scope.challengeinput = {
         name: 'I dare you to watch this movie!'
     };
@@ -347,7 +347,26 @@ angular.module('MainApp.Controllers')
 
 })
 
+/*.controller('modalController', function($scope, $modal) {
+    $scope.openYoutubeModal = function(size) {
 
+        var modalInstance = $modal.open ({
+            templateUrl: '../../partials/youtube-modal',
+            controller: 'modalInstanceController',
+            size: size
+        })
+    }
+})
+
+.controller('modalInstanceController', function ($scope, $modalInstance) {
+    $scope.ok = function () {
+    $modalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+})*/
 
 .controller('miscController', function($scope, $http, $location) {
     $scope.generateInstanceID = function() {
