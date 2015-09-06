@@ -12,7 +12,7 @@ angular.module('MainApp.Controllers')
       animation: $scope.animationsEnabled,
             templateUrl: '../../partials/youtube-modal',
             controller: 'ModalInstanceCtrl',
-      size: size,
+            size: size,
       resolve: {
         items: function () {
           return $scope.items;
