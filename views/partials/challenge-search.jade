@@ -1,0 +1,87 @@
+.search(ng-show="challocked==true")
+	.row
+		.search1-input.col-xs-6
+			div(
+				editable-text="search1",
+				e-typeahead="movie for movie in getMovieTypeahead($viewValue)",
+				type='text',
+				ng-model='search1',
+				e-ng-change='change()',
+				e-ng-blur="lockmovie1()",
+				onaftersave="saveMovie(1)",
+				tooltip="Type in the name of a movie and click away to lock",
+				tooltip-trigger="focus",
+				tooltip-placement="top",
+				buttons="no"
+				blur='submit'
+				)
+		//
+			.input-group
+				input.form-control(
+					type='text', 
+					ng-model='search1',
+					ng-change='change()',
+					ng-blur="saveMovie(1); lockmovie1();",
+					placeholder='Enter full movie name',
+					tooltip="Type in the name of a movie and click away to lock",
+					tooltip-trigger="focus",
+					tooltip-placement="top"
+					)		
+		.search2-input.col-xs-6
+			div(
+				editable-text="search2",
+				e-typeahead="movie for movie in getMovieTypeahead($viewValue)",
+				type='text',
+				ng-model='search2',
+				e-ng-change='change()',
+				e-ng-blur="lockmovie2()",
+				onaftersave="saveMovie(2)",
+				tooltip="Type in the name of a movie and click away to lock",
+				tooltip-trigger="focus",
+				tooltip-placement="top",
+				buttons="no"
+				blur='submit'	
+				)
+		//
+			.input-group
+				input.form-control(
+					type='text', 
+					ng-model='search2', 
+					ng-change='change()', 
+					onclick='select()', 
+					ng-blur="saveMovie(2); lockmovie2();",
+					placeholder='Enter full movie name',
+					tooltip="Type in the name of a movie and click away to lock",
+					tooltip-trigger="focus",
+					tooltip-placement="top"
+					)
+	br
+	.row
+		.col-xs-6
+			.col-xs-12.commentinput(
+				editable-text="precomment1"
+				ng-show="movie1locked == true"
+				ng-model='precomment1',
+				placeholder='Comments', 
+				autofocus='',
+				onaftersave="postcomment(1);",
+				tooltip="Tell them how you feel about having to watch {{search1}}. Be Honest.",
+				tooltip-trigger="focus",
+				tooltip-placement="bottom",
+				buttons="no"
+				blur='submit'
+				)
+		.col-xs-6
+			.col-xs-12.commentinput(
+				editable-text="precomment2"
+				ng-show="movie2locked == true"
+				ng-model='precomment2',
+				placeholder='Comments', 
+				autofocus='',
+				onaftersave="postcomment(2);",
+				tooltip="Tell them how you feel about having to watch {{search2}}. Be Honest.",
+				tooltip-trigger="focus",
+				tooltip-placement="bottom",
+				buttons="no"
+				blur='submit'
+				)			

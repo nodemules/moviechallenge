@@ -8,6 +8,14 @@ angular.module('MainApp.Directives', [])
   }
 })
 
+.directive("challengeSearch", function(){
+  return {
+    restrict: 'E',
+    templateUrl: '../../partials/challenge-search',
+    controller: 'typeaheadController'
+  }
+})
+
 .directive("newChallengeButton", function() {
   return {
     restrict: 'E',
