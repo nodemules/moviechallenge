@@ -3,18 +3,20 @@
 		.search1-input.col-xs-6
 			div(
 				editable-text="search1",
-				e-typeahead="movie for movie in getMovieTypeahead($viewValue)",
+				e-typeahead="movie for movie in getMovieTypeahead($viewValue) | filter:{title:$viewValue} | limitTo:8",
 				type='text',
-				ng-model='search1',
-				e-ng-change='change()',
+				ng-change='change()',
+				e-ng-change='fetch()',
+				onbeforesave='change()',
+				ng-model="search1",
 				e-ng-blur="lockmovie1()",
 				onaftersave="saveMovie(1)",
 				tooltip="Type in the name of a movie and click away to lock",
-				tooltip-trigger="focus",
 				tooltip-placement="top",
 				buttons="no"
 				blur='submit'
-				)
+				e-placeholder="Select Movie"
+				) {{search1 || "Select Movie"}}
 		//
 			.input-group
 				input.form-control(
@@ -37,11 +39,11 @@
 				e-ng-blur="lockmovie2()",
 				onaftersave="saveMovie(2)",
 				tooltip="Type in the name of a movie and click away to lock",
-				tooltip-trigger="focus",
 				tooltip-placement="top",
 				buttons="no"
-				blur='submit'	
-				)
+				blur='submit'
+				e-placeholder="Select Movie"	
+				) {{search2 || "Select Movie"}}
 		//
 			.input-group
 				input.form-control(
@@ -70,7 +72,8 @@
 				tooltip-placement="bottom",
 				buttons="no"
 				blur='submit'
-				)
+				e-placeholder="How do you feel about this film?"
+				) {{precomment1 || "How do you feel about this film?"}}
 		.col-xs-6
 			.col-xs-12.commentinput(
 				editable-text="precomment2"
@@ -84,4 +87,6 @@
 				tooltip-placement="bottom",
 				buttons="no"
 				blur='submit'
-				)			
+				e-placeholder="How do you feel about this film?"
+				) {{precomment2 || "How do you feel about this film?"}}
+challenge-posters		

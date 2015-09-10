@@ -3,21 +3,22 @@ new-challenge-button
 	.col-xs-3
 	.col-xs-6.currentchallenge
 		.col-xs-12
-			span(ng-model='challenge') CHALLENGE: <br> <br>
+			span CHALLENGE: <br> <br>
 		.col-xs-12.challengeinput(
+				ng-model='challenge'
 				e-id='chalinput'
 				tooltip="Create a challenge here to start!"
 				tooltip-enable="true"
 				tooltip-placement="left"
-				editable-text="challengeinput.name"
+				e-style="font-size: 18px !important; margin: 5px; border: solid 2px #749a02; border-radius: 12px; padding: 6 12 6 12 !important; font-size: 18px !important; transition: border 0.3s;"
+				editable-textarea="challenge"
 				buttons="no"
 				blur="submit"
-				onshow="selectText()"
 				e-ng-readonly="flag"
 				ng-click="unlockchal();"
 				ng-blur="saveChallenge(); lockchal()"
-				ng-model='challenge'
-				) {{ challengeinput.name || empty }}
+				e-placeholder="Pick a Challenge"
+				) {{ challenge || "Pick a Challenge" }}
 		.col-xs-12
 			i.fa.fa-unlock-alt.fa-3x(
 				id='submitchal'
@@ -29,7 +30,6 @@ new-challenge-button
 				)
 	.col-xs-3
 challenge-search
-challenge-posters
 .aftermath(ng-show="challocked==true && movieslocked==true")
 	.row
 		.col-xs-1
@@ -44,8 +44,7 @@ challenge-posters
 					ng-blur="postcomment(3)",
 					tooltip="Tell them how you felt about {{search1}}. Be Honest.",
 					tooltip-trigger="focus",
-					tooltip-placement="bottom")
-
+					tooltip-placement="bottom") 
 		.col-xs-1
 			button.btn.btn-default(id='watched1' type='button' ng-click="showwatched2=true") Watched 
 		.col-xs-5			

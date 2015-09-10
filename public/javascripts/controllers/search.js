@@ -30,7 +30,7 @@ angular.module('MainApp.Controllers')
 			}
 		}).then(function(response) {
       return response.data.results.map(function(item){
-        return item.title + ' - ' + item.release_date;
+        return item.title; // + ' - ' + item.release_date;
       });
 	})
 	}

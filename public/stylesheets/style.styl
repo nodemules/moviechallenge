@@ -19,6 +19,8 @@ global-reset()
 	to { background-color: #749a02; -webkit-box-shadow: 0 0 9px #333; }
 }
 
+
+
 /*
  * Store the main color and
  * background color as variables
@@ -48,8 +50,6 @@ button
 	-webkit-animation-name: resonate;
 	-webkit-animation-duration: 3s;
 	-webkit-animation-iteration-count: infinite;
-
-
 	
 nav
 	font-family 'Hind'
@@ -125,7 +125,7 @@ to uncenter the movie titles in lastlist
 		font-family 'Oswald'
 		font-size 36px !important
 		
-.header
+/*.header
 	font-family: "Oswald"
 	font-size 2.0em
 	text-transform uppercase 
@@ -142,7 +142,7 @@ to uncenter the movie titles in lastlist
 	border-radius 0px
 	a
 		text-decoration none
-		
+		*/
 	/*
 	 * Note the use of the `main-color`
 	 * variable and the `darken` function
@@ -181,6 +181,8 @@ to uncenter the movie titles in lastlist
 	
 .search
 	padding 10px
+
+
 	
 	
 .results
@@ -259,45 +261,88 @@ to uncenter the movie titles in lastlist
 	margin-bottom 15px
 	margin-top 10px
 
-
-/* Content Editable Stuff */
-
-[contenteditable=true]:empty
-	&:before
-		content attr(placeholder)
-		display block
-[contenteditable=true]:focus
-	border 1px solid rgb(86, 180, 239)
-	box-shadow 0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 0px 8px rgba(82, 168, 236, 0.6)
-.challengeinput
-/*	border 1px solid #AAA*/
-	margin 5px
-  border-bottom: solid 2px #c9c9c9;
-  transition: border 0.3s;
-
 /**OVERRIDE X-EDIT BOOTSTRAP STYLES */
 .glyphicon-ok:before 
   content: "\f023"
   font-family: FontAwesome
   font-size: 1.5em
 
+
+/******
+
+		INPUT STYLING
+
+					 *******/
+
+
 .editable-click, a.editable-click
     text-decoration none
     color: #91bd09
-    border-bottom solid 2px #749a02 !important
-    width: 100% !important
+    border-bottom solid 2px #749a02 
+    width: 400px !important
     font-family Oswald
+    line-height 2
+    text-align center
 
-.editable-wrap
-	border-bottom solid 2px #749a02 !important
-	
+/*.editable-wrap
+	border-bottom solid 2px #749a02 
+	text-align center*/
+
 .editable-input
 	width 400px !important
+	color: #91bd09
 	background rgba(0,0,0,0)
 	border none
 	box-shadow none !important
 	text-align center
 	font-family Oswald
+	line-height 2
+
+.challengeinput
+  margin 5px
+  border solid 2px #749a02
+  border-radius 12px
+  padding 6 12 6 12
+  font-size 18px !important
+  transition: border 0.3s
+  .editable-wrap
+  	border-bottom solid 0px #000 !important
+/*  .form-control
+  	font-size 18px !important
+    margin 5px
+	border solid 2px #749a02
+	border-radius 12px
+	padding 6 12 6 12
+	font-size 18px !important
+	transition: border 0.3s*/
+
+.commentinput
+	border-bottom solid 0px #000 !important
+	.editable-wrap
+		border-bottom solid 0px #000 !important
+
+.search1-input, .search2-input
+    line-height: 1.42857143
+    font-size 36px !important
+    .editable-input
+    	font-size 36px !important
+    	border-bottom solid 2px #749a02 
+
+.form-control
+	padding 0 0 0 0 !important
+	height inherit
+
+
+
+/******
+
+		STYLING FOR INPUT END
+
+
+							 *******/
+
+/***DEPRECATED***/
+
 /*.editable-buttons
 	display: block*/
 
