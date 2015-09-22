@@ -16,7 +16,7 @@
 					p Plot: {{ details1.overview }}
 				.linkbuttons(ng-controller='ModalDemoCtrl')
 					.youtube-play-button(class="col-xs-4")
-						i(class="fa fa-youtube fa-5x" ng-click="open('lg')")
+						i(class="fa fa-youtube fa-5x" ng-click="open(details1.videos.results[0].key)")
 					.imdb-button(class="col-xs-4")
 						a(ng-href="http://www.imdb.com/title/{{details1.imdb_id}}" target="_blank") 
 							img(style="height:70; width: 90; padding-left: -10px;"  ng-src="/images/imdblogo.png")
@@ -36,7 +36,7 @@
 					p Plot: {{ details2.overview }}
 				.linkbuttons(ng-controller='ModalDemoCtrl')
 					.youtube-play-button(class="col-xs-4")
-						i(class="fa fa-youtube fa-5x" ng-click="open('lg')")
+						i(class="fa fa-youtube fa-5x" ng-click="open(details2.videos.results[0].key)")
 					.imdb-button(class="col-xs-4")
 						a(ng-href="http://www.imdb.com/title/{{details2.imdb_id}}" target="_blank") 
 							img(style="height:70; width: 90; padding-left: -10px;"  ng-src="/images/imdblogo.png")

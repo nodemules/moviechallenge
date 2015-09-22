@@ -2,6 +2,13 @@
 
 angular.module('MainApp.Controllers')
 
+.controller('youtubeController', function($scope){
+    $scope.$on('youtube-broadcast', function(event, data){
+        //  $scope.ytid = data;
+          alert(data);
+    })
+})
+
 .controller('challengeController', function($scope, $http, $location, $routeParams) {
     var pendingTask;
     var latestTitle;
@@ -17,22 +24,35 @@ angular.module('MainApp.Controllers')
         $scope.getChallengeByInstance();
     });
 
+   /* $scope.$on('youtube-emit', function(event, data){
+        // $scope.ytid = "details" + data + ".videos.results[0].key";
+        $scope.$broadcast('youtube-broadcast', data);
+    })
+    
+    $scope.$on('youtube-broadcast', function(event, data){
+          $scope.ytid = "details" + data + ".videos.results[0].key";
+          alert(data);
+    })*/
+    $scope.alert = function(text){
+        alert(text);
+    }
+
     $scope.change = function() {
 
         if (pendingTask) {
             clearTimeout(pendingTask);
         }
         console.log("change is occuring");
-        pendingTask = setTimeout($scope.fetch(), 800);
+        pendingTask = setTimeout($scope.fetch(id), 800);
     };
 
-    $scope.fetch = function() {
-        if ($scope.search1) {
+    $scope.fetch = function(id) {
+ 
 
             $http.jsonp('http://api.themoviedb.org/3/search/movie', {
             params: {
                 api_key: '11897eb1c7662904ef04389140fb6638',
-                query: $scope.search1,
+                query: $scope['search' + id],
                 search_type: 'ngram',
                 rnd: Math.random(),   // prevent cache
                 //page: 1,
@@ -56,44 +76,13 @@ angular.module('MainApp.Controllers')
                 })
                 .success(function(response) {
                     console.log(response)
-                    $scope.details1 = response;
+                    $scope['details' + id] = response;
                 })                
             });
+        
+
         };
-
-        if ($scope.search2) {
-            $http.jsonp('http://api.themoviedb.org/3/search/movie', {
-            params: {
-                api_key: '11897eb1c7662904ef04389140fb6638',
-                query: $scope.search2,
-                search_type: 'ngram',
-                rnd: Math.random(),   // prevent cache
-                //page: 1,
-                callback: 'JSON_CALLBACK'
-            }
-
-            })
-            .success(function(response) {
-                console.log(response);
-                // $scope.details1 = response.results[0];
-                var tmdb_id = response.results[0].id;
-
-                $http.jsonp('http://api.themoviedb.org/3/movie/' + tmdb_id, {
-                    params: {
-
-                api_key: '11897eb1c7662904ef04389140fb6638',
-                append_to_response: "id,credits,videos",
-                //page: 1,
-                callback: 'JSON_CALLBACK'
-                    }
-                })
-                .success(function(response) {
-                    console.log(response)
-                    $scope.details2 = response;
-                })                
-            });
-        };
-    };
+    
 
 
     $scope.getChallengeByInstance = function() {
@@ -135,7 +124,8 @@ angular.module('MainApp.Controllers')
                         $scope.movieslocked = false;
                     }
                 }
-                    $scope.fetch();
+                    $scope.fetch(1);
+                    $scope.fetch(2);
             });
     };
 
