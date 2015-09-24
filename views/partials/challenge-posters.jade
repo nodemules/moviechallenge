@@ -22,6 +22,8 @@
 							img(style="height:70; width: 90; padding-left: -10px;"  ng-src="/images/imdblogo.png")
 					.share-button(class="col-xs-4")
 						i(class="fa fa-share-alt fa-5x")
+				.show-search-results(ng-show="searchResults.length > 0")
+					search-results
 		.poster.col-xs-6
 			.image
 				img(style="height:450; width:300" ng-src="{{ !details2.poster_path ? 'http://placehold.it/300x450&text=Choose+your+movie' : 'http://image.tmdb.org/t/p/w500'+details2.poster_path }}") 

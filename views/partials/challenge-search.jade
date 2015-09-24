@@ -3,12 +3,12 @@
 		.search1-input.col-xs-6
 			div(
 				editable-text="search1",
-				e-typeahead="movie for movie in getMovieTypeahead($viewValue) | filter:{title:$viewValue} | limitTo:8",
 				type='text',
-				ng-change='change()',
+				ng-change='fetch(1)',
 				e-ng-change='fetch(1)',
 				ng-model="search1",
 				e-ng-blur="lockmovie1()",
+				onbeforesave="fetch(1)",
 				onaftersave="fetch(1); saveMovie(1)",
 				tooltip="Type in the name of a movie and click away to lock",
 				tooltip-placement="top",

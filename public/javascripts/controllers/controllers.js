@@ -61,6 +61,7 @@ angular.module('MainApp.Controllers')
 
             })
             .success(function(response) {
+                $scope.searchResults = response.results;
                 console.log(response);
                 // $scope.details1 = response.results[0];
                 var tmdb_id = response.results[0].id;

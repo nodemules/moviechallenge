@@ -1,0 +1,6 @@
+.search-results-container(ng-show="searchResults.length > 0")
+	.search-results-list
+		.search-result(ng-repeat="movie in searchResults")
+			a
+				img(src="{{ !details1.poster_path ? 'http://placehold.it/300x450&text=Choose+your+movie' : 'http://image.tmdb.org/t/p/w500'+movie.poster_path }}")
+				div() {{ movie.title }} ({{ movie.release_date | date : 'yyyy' }})
