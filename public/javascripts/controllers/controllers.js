@@ -9,19 +9,21 @@ angular.module('MainApp.Controllers')
     })
 })
 
-.controller('challengeController', function($scope, $http, $location, $routeParams) {
+.controller('challengeController', function($scope, $http, $location, $routeParams, $timeout) {
     var pendingTask;
     var latestTitle;
     var latestChallenge;
     var precomment1, precomment2, postcomment1, postcomment2;
     var movie1, movie2, user1, user2;
     var chal_id;
+    $scope.searchResults = [];
 
     // getChallengeByInstance(); // should only run on instanced pages
     // fetch();
 
     angular.element(document).ready(function() {
         $scope.getChallengeByInstance();
+
     });
 
    /* $scope.$on('youtube-emit', function(event, data){
@@ -46,6 +48,71 @@ angular.module('MainApp.Controllers')
         pendingTask = setTimeout($scope.fetch(id), 800);
     };
 
+    $scope.typeaheadSearch = function(id) {
+        $http.jsonp('http://api.themoviedb.org/3/search/movie', {
+            params: {
+                api_key: '11897eb1c7662904ef04389140fb6638',
+                query: $scope['search' + id],
+                search_type: 'ngram',
+                append_to_response: "id,credits,videos",
+                rnd: Math.random(),   // prevent cache
+                //page: 1,
+                callback: 'JSON_CALLBACK'
+            }
+
+            })
+            .success(function(response) {
+                $scope.searchResults = response.results;                
+
+                angular.forEach($scope.searchResults, function(object) {
+                   object.searchId = id;
+                })
+                /*$scope.searchId = { searchId : id };
+                $scope.searchResults.push($scope.searchId);*/
+                console.log($scope.searchResults);
+            })
+
+    }
+
+    $scope.selectMovie = function(id, tmdb_id) {
+        $http.jsonp('http://api.themoviedb.org/3/movie/' + tmdb_id, {
+                    params: {
+
+                api_key: '11897eb1c7662904ef04389140fb6638',
+                append_to_response: "id,credits,videos",
+                //page: 1,
+                callback: 'JSON_CALLBACK'
+                    }
+                })
+                .success(function(response) {
+                    console.log(response)
+                    $scope['details' + id] = response;
+                    $scope['search' + id] = response.title;
+
+                $scope['focused' + id] = false; 
+                })  
+
+    }
+
+    $scope.focused1 = false;
+    $scope.focused2 = false;
+
+    $scope.updateEditableModel = function(val) {
+        $scope['val'] = val;
+    }
+
+
+    $scope.isFocused = function(val) {
+
+        if ($scope['focused' + val] == true) {
+            $timeout(function() {        
+                $scope['focused' + val] = false;      
+            }, 300)
+        } else {
+            $scope['focused' + val] = true;  
+        }
+    }
+
     $scope.fetch = function(id) {
  
 
@@ -54,6 +121,7 @@ angular.module('MainApp.Controllers')
                 api_key: '11897eb1c7662904ef04389140fb6638',
                 query: $scope['search' + id],
                 search_type: 'ngram',
+                append_to_response: "id,credits,videos",
                 rnd: Math.random(),   // prevent cache
                 //page: 1,
                 callback: 'JSON_CALLBACK'
@@ -61,7 +129,6 @@ angular.module('MainApp.Controllers')
 
             })
             .success(function(response) {
-                $scope.searchResults = response.results;
                 console.log(response);
                 // $scope.details1 = response.results[0];
                 var tmdb_id = response.results[0].id;

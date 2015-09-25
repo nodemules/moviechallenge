@@ -25,6 +25,7 @@ angular.module('MainApp.Controllers')
                 query: val,
                 search_type: 'ngram',
                 rnd: Math.random(),   // prevent cache
+                append_to_response: "id,credits,videos",
                 //page: 1,
                 callback: 'JSON_CALLBACK'
 			}

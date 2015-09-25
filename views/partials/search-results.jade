@@ -1,6 +1,9 @@
 .search-results-container(ng-show="searchResults.length > 0")
 	.search-results-list
 		.search-result(ng-repeat="movie in searchResults")
-			a
-				img(src="{{ !details1.poster_path ? 'http://placehold.it/300x450&text=Choose+your+movie' : 'http://image.tmdb.org/t/p/w500'+movie.poster_path }}")
-				div() {{ movie.title }} ({{ movie.release_date | date : 'yyyy' }})
+			a(ng-click="selectMovie(movie.searchId, movie.id);")
+				img(src="{{ !movie.poster_path ? 'http://placehold.it/32x50&text=Choose+your+movie' : 'http://image.tmdb.org/t/p/w500'+movie.poster_path }}")
+				.movie-title 
+					p {{ movie.title }}
+				.movie-info
+					p ({{ movie.release_date | date : 'yyyy' }}) | Keanu Reeves, Sandra Bullock
