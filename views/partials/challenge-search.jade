@@ -5,7 +5,7 @@
 				editable-text="search1",
 				e-ng-model="search1",
 				type='text',
-				e-ng-change='typeaheadSearch(1, $data);',
+				e-ng-change='searchMovies(1, $data);',
 				e-ng-focus="isFocused(1);",
 				ng-focus="isFocused(1);",
 				ng-model="search1",
@@ -35,7 +35,7 @@
 				editable-text="search2",
 				type='text',
 				ng-model='search2',
-				e-ng-change='typeaheadSearch(2, $data)',
+				e-ng-change='searchMovies(2, $data)',
 				ng-focus='isFocused(2);',
 				e-ng-focus='isFocused(2);'
 				ng-blur='isFocused(2);',

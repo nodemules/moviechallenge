@@ -9,7 +9,7 @@ angular.module('MainApp.Controllers')
     })
 })
 
-.controller('challengeController', function($scope, $http, $location, $routeParams, $timeout) {
+.controller('challengeController', function($scope, $http, $location, $routeParams, $timeout, $q) {
     var pendingTask;
     var latestTitle;
     var latestChallenge;
@@ -48,7 +48,100 @@ angular.module('MainApp.Controllers')
         pendingTask = setTimeout($scope.fetch(id), 800);
     };
 
+    var d;
+    var API_URL = 'http://api.themoviedb.org/3/search/movie';
+    var API_KEY = '11897eb1c7662904ef04389140fb6638';
+
+    $scope.searchMovies = function(id, term) {
+        $scope['search' + id] = term;
+        if (d){
+            console.log('cancel earlier search, now searching: '+term);
+            d.resolve();
+        }
+        d = $q.defer();
+
+        var movies = [];
+        var searchResults = [];
+        var totalPages = 1;
+        var promises = [];
+
+        // first get, for totalPages
+        $http.get(API_URL, {
+            params: {
+                api_key: API_KEY,
+                query: term,
+                search_type: 'ngram',
+                rnd: Math.random(),   // prevent cache
+                //page: 1,
+            },
+            timeout: d.promise
+        }).then(function(result){
+            console.log('got 1st page')
+            angular.forEach(result.data.results, function(item){
+                movies.push(item);
+            })
+            totalPages = result.data.total_pages;
+            var iMax = Math.min(totalPages, 4);    // max pages to get
+            for(var i=2; i<=iMax; i++){
+                promises.push(
+                    $http.get(API_URL, {
+                        params: {
+                            api_key: API_KEY,
+                            query: term,
+                            search_type: 'ngram',
+                            rnd: Math.random(),   // prevent cache
+                            page: i,
+                        },
+                        timeout: d.promise
+                    })
+                );
+            }
+            return $q.all(promises).then(function(results){
+                angular.forEach(results, function(resultItem){
+                    angular.forEach(resultItem.data.results, function(item){
+                        movies.push(item);
+                    })
+                })
+                movies.sort(function(a,b) {
+                    return (a.popularity < b.popularity) ? 1 : 
+                        ((b.popularity < a.popularity) ? -1 : 0);
+                    })
+
+                movies = movies.slice(0,9);
+                d.resolve(movies);
+
+              /*  angular.forEach(movies, function(item){
+                    $timeout(function(){
+                        $http.jsonp('http://api.themoviedb.org/3/movie/' + item.id, {
+                        params: {
+                            api_key: '11897eb1c7662904ef04389140fb6638',
+                            append_to_response: "id,credits,videos",
+                            //page: 1,
+                            callback: 'JSON_CALLBACK'
+                        }
+                    }).success(function(response){
+                        console.log(response);
+                        searchResults.push(response);
+                        console.log(searchResults);
+                    })
+                }, 100);
+                    
+                    searchResults.sort(function(a,b) {
+                    return (a.popularity < b.popularity) ? 1 : 
+                        ((b.popularity < a.popularity) ? -1 : 0);
+                    })
+                })*/
+
+                $scope.searchResults = movies;
+
+            });
+        });
+        return d.promise;
+    }
+
     $scope.typeaheadSearch = function(id, value) {
+        var movies = [];
+        var options = [];
         $scope['search'+id] = value;
         $http.jsonp('http://api.themoviedb.org/3/search/movie', {
             params: {
@@ -57,28 +150,64 @@ angular.module('MainApp.Controllers')
                 search_type: 'ngram',
                 append_to_response: "id,credits,videos",
                 rnd: Math.random(),   // prevent cache
-                //page: 1,
+                page: 1,
                 callback: 'JSON_CALLBACK'
             }
 
             })
             .success(function(response) {
+            angular.forEach(response.results, function(item){
+                movies.push(item);
+            })
 
-                var results = response.results
+            console.log("FIRST 20: ", movies);
+           
+            var totalPages = response.total_pages;
+            var iMax = Math.min(totalPages, 5);
+            
 
-                results.sort(function(a,b) {
+            for(var i=2; i<=iMax; i++){
+                    $http.jsonp('http://api.themoviedb.org/3/search/movie', {
+                        params: {
+                            api_key: '11897eb1c7662904ef04389140fb6638',
+                            query: value,
+                            search_type: 'ngram',
+                            append_to_response: "id,credits,videos",
+                            rnd: Math.random(),   // prevent cache
+                            page: i,
+                            callback: 'JSON_CALLBACK'
+                        }
+                    }).success(function(nextResponse){
+                        movies.push(nextResponse.results);
+
+                       
+                    })
+
+                    console.log("PAge", i, "Next 20: ", movies);
+                
+            }
+
+            console.log("All 100: ", movies);
+            angular.forEach(options, function(resultItem){
+                angular.forEach(resultItem.results, function(item){
+                    movies.push(item);
+                   })
+                })
+
+                movies.sort(function(a,b) {
                     return (a.popularity < b.popularity) ? 1 : 
                         ((b.popularity < a.popularity) ? -1 : 0);
                     })
 
-                $scope.searchResults = results;                
+                movies = movies.slice(0,20);
+                $scope.searchResults = movies;                
 
-                angular.forEach($scope.searchResults, function(object) {
+/*                angular.forEach($scope.searchResults, function(object) {
                    object.searchId = id;
-                })
+                })*/
                 /*$scope.searchId = { searchId : id };
                 $scope.searchResults.push($scope.searchId);*/
-                console.log($scope.searchResults);
+                console.log("Sorted Results: ", $scope.searchResults);
             })
 
     }
@@ -139,7 +268,7 @@ angular.module('MainApp.Controllers')
 
             })
             .success(function(response) {
-                console.log(response);
+                // console.log(response);
                 // $scope.details1 = response.results[0];
                 var tmdb_id = response.results[0].id;
 
@@ -153,7 +282,7 @@ angular.module('MainApp.Controllers')
                     }
                 })
                 .success(function(response) {
-                    console.log(response)
+                    //console.log(response)
                     $scope['details' + id] = response;
                 })                
             });
