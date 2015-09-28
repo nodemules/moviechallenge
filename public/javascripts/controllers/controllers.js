@@ -48,11 +48,12 @@ angular.module('MainApp.Controllers')
         pendingTask = setTimeout($scope.fetch(id), 800);
     };
 
-    $scope.typeaheadSearch = function(id) {
+    $scope.typeaheadSearch = function(id, value) {
+        $scope['search'+id] = value;
         $http.jsonp('http://api.themoviedb.org/3/search/movie', {
             params: {
                 api_key: '11897eb1c7662904ef04389140fb6638',
-                query: $scope['search' + id],
+                query: value,
                 search_type: 'ngram',
                 append_to_response: "id,credits,videos",
                 rnd: Math.random(),   // prevent cache
@@ -62,7 +63,15 @@ angular.module('MainApp.Controllers')
 
             })
             .success(function(response) {
-                $scope.searchResults = response.results;                
+
+                var results = response.results
+
+                results.sort(function(a,b) {
+                    return (a.popularity < b.popularity) ? 1 : 
+                        ((b.popularity < a.popularity) ? -1 : 0);
+                    })
+
+                $scope.searchResults = results;                
 
                 angular.forEach($scope.searchResults, function(object) {
                    object.searchId = id;
@@ -97,8 +106,9 @@ angular.module('MainApp.Controllers')
     $scope.focused1 = false;
     $scope.focused2 = false;
 
-    $scope.updateEditableModel = function(val) {
-        $scope['val'] = val;
+    $scope.updateEditableModel = function(id, val) {
+        console.log(val);
+        $scope['search'+id] = val;
     }
 
 
