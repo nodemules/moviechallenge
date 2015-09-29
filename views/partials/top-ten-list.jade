@@ -9,11 +9,11 @@ div(id="listwrap")
 				// style here, one line or multi line, 
 				// use 'span' instead of 'p' for inline styling
 				row
-					{{ chal.movie1 }} 
+					{{ chal.movie1 || "Not Selected"}} 
 					br
 					{{ 'vs' }} 
 					br
-					{{ chal.movie2 }}
+					{{ chal.movie2 || "Not Selected"}}
 				//
 					.col-xs-5
 						{{ chal.movie1 }}
