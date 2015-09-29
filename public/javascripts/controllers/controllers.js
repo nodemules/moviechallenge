@@ -132,6 +132,11 @@ angular.module('MainApp.Controllers')
                     })
                 })*/
 
+                angular.forEach(movies, function(object) {
+                   object.searchId = id;
+                })
+                console.log(movies);
+
                 $scope.searchResults = movies;
 
             });
@@ -226,6 +231,7 @@ angular.module('MainApp.Controllers')
                     console.log(response)
                     $scope['details' + id] = response;
                     $scope['search' + id] = response.title;
+
 
                 $scope['focused' + id] = false; 
                 })  
