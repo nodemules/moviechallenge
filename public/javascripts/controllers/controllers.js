@@ -243,7 +243,7 @@ angular.module('MainApp.Controllers')
 
 
         $timeout(function() {
-        if (field == 1) {
+        if (field == 1 && $scope.search1) {
             movietitle = {
                 movie1: $scope.search1,
                 user1: "1",
@@ -251,7 +251,7 @@ angular.module('MainApp.Controllers')
 
             }
         }
-        if (field == 2) {
+        if (field == 2 && $scope.search2) {
             movietitle = {
                 movie2: $scope.search2,
                 user2: "2",
@@ -493,20 +493,25 @@ angular.module('MainApp.Controllers')
             });
     }
 
-    $scope.lockchal = function() {
-        $scope.challocked = true;
 
+    $scope.lockchal = function() {
+            $scope.challocked = true;
     }
+    
     $scope.unlockchal = function() {
         $scope.challocked = false;
     }
 
     $scope.lockmovie1 = function() {
-        $scope.movie1locked = true;
+        if ($scope.search1){
+            $scope.movie1locked = true;
+        }
     }
 
     $scope.lockmovie2 = function() {
-        $scope.movie2locked = true;
+        if ($scope.search2){
+            $scope.movie2locked = true;
+        }
     }
 
 
@@ -529,22 +534,24 @@ angular.module('MainApp.Controllers')
                     }
 
                     $http.put("/api/challenges/" + chal_id, challenge)
+                    $scope.challocked = true;
                 } else {
+                    if ($scope.challenge){
+                        challenge = {
+                            challenge: $scope.challenge,
+                            date_chal_submitted: Date(),
+                            instance: $routeParams.param,
+                        }
+                    
 
-                    challenge = {
-                        challenge: $scope.challenge,
-                        date_chal_submitted: Date(),
-                        instance: $routeParams.param,
+                        $http.post("/api/postchallenge/", challenge)
+                        $scope.challocked = true;
                     }
-
-                    $http.post("/api/postchallenge/", challenge)
-
                 }
 
             });
 
     };
-
 
 })
 
