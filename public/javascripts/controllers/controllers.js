@@ -2,10 +2,10 @@
 
 angular.module('MainApp.Controllers')
 
-.controller('youtubeController', function($scope){
-    $scope.$on('youtube-broadcast', function(event, data){
+.controller('youtubeController', function($scope) {
+    $scope.$on('youtube-broadcast', function(event, data) {
         //  $scope.ytid = data;
-          alert(data);
+        alert(data);
     })
 })
 
@@ -26,16 +26,16 @@ angular.module('MainApp.Controllers')
 
     });
 
-   /* $scope.$on('youtube-emit', function(event, data){
-        // $scope.ytid = "details" + data + ".videos.results[0].key";
-        $scope.$broadcast('youtube-broadcast', data);
-    })
-    
-    $scope.$on('youtube-broadcast', function(event, data){
-          $scope.ytid = "details" + data + ".videos.results[0].key";
-          alert(data);
-    })*/
-    $scope.alert = function(text){
+    /* $scope.$on('youtube-emit', function(event, data){
+         // $scope.ytid = "details" + data + ".videos.results[0].key";
+         $scope.$broadcast('youtube-broadcast', data);
+     })
+     
+     $scope.$on('youtube-broadcast', function(event, data){
+           $scope.ytid = "details" + data + ".videos.results[0].key";
+           alert(data);
+     })*/
+    $scope.alert = function(text) {
         alert(text);
     }
 
@@ -54,8 +54,8 @@ angular.module('MainApp.Controllers')
 
     $scope.searchMovies = function(id, term) {
         $scope['search' + id] = term;
-        if (d){
-            console.log('cancel earlier search, now searching: '+term);
+        if (d) {
+            console.log('cancel earlier search, now searching: ' + term);
             d.resolve();
         }
         d = $q.defer();
@@ -71,69 +71,69 @@ angular.module('MainApp.Controllers')
                 api_key: API_KEY,
                 query: term,
                 search_type: 'ngram',
-                rnd: Math.random(),   // prevent cache
+                rnd: Math.random(), // prevent cache
                 //page: 1,
             },
             timeout: d.promise
-        }).then(function(result){
+        }).then(function(result) {
             console.log('got 1st page')
-            angular.forEach(result.data.results, function(item){
+            angular.forEach(result.data.results, function(item) {
                 movies.push(item);
             })
             totalPages = result.data.total_pages;
-            var iMax = Math.min(totalPages, 4);    // max pages to get
-            for(var i=2; i<=iMax; i++){
+            var iMax = Math.min(totalPages, 4); // max pages to get
+            for (var i = 2; i <= iMax; i++) {
                 promises.push(
                     $http.get(API_URL, {
                         params: {
                             api_key: API_KEY,
                             query: term,
                             search_type: 'ngram',
-                            rnd: Math.random(),   // prevent cache
+                            rnd: Math.random(), // prevent cache
                             page: i,
                         },
                         timeout: d.promise
                     })
                 );
             }
-            return $q.all(promises).then(function(results){
-                angular.forEach(results, function(resultItem){
-                    angular.forEach(resultItem.data.results, function(item){
+            return $q.all(promises).then(function(results) {
+                angular.forEach(results, function(resultItem) {
+                    angular.forEach(resultItem.data.results, function(item) {
                         movies.push(item);
                     })
                 })
-                movies.sort(function(a,b) {
-                    return (a.popularity < b.popularity) ? 1 : 
+                movies.sort(function(a, b) {
+                    return (a.popularity < b.popularity) ? 1 :
                         ((b.popularity < a.popularity) ? -1 : 0);
-                    })
+                })
 
-                movies = movies.slice(0,9);
+                movies = movies.slice(0, 9);
                 d.resolve(movies);
 
-              /*  angular.forEach(movies, function(item){
-                    $timeout(function(){
-                        $http.jsonp('http://api.themoviedb.org/3/movie/' + item.id, {
-                        params: {
-                            api_key: '11897eb1c7662904ef04389140fb6638',
-                            append_to_response: "id,credits,videos",
-                            //page: 1,
-                            callback: 'JSON_CALLBACK'
-                        }
-                    }).success(function(response){
-                        console.log(response);
-                        searchResults.push(response);
-                        console.log(searchResults);
-                    })
-                }, 100);
-                    
-                    searchResults.sort(function(a,b) {
-                    return (a.popularity < b.popularity) ? 1 : 
-                        ((b.popularity < a.popularity) ? -1 : 0);
-                    })
-                })*/
+                /*  angular.forEach(movies, function(item){
+                      $timeout(function(){
+                          $http.jsonp('http://api.themoviedb.org/3/movie/' + item.id, {
+                          params: {
+                              api_key: '11897eb1c7662904ef04389140fb6638',
+                              append_to_response: "id,credits,videos",
+                              //page: 1,
+                              callback: 'JSON_CALLBACK'
+                          }
+                      }).success(function(response){
+                          console.log(response);
+                          searchResults.push(response);
+                          console.log(searchResults);
+                      })
+                  }, 100);
+                      
+                      searchResults.sort(function(a,b) {
+                      return (a.popularity < b.popularity) ? 1 : 
+                          ((b.popularity < a.popularity) ? -1 : 0);
+                      })
+                  })*/
 
                 angular.forEach(movies, function(object) {
-                   object.searchId = id;
+                    object.searchId = id;
                 })
                 console.log(movies);
 
@@ -147,69 +147,69 @@ angular.module('MainApp.Controllers')
     $scope.typeaheadSearch = function(id, value) {
         var movies = [];
         var options = [];
-        $scope['search'+id] = value;
+        $scope['search' + id] = value;
         $http.jsonp('http://api.themoviedb.org/3/search/movie', {
-            params: {
-                api_key: '11897eb1c7662904ef04389140fb6638',
-                query: value,
-                search_type: 'ngram',
-                append_to_response: "id,credits,videos",
-                rnd: Math.random(),   // prevent cache
-                page: 1,
-                callback: 'JSON_CALLBACK'
-            }
+                params: {
+                    api_key: '11897eb1c7662904ef04389140fb6638',
+                    query: value,
+                    search_type: 'ngram',
+                    append_to_response: "id,credits,videos",
+                    rnd: Math.random(), // prevent cache
+                    page: 1,
+                    callback: 'JSON_CALLBACK'
+                }
 
             })
             .success(function(response) {
-            angular.forEach(response.results, function(item){
-                movies.push(item);
-            })
+                angular.forEach(response.results, function(item) {
+                    movies.push(item);
+                })
 
-            console.log("FIRST 20: ", movies);
-           
-            var totalPages = response.total_pages;
-            var iMax = Math.min(totalPages, 5);
-            
+                console.log("FIRST 20: ", movies);
 
-            for(var i=2; i<=iMax; i++){
+                var totalPages = response.total_pages;
+                var iMax = Math.min(totalPages, 5);
+
+
+                for (var i = 2; i <= iMax; i++) {
                     $http.jsonp('http://api.themoviedb.org/3/search/movie', {
                         params: {
                             api_key: '11897eb1c7662904ef04389140fb6638',
                             query: value,
                             search_type: 'ngram',
                             append_to_response: "id,credits,videos",
-                            rnd: Math.random(),   // prevent cache
+                            rnd: Math.random(), // prevent cache
                             page: i,
                             callback: 'JSON_CALLBACK'
                         }
-                    }).success(function(nextResponse){
+                    }).success(function(nextResponse) {
                         movies.push(nextResponse.results);
 
-                       
+
                     })
 
                     console.log("PAge", i, "Next 20: ", movies);
-                
-            }
 
-            console.log("All 100: ", movies);
-            angular.forEach(options, function(resultItem){
-                angular.forEach(resultItem.results, function(item){
-                    movies.push(item);
-                   })
+                }
+
+                console.log("All 100: ", movies);
+                angular.forEach(options, function(resultItem) {
+                    angular.forEach(resultItem.results, function(item) {
+                        movies.push(item);
+                    })
                 })
 
-                movies.sort(function(a,b) {
-                    return (a.popularity < b.popularity) ? 1 : 
+                movies.sort(function(a, b) {
+                    return (a.popularity < b.popularity) ? 1 :
                         ((b.popularity < a.popularity) ? -1 : 0);
-                    })
+                })
 
-                movies = movies.slice(0,20);
-                $scope.searchResults = movies;                
+                movies = movies.slice(0, 20);
+                $scope.searchResults = movies;
 
-/*                angular.forEach($scope.searchResults, function(object) {
-                   object.searchId = id;
-                })*/
+                /*                angular.forEach($scope.searchResults, function(object) {
+                                   object.searchId = id;
+                                })*/
                 /*$scope.searchId = { searchId : id };
                 $scope.searchResults.push($scope.searchId);*/
                 console.log("Sorted Results: ", $scope.searchResults);
@@ -219,23 +219,60 @@ angular.module('MainApp.Controllers')
 
     $scope.selectMovie = function(id, tmdb_id) {
         $http.jsonp('http://api.themoviedb.org/3/movie/' + tmdb_id, {
-                    params: {
+                params: {
 
-                api_key: '11897eb1c7662904ef04389140fb6638',
-                append_to_response: "id,credits,videos",
-                //page: 1,
-                callback: 'JSON_CALLBACK'
-                    }
-                })
+                    api_key: '11897eb1c7662904ef04389140fb6638',
+                    append_to_response: "id,credits,videos",
+                    //page: 1,
+                    callback: 'JSON_CALLBACK'
+                }
+            })
+            .success(function(response) {
+                console.log(response)
+                $scope['details' + id] = response;
+                $scope['search' + id] = response.title;
+
+
+                $scope['focused' + id] = false;
+            })
+
+    }
+
+ $scope.saveMovie = function(field) {
+        var movietitle;
+
+
+        $timeout(function() {
+        if (field == 1) {
+            movietitle = {
+                movie1: $scope.search1,
+                user1: "1",
+                movie1_postdate: Date()
+
+            }
+        }
+        if (field == 2) {
+            movietitle = {
+                movie2: $scope.search2,
+                user2: "2",
+                movie2_postdate: Date()
+
+            }
+        }
+
+            $http.get("/api/getchalbyinst/" + $routeParams.param)
                 .success(function(response) {
-                    console.log(response)
-                    $scope['details' + id] = response;
-                    $scope['search' + id] = response.title;
 
+                    angular.forEach(response, function(result) {
+                        chal_id = response[0]._id;
+                    });
 
-                $scope['focused' + id] = false; 
-                })  
+                    //why does put only seem to work with findbyid in node? why do I have to do the above step and not just find by instance
+                    $http.put("/api/challenges/" + chal_id, movietitle)
 
+                });
+        }, 100);
+       
     }
 
     $scope.focused1 = false;
@@ -243,34 +280,34 @@ angular.module('MainApp.Controllers')
 
     $scope.updateEditableModel = function(id, val) {
         console.log(val);
-        $scope['search'+id] = val;
+        $scope['search' + id] = val;
     }
 
 
     $scope.isFocused = function(val) {
 
         if ($scope['focused' + val] == true) {
-            $timeout(function() {        
-                $scope['focused' + val] = false;      
+            $timeout(function() {
+                $scope['focused' + val] = false;
             }, 300)
         } else {
-            $scope['focused' + val] = true;  
+            $scope['focused' + val] = true;
         }
     }
 
     $scope.fetch = function(id) {
- 
 
-            $http.jsonp('http://api.themoviedb.org/3/search/movie', {
-            params: {
-                api_key: '11897eb1c7662904ef04389140fb6638',
-                query: $scope['search' + id],
-                search_type: 'ngram',
-                append_to_response: "id,credits,videos",
-                rnd: Math.random(),   // prevent cache
-                //page: 1,
-                callback: 'JSON_CALLBACK'
-            }
+
+        $http.jsonp('http://api.themoviedb.org/3/search/movie', {
+                params: {
+                    api_key: '11897eb1c7662904ef04389140fb6638',
+                    query: $scope['search' + id],
+                    search_type: 'ngram',
+                    append_to_response: "id,credits,videos",
+                    rnd: Math.random(), // prevent cache
+                    //page: 1,
+                    callback: 'JSON_CALLBACK'
+                }
 
             })
             .success(function(response) {
@@ -279,23 +316,23 @@ angular.module('MainApp.Controllers')
                 var tmdb_id = response.results[0].id;
 
                 $http.jsonp('http://api.themoviedb.org/3/movie/' + tmdb_id, {
-                    params: {
+                        params: {
 
-                api_key: '11897eb1c7662904ef04389140fb6638',
-                append_to_response: "id,credits,videos",
-                //page: 1,
-                callback: 'JSON_CALLBACK'
-                    }
-                })
-                .success(function(response) {
-                    //console.log(response)
-                    $scope['details' + id] = response;
-                })                
+                            api_key: '11897eb1c7662904ef04389140fb6638',
+                            append_to_response: "id,credits,videos",
+                            //page: 1,
+                            callback: 'JSON_CALLBACK'
+                        }
+                    })
+                    .success(function(response) {
+                        //console.log(response)
+                        $scope['details' + id] = response;
+                    })
             });
-        
 
-        };
-    
+
+    };
+
 
 
     $scope.getChallengeByInstance = function() {
@@ -337,8 +374,8 @@ angular.module('MainApp.Controllers')
                         $scope.movieslocked = false;
                     }
                 }
-                    $scope.fetch(1);
-                    $scope.fetch(2);
+                $scope.fetch(1);
+                $scope.fetch(2);
             });
     };
 
@@ -392,7 +429,7 @@ angular.module('MainApp.Controllers')
     /**************************/
     $scope.selectText = function() {
         setTimeout(function() {
-          document.querySelector('#chalinput').select();
+            document.querySelector('#chalinput').select();
         }, 0);
     };
 
@@ -441,10 +478,10 @@ angular.module('MainApp.Controllers')
 
     $scope.movieslocked = function() {
         console.log("REALLY DOUBLE QUOTES BRAH?");
-        
+
         $http.get("/api/getchalbyinst/" + $routeParams.param)
             .success(function(response) {
-                        console.log('text!' + response);
+                console.log('text!' + response);
                 if (response.length > 0) {
                     if (response[0].movie2 && response[0].movie1) {
                         console.log('text' + response);
@@ -506,38 +543,6 @@ angular.module('MainApp.Controllers')
 
             });
 
-    };
-
-
-    $scope.saveMovie = function(field) {
-        var movietitle;
-        if (field == 1) {
-            movietitle = {
-                movie1: $scope.search1,
-                user1: "1",
-                movie1_postdate: Date()
-
-            }
-        }
-        if (field == 2) {
-            movietitle = {
-                movie2: $scope.search2,
-                user2: "2",
-                movie2_postdate: Date()
-
-            }
-        }
-
-        $http.get("/api/getchalbyinst/" + $routeParams.param)
-            .success(function(response) {
-
-                angular.forEach(response, function(result) {
-                    chal_id = response[0]._id;
-                });
-
-                //why does put only seem to work with findbyid in node? why do I have to do the above step and not just find by instance
-                $http.put("/api/challenges/" + chal_id, movietitle)
-            });
     };
 
 
