@@ -5,25 +5,26 @@ new-challenge-button
 		.col-xs-12
 			span CHALLENGE: <br> <br>
 		.col-xs-12.challengeinput(
-				ng-model='challenge'
+				ng-model='challengeResults.challenge'
 				e-id='chalinput'
 				tooltip="Create a challenge here to start!"
 				tooltip-enable="true"
 				tooltip-placement="left"
 				e-style="font-size: 18px !important; margin: 5px; border: solid 2px #749a02; border-radius: 12px; padding: 6 12 6 12 !important; font-size: 18px !important; transition: border 0.3s;"
-				editable-textarea="challenge"
+				editable-textarea="challengeResults.challenge"
 				buttons="no"
 				blur="submit"
 				e-ng-readonly="flag"
+				e-ng-blur="consoleLogBrah(challengeResults.challenge);"
 				ng-click="unlockchal();"
 				e-placeholder="Pick a Challenge"
-				) {{ challenge || "Pick a Challenge" }}
+				) {{ challengeResults.challenge || "Pick a Challenge" }}
 		.col-xs-12
 			i.fa.fa-unlock-alt.fa-3x(
 				id='submitchal'
 				ng-href="#"
 				ng-if="challocked==false;"
-				ng-click="saveChallenge(); flag=true;")
+				ng-click="theRealSaveChallenge(); flag=true;")
 			i.fa.fa-lock.fa-3x(
 				ng-if="challocked==true;"
 				)

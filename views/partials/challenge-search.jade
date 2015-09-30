@@ -2,8 +2,8 @@
 	.row
 		.search1-input.col-xs-6
 			div(
-				editable-text="search1",
-				e-ng-model="search1",
+				editable-text="challengeResults.search1",
+				e-ng-model="challengeResults.search1",
 				type='text',
 				e-ng-change='searchMovies(1, $data);',
 				e-ng-focus="isFocused(1);",
@@ -17,24 +17,12 @@
 				buttons="no"
 				blur='submit'
 				e-placeholder="Select Movie"
-				) {{search1 || "Select Movie"}}
-		//
-			.input-group
-				input.form-control(
-					type='text', 
-					ng-model='search1',
-					ng-change='change()',
-					ng-blur="saveMovie(1); lockmovie1();",
-					placeholder='Enter full movie name',
-					tooltip="Type in the name of a movie and click away to lock",
-					tooltip-trigger="focus",
-					tooltip-placement="top"
-					)		
+				) {{ challengeResults.search1 || "Select Movie"}}
 		.search2-input.col-xs-6
 			div(
-				editable-text="search2",
+				editable-text="challengeResults.search2",
 				type='text',
-				ng-model='search2',
+				ng-model='challengeResults.search2',
 				e-ng-change='searchMovies(2, $data)',
 				ng-focus='isFocused(2);',
 				e-ng-focus='isFocused(2);'
@@ -46,20 +34,7 @@
 				buttons="no"
 				blur='submit'
 				e-placeholder="Select Movie"	
-				) {{search2 || "Select Movie"}}
-		//
-			.input-group
-				input.form-control(
-					type='text', 
-					ng-model='search2', 
-					ng-change='change()', 
-					onclick='select()', 
-					ng-blur="saveMovie(2); lockmovie2();",
-					placeholder='Enter full movie name',
-					tooltip="Type in the name of a movie and click away to lock",
-					tooltip-trigger="focus",
-					tooltip-placement="top"
-					)
+				) {{ challengeResults.search2 || "Select Movie"}}
 	br
 	.row
 		.col-xs-6

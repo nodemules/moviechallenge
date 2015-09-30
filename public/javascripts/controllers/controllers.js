@@ -16,6 +16,10 @@ angular.module('MainApp.Controllers')
     var precomment1, precomment2, postcomment1, postcomment2;
     var movie1, movie2, user1, user2;
     var chal_id;
+
+    $scope.isNew = true;
+
+    $scope.challengeResults = {};
     $scope.searchResults = [];
 
     // getChallengeByInstance(); // should only run on instanced pages
@@ -238,12 +242,17 @@ angular.module('MainApp.Controllers')
 
     }
 
- $scope.saveMovie = function(field) {
-        var movietitle;
-
-
+    $scope.saveMovie = function(id) {
         $timeout(function() {
-        if (field == 1 && $scope.search1) {
+
+            if ($scope['search'+id]) {
+                    $http.put("/api/challenges/" + $routeParams.param, $scope.challengeResults)
+
+            }
+
+        }, 100);
+
+    /*        if (field == 1 && $scope.search1) {
             movietitle = {
                 movie1: $scope.search1,
                 user1: "1",
@@ -259,7 +268,9 @@ angular.module('MainApp.Controllers')
 
             }
         }
+    */
 
+            /*
             $http.get("/api/getchalbyinst/" + $routeParams.param)
                 .success(function(response) {
 
@@ -268,21 +279,19 @@ angular.module('MainApp.Controllers')
                     });
 
                     //why does put only seem to work with findbyid in node? why do I have to do the above step and not just find by instance
-                    $http.put("/api/challenges/" + chal_id, movietitle)
-
-                });
-        }, 100);
+                });*/
        
     }
 
-    $scope.focused1 = false;
-    $scope.focused2 = false;
+    // ** IS THIS DEPRECATED
 
     $scope.updateEditableModel = function(id, val) {
         console.log(val);
         $scope['search' + id] = val;
     }
 
+    $scope.focused1 = false;
+    $scope.focused2 = false;
 
     $scope.isFocused = function(val) {
 
@@ -338,13 +347,19 @@ angular.module('MainApp.Controllers')
     $scope.getChallengeByInstance = function() {
         $http.get("/api/getchalbyinst/" + $routeParams.param)
             .success(function(response) {
+                console.log(response);
+                $scope.challengeResults = response[0];
+
+                console.log($scope.challengeResults.challenge);
+
+                $scope.isNew = false;
 
                 // Bring this back later when we work out how to integrate it with the inputs
                 // or have the input fields change to div so we can use expressions
                 // $scope.challenge = response;
 
                 //first check that this is an existing challenge otherwise the console errors
-                if (response.length > 0) {
+               /* if (response.length > 0) {
                     $scope.challenge = response[0].challenge;
                     $scope.precomment1 = response[0].precomment1;
                     $scope.postcomment1 = response[0].postcomment1;
@@ -373,9 +388,9 @@ angular.module('MainApp.Controllers')
                     } else {
                         $scope.movieslocked = false;
                     }
-                }
-                $scope.fetch(1);
-                $scope.fetch(2);
+                }*/
+               /* $scope.fetch(1);
+                $scope.fetch(2);*/
             });
     };
 
@@ -469,8 +484,8 @@ angular.module('MainApp.Controllers')
             });
     }
 
-    $scope.consoleLogBrah = function() {
-        console.log("HERES YOUR CONSOLE BRAH");
+    $scope.consoleLogBrah = function(val) {
+        console.log(val);
     };
 
 
@@ -515,7 +530,22 @@ angular.module('MainApp.Controllers')
     }
 
 
+    $scope.theRealSaveChallenge = function() {
+
+        $scope.challengeResults.date_chal_submitted = Date();
+
+        console.log($scope.challengeResults);
+
+        $scope.isNew ? $http.post("/api/postchallenge/", $scope.challengeResults) : 
+                        $http.put("/api/challenges/" + $routeParams.param, $scope.challengeResults);
+
+        $scope.challocked = true;
+
+    };
+
     $scope.saveChallenge = function() {
+
+
         var challenge;
         var chal_id = 0;
 
@@ -528,7 +558,7 @@ angular.module('MainApp.Controllers')
 
                     chal_id = response[0]._id;
 
-                    challenge = {
+                    $scope.challengeResults = {
                         challenge: $scope.challenge,
                         date_chal_submitted: Date()
                     }
@@ -536,20 +566,18 @@ angular.module('MainApp.Controllers')
                     $http.put("/api/challenges/" + chal_id, challenge)
                     $scope.challocked = true;
                 } else {
-                    if ($scope.challenge){
-                        challenge = {
-                            challenge: $scope.challenge,
+                    if ($scope.challengeResults.challenge){
+                        $scope.challengeResults = {
                             date_chal_submitted: Date(),
-                            instance: $routeParams.param,
+                            instance: $routeParams.param
                         }
-                    
-
-                        $http.post("/api/postchallenge/", challenge)
+                    }                   
+                        $http.post("/api/postchallenge/", challengeResults)
                         $scope.challocked = true;
                     }
                 }
 
-            });
+            );
 
     };
 

@@ -141,29 +141,30 @@ router.route('/challenges/:chal_id')
 	.put(function(req, res) {
     
 
-	    Challenge.findById(req.params.chal_id, function(err, challenge) {
+	    Challenge.findById(req.params.chal_id, function(err, challengeResults) {
         // Challenge.find({instance: req.params.inst}, function(err, challenge) {
 
 			if (err)
 				res.send(err);
 
+			if (req.body) { challengeResults = req.body; }
 
-			if (req.body.challenge) { challenge.challenge = req.body.challenge;}
-			if (req.body.movie1) { challenge.movie1 = req.body.movie1;}
-			if (req.body.user1) { challenge.user1 = req.body.user1;}
-			if (req.body.movie1_date_submitted) { challenge.movie1_date_submitted = req.body.movie1_date_submitted; }
-			if (req.body.movie2) { challenge.movie2 = req.body.movie2; }
-			if (req.body.date_chal_submitted) { challenge.date_chal_submitted = req.body.date_chal_submitted; }
-			if (req.body.precomment1) { challenge.precomment1 = req.body.precomment1; }
-			if (req.body.postcomment1) { challenge.postcomment1 = req.body.postcomment1; }		
-			if (req.body.precomment2) { challenge.precomment2 = req.body.precomment2;	}	
-			if (req.body.postcomment2) { challenge.postcomment2 = req.body.postcomment2; }
-			if (req.body.user2) { challenge.user2 = req.body.user2; }
-			if (req.body.movie2_date_submitted) { challenge.movie2_date_submitted = req.body.movie2_date_submitted; }
+			// if (req.body.challenge) { challenge.challenge = req.body.challenge;}
+			// if (req.body.movie1) { challenge.movie1 = req.body.movie1;}
+			// if (req.body.user1) { challenge.user1 = req.body.user1;}
+			// if (req.body.movie1_date_submitted) { challenge.movie1_date_submitted = req.body.movie1_date_submitted; }
+			// if (req.body.movie2) { challenge.movie2 = req.body.movie2; }
+			// if (req.body.date_chal_submitted) { challenge.date_chal_submitted = req.body.date_chal_submitted; }
+			// if (req.body.precomment1) { challenge.precomment1 = req.body.precomment1; }
+			// if (req.body.postcomment1) { challenge.postcomment1 = req.body.postcomment1; }		
+			// if (req.body.precomment2) { challenge.precomment2 = req.body.precomment2;	}	
+			// if (req.body.postcomment2) { challenge.postcomment2 = req.body.postcomment2; }
+			// if (req.body.user2) { challenge.user2 = req.body.user2; }
+			// if (req.body.movie2_date_submitted) { challenge.movie2_date_submitted = req.body.movie2_date_submitted; }
 				
 
 			// save comments
-			challenge.save(function(err) {
+			challengeResults.save(function(err) {
 				if (err)
 					res.send(err);
 
