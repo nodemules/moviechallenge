@@ -497,6 +497,7 @@ angular.module('MainApp.Controllers')
                     }
 
                     $http.put("/api/challenges/" + chal_id, challenge)
+                    $scope.challocked = true;
                 } else {
                     if ($scope.challenge){
                         challenge = {
@@ -504,10 +505,11 @@ angular.module('MainApp.Controllers')
                             date_chal_submitted: Date(),
                             instance: $routeParams.param,
                         }
+                    
+
+                        $http.post("/api/postchallenge/", challenge)
+                        $scope.challocked = true;
                     }
-
-                    $http.post("/api/postchallenge/", challenge)
-
                 }
 
             });
