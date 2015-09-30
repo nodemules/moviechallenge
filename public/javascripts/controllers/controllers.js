@@ -456,11 +456,11 @@ angular.module('MainApp.Controllers')
             });
     }
 
+
     $scope.lockchal = function() {
-        if ($scope.challenge){
             $scope.challocked = true;
-        }
     }
+    
     $scope.unlockchal = function() {
         $scope.challocked = false;
     }
