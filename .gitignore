@@ -46,4 +46,4 @@ Temporary Items
 /public/stylesheets/style.css
 
 #node_modules
-/node_modules/*.*
+/node_modules
