@@ -44,3 +44,6 @@ Temporary Items
 
 # style.css
 /public/stylesheets/style.css
+
+#node_modules
+/node_modules/*.*
