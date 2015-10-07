@@ -76,7 +76,7 @@ angular.module('MainApp.Controllers')
             },
             timeout: d.promise
         }).then(function(result) {
-            console.log('got 1st page')
+           // console.log('got 1st page')
             angular.forEach(result.data.results, function(item) {
                 movies.push(item);
             })
@@ -135,7 +135,7 @@ angular.module('MainApp.Controllers')
                 angular.forEach(movies, function(object) {
                     object.searchId = id;
                 })
-                console.log(movies);
+               // console.log(movies);
 
                 $scope.searchResults = movies;
 
@@ -238,6 +238,12 @@ angular.module('MainApp.Controllers')
 
     }
 
+
+
+
+ var search1;
+ var search2;
+
  $scope.saveMovie = function(field) {
         var movietitle;
 
@@ -250,15 +256,22 @@ angular.module('MainApp.Controllers')
                 movie1_postdate: Date()
 
             }
+            $scope.fetch(1);
         }
         if (field == 2 && $scope.search2) {
             movietitle = {
                 movie2: $scope.search2,
                 user2: "2",
                 movie2_postdate: Date()
-
             }
+            $scope.fetch(2);
         }
+
+
+
+        if ($scope.search1 == $scope.details1.title && ($scope.search1 != search1 || search1 == undefined)) {
+            console.log("Save Movie 1");
+             search1 = $scope.search1;
 
             $http.get("/api/getchalbyinst/" + $routeParams.param)
                 .success(function(response) {
@@ -271,6 +284,36 @@ angular.module('MainApp.Controllers')
                     $http.put("/api/challenges/" + chal_id, movietitle)
 
                 });
+        }
+        if ($scope.search2 == $scope.details2.title && ($scope.search2 != search2 || search2 == undefined)) {
+            console.log("Save Movie 2");
+            search2 = $scope.search2;
+
+            $http.get("/api/getchalbyinst/" + $routeParams.param)
+                .success(function(response) {
+
+                    angular.forEach(response, function(result) {
+                        chal_id = response[0]._id;
+                    });
+
+                    //why does put only seem to work with findbyid in node? why do I have to do the above step and not just find by instance
+                    $http.put("/api/challenges/" + chal_id, movietitle)
+
+                });
+        }
+
+/*        if ($scope['search' + id]) {
+            movietitle = {
+                'movie' + id: $scope['search' + id],
+                'user' + id: id,
+                'movie' + id + '_postdate': Date()
+            }
+        }*/
+
+        //movietitle.movie gets fed into exact title search of external api 
+
+
+
         }, 100);
        
     }
@@ -379,8 +422,12 @@ angular.module('MainApp.Controllers')
             });
     };
 
+    var precomment1_last;
+    var precomment2_last;
+    var postcomment1_last;
+    var postcomment2_last;
     $scope.postcomment = function(com) {
-        //first get instance challenge
+
         var comments;
         $http.get("/api/getchalbyinst/" + $routeParams.param)
             .success(function(response) {
@@ -389,14 +436,20 @@ angular.module('MainApp.Controllers')
 
                 switch (com) {
                     case 1:
+                        if ($scope.precomment1 != precomment1_last || precomment1_last == undefined){
+                        precomment1_last = $scope.precomment1;
                         comments = {
                             precomment1: $scope.precomment1
                         };
+                        }
                         break;
                     case 2:
+                        if ($scope.precomment2 != precomment2_last || precomment2_last == undefined){
+                        precomment2_last = $scope.precomment2;
                         comments = {
                             precomment2: $scope.precomment2
                         };
+                        }
                         break;
                     case 3:
                         comments = {
@@ -514,12 +567,17 @@ angular.module('MainApp.Controllers')
         }
     }
 
-
+    var challengeContent;
     $scope.saveChallenge = function() {
+        
         var challenge;
         var chal_id = 0;
 
         //see if challenge exists yet
+        if ($scope.challenge != challengeContent || challengeContent == undefined) {
+        challengeContent = $scope.challenge;
+        console.log("Challenge Saved");
+        
         $http.get("/api/getchalbyinst/" + $routeParams.param)
             .success(function(response) {
 
@@ -551,9 +609,12 @@ angular.module('MainApp.Controllers')
 
             });
 
+        }else if ($scope.challenge.length){
+            $scope.challocked = true;
+        }
     };
 
-})
+}) //end of challengeController
 
 /*.controller('modalController', function($scope, $modal) {
     $scope.openYoutubeModal = function(size) {
