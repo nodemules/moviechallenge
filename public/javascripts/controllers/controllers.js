@@ -53,6 +53,8 @@ angular.module('MainApp.Controllers')
     var API_KEY = '11897eb1c7662904ef04389140fb6638';
 
     $scope.searchMovies = function(id, term) {
+        $scope.searchResults = null;
+        console.log("search");
         $scope['search' + id] = term;
         if (d) {
             console.log('cancel earlier search, now searching: ' + term);
@@ -64,87 +66,88 @@ angular.module('MainApp.Controllers')
         var searchResults = [];
         var totalPages = 1;
         var promises = [];
-
-        // first get, for totalPages
-        $http.get(API_URL, {
-            params: {
-                api_key: API_KEY,
-                query: term,
-                search_type: 'ngram',
-                rnd: Math.random(), // prevent cache
-                //page: 1,
-            },
-            timeout: d.promise
-        }).then(function(result) {
-           // console.log('got 1st page')
-            angular.forEach(result.data.results, function(item) {
-                movies.push(item);
-            })
-            totalPages = result.data.total_pages;
-            var iMax = Math.min(totalPages, 4); // max pages to get
-            for (var i = 2; i <= iMax; i++) {
-                promises.push(
-                    $http.get(API_URL, {
-                        params: {
-                            api_key: API_KEY,
-                            query: term,
-                            search_type: 'ngram',
-                            rnd: Math.random(), // prevent cache
-                            page: i,
-                        },
-                        timeout: d.promise
+        if (term != undefined) {
+            // first get, for totalPages
+            $http.get(API_URL, {
+                params: {
+                    api_key: API_KEY,
+                    query: term,
+                    search_type: 'ngram',
+                    rnd: Math.random(), // prevent cache
+                    //page: 1,
+                },
+                timeout: d.promise
+            }).then(function(result) {
+               // console.log('got 1st page')
+                angular.forEach(result.data.results, function(item) {
+                    movies.push(item);
+                })
+                totalPages = result.data.total_pages;
+                var iMax = Math.min(totalPages, 4); // max pages to get
+                for (var i = 2; i <= iMax; i++) {
+                    promises.push(
+                        $http.get(API_URL, {
+                            params: {
+                                api_key: API_KEY,
+                                query: term,
+                                search_type: 'ngram',
+                                rnd: Math.random(), // prevent cache
+                                page: i,
+                            },
+                            timeout: d.promise
+                        })
+                    );
+                }
+                return $q.all(promises).then(function(results) {
+                    angular.forEach(results, function(resultItem) {
+                        angular.forEach(resultItem.data.results, function(item) {
+                            movies.push(item);
+                        })
                     })
-                );
-            }
-            return $q.all(promises).then(function(results) {
-                angular.forEach(results, function(resultItem) {
-                    angular.forEach(resultItem.data.results, function(item) {
-                        movies.push(item);
+                    movies.sort(function(a, b) {
+                        return (a.popularity < b.popularity) ? 1 :
+                            ((b.popularity < a.popularity) ? -1 : 0);
                     })
-                })
-                movies.sort(function(a, b) {
-                    return (a.popularity < b.popularity) ? 1 :
-                        ((b.popularity < a.popularity) ? -1 : 0);
-                })
 
-                movies = movies.slice(0, 9);
-                d.resolve(movies);
+                    movies = movies.slice(0, 9);
+                    d.resolve(movies);
 
-                /*  angular.forEach(movies, function(item){
-                      $timeout(function(){
-                          $http.jsonp('http://api.themoviedb.org/3/movie/' + item.id, {
-                          params: {
-                              api_key: '11897eb1c7662904ef04389140fb6638',
-                              append_to_response: "id,credits,videos",
-                              //page: 1,
-                              callback: 'JSON_CALLBACK'
-                          }
-                      }).success(function(response){
-                          console.log(response);
-                          searchResults.push(response);
-                          console.log(searchResults);
-                      })
-                  }, 100);
-                      
-                      searchResults.sort(function(a,b) {
-                      return (a.popularity < b.popularity) ? 1 : 
-                          ((b.popularity < a.popularity) ? -1 : 0);
-                      })
-                  })*/
+                    /*  angular.forEach(movies, function(item){
+                          $timeout(function(){
+                              $http.jsonp('http://api.themoviedb.org/3/movie/' + item.id, {
+                              params: {
+                                  api_key: '11897eb1c7662904ef04389140fb6638',
+                                  append_to_response: "id,credits,videos",
+                                  //page: 1,
+                                  callback: 'JSON_CALLBACK'
+                              }
+                          }).success(function(response){
+                              console.log(response);
+                              searchResults.push(response);
+                              console.log(searchResults);
+                          })
+                      }, 100);
+                          
+                          searchResults.sort(function(a,b) {
+                          return (a.popularity < b.popularity) ? 1 : 
+                              ((b.popularity < a.popularity) ? -1 : 0);
+                          })
+                      })*/
 
-                angular.forEach(movies, function(object) {
-                    object.searchId = id;
-                })
-               // console.log(movies);
+                    angular.forEach(movies, function(object) {
+                        object.searchId = id;
+                    })
+                   // console.log(movies);
 
-                $scope.searchResults = movies;
+                    $scope.searchResults = movies;
 
+                });
             });
-        });
-        return d.promise;
+            return d.promise;
+        }
     }
 
-    $scope.typeaheadSearch = function(id, value) {
+/*    $scope.typeaheadSearch = function(id, value) {
         var movies = [];
         var options = [];
         $scope['search' + id] = value;
@@ -207,15 +210,15 @@ angular.module('MainApp.Controllers')
                 movies = movies.slice(0, 20);
                 $scope.searchResults = movies;
 
-                /*                angular.forEach($scope.searchResults, function(object) {
-                                   object.searchId = id;
-                                })*/
-                /*$scope.searchId = { searchId : id };
-                $scope.searchResults.push($scope.searchId);*/
+                //               angular.forEach($scope.searchResults, function(object) {
+                //                   object.searchId = id;
+                //                })
+                //$scope.searchId = { searchId : id };
+                //$scope.searchResults.push($scope.searchId);
                 console.log("Sorted Results: ", $scope.searchResults);
             })
 
-    }
+    }*/
 
     $scope.selectMovie = function(id, tmdb_id) {
         $http.jsonp('http://api.themoviedb.org/3/movie/' + tmdb_id, {
@@ -256,7 +259,7 @@ angular.module('MainApp.Controllers')
                 movie1_postdate: Date()
 
             }
-            $scope.fetch(1);
+            //$scope.fetch(1);
         }
         if (field == 2 && $scope.search2) {
             movietitle = {
@@ -264,42 +267,45 @@ angular.module('MainApp.Controllers')
                 user2: "2",
                 movie2_postdate: Date()
             }
-            $scope.fetch(2);
+            //$scope.fetch(2);
         }
 
 
+        if ($scope.details1) {
+            if ($scope.search1 == $scope.details1.title && ($scope.search1 != search1 || search1 == undefined)) {
+                console.log("Save Movie 1");
+                 search1 = $scope.search1;
 
-        if ($scope.search1 == $scope.details1.title && ($scope.search1 != search1 || search1 == undefined)) {
-            console.log("Save Movie 1");
-             search1 = $scope.search1;
+                $http.get("/api/getchalbyinst/" + $routeParams.param)
+                    .success(function(response) {
 
-            $http.get("/api/getchalbyinst/" + $routeParams.param)
-                .success(function(response) {
+                        angular.forEach(response, function(result) {
+                            chal_id = response[0]._id;
+                        });
 
-                    angular.forEach(response, function(result) {
-                        chal_id = response[0]._id;
+                        //why does put only seem to work with findbyid in node? why do I have to do the above step and not just find by instance
+                        $http.put("/api/challenges/" + chal_id, movietitle)
+
                     });
-
-                    //why does put only seem to work with findbyid in node? why do I have to do the above step and not just find by instance
-                    $http.put("/api/challenges/" + chal_id, movietitle)
-
-                });
+            }
         }
-        if ($scope.search2 == $scope.details2.title && ($scope.search2 != search2 || search2 == undefined)) {
-            console.log("Save Movie 2");
-            search2 = $scope.search2;
+        if ($scope.details2) {
+            if ($scope.search2 == $scope.details2.title && ($scope.search2 != search2 || search2 == undefined)) {
+                console.log("Save Movie 2");
+                search2 = $scope.search2;
 
-            $http.get("/api/getchalbyinst/" + $routeParams.param)
-                .success(function(response) {
+                $http.get("/api/getchalbyinst/" + $routeParams.param)
+                    .success(function(response) {
 
-                    angular.forEach(response, function(result) {
-                        chal_id = response[0]._id;
+                        angular.forEach(response, function(result) {
+                            chal_id = response[0]._id;
+                        });
+
+                        //why does put only seem to work with findbyid in node? why do I have to do the above step and not just find by instance
+                        $http.put("/api/challenges/" + chal_id, movietitle)
+
                     });
-
-                    //why does put only seem to work with findbyid in node? why do I have to do the above step and not just find by instance
-                    $http.put("/api/challenges/" + chal_id, movietitle)
-
-                });
+            }
         }
 
 /*        if ($scope['search' + id]) {
