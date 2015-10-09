@@ -12,6 +12,6 @@
     "morgan": "~1.5.3",
     "serve-favicon": "~2.2.1",
     "mongodb": "~2.0.33",
-    "mongoose"   : "~3.6.2"
+    "mongoose"   : "~4.0.0"
   }
 }
