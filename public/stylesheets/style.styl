@@ -8,6 +8,7 @@
  */
 @import url('http://fonts.googleapis.com/css?family=Quicksand');
 @import url(https://fonts.googleapis.com/css?family=Oswald);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 /*
  * Nib provides a CSS reset
  */
@@ -18,10 +19,11 @@ global-reset()
 	50% { background-color: #91bd09; -webkit-box-shadow: 0 0 18px #91bd09; }
 	to { background-color: #749a02; -webkit-box-shadow: 0 0 9px #333; }
 }
+.@{fa-css-prefix}-6x { font-size: 6em; }
+.@{fa-css-prefix}-7x { font-size: 7em; }
+.@{fa-css-prefix}-8x { font-size: 8em; }
 
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
-}
+
 
 /*
  * Store the main color and
@@ -45,7 +47,6 @@ slightly-darker-blue = rgb(0, 31, 46)
 	
 
 body
-	padding 30px
 	font-family 'Georgia'
 	background none repeat scroll left top
 	background-color dark-blue
@@ -55,6 +56,63 @@ body
 		color #afafaf
 	a:hover
 		color #bfbfbf
+
+h3
+	font-size 1.6em
+	padding .2em 0 1em 0
+	font-weight normal
+
+.outer_row
+	height 500px
+	font-family 'Open Sans'
+	text-align center
+	padding-left 10%
+	padding-right 10%
+
+.inner_row_wrapper
+	position absolute
+
+.inner_row
+	max-height 90%
+	margin 0 auto
+	position relative
+	padding-top 5%
+
+.sub_row
+	display inline-flex
+
+.col
+	position relative
+	height 200px
+	width 300px
+	padding 6 12 6 12
+	.col_row
+		position absolute
+		text-align center
+		margin 0 auto
+		i
+			text-align center
+	.top
+		top 0
+	.bottom
+		bottom 0
+[class^="icon-"], [class*=" icon-"] {
+    display: block;
+    width: 100%;
+    margin: auto;
+}
+
+
+.mainchalbutton
+	height 400px
+.welcome
+	background-color #2a5922
+.div1
+	background-color #474747
+.div2
+	background-color #224659
+.div3
+	background-color #512259
 
 button
 	font-family 'Oswald'
@@ -136,11 +194,15 @@ to uncenter the movie titles in lastlist
 */
 .lastlist nm
 	text-align center
-	
-.index-container h4
-		text-align center
-		font-family 'Oswald'
-		font-size 36px !important
+
+.index_container
+	padding-top 100px
+
+
+.index_container h4
+	text-align center
+	font-family 'Oswald'
+	font-size 36px !important
 		
 /*.header
 	font-family: "Oswald"
@@ -168,7 +230,7 @@ to uncenter the movie titles in lastlist
 	border-bottom 30px solid darken(main-color, 30%)*/
 
 
-.maincontainer
+.challenge_container
 	width 900px
 	position absolute
 	top 0

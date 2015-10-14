@@ -1,59 +1,60 @@
-new-challenge-button
-.challenge
-	.col-xs-3
-	.col-xs-6.currentchallenge
-		.col-xs-12
-			span CHALLENGE: <br> <br>
-		.col-xs-12.challengeinput(
-				ng-model='challenge'
-				e-id='chalinput'
-				tooltip="Create a challenge here to start!"
-				tooltip-enable="true"
-				tooltip-placement="left"
-				e-style="font-size: 18px !important; margin: 5px; border: solid 2px #749a02; border-radius: 12px; padding: 6 12 6 12 !important; font-size: 18px !important; transition: border 0.3s;"
-				editable-textarea="challenge"
-				buttons="no"
-				blur="submit"
-				e-ng-readonly="flag"
-				ng-click="unlockchal();"
-				e-placeholder="Pick a Challenge"
-				) {{ challenge || "Pick a Challenge" }}
-		.col-xs-12
-			i.fa.fa-unlock-alt.fa-3x(
-				id='submitchal'
-				ng-href="#"
-				ng-if="challocked==false;"
-				ng-click="saveChallenge(); flag=true;")
-			i.fa.fa-lock.fa-3x(
-				ng-if="challocked==true;"
-				)
-	.col-xs-3
-challenge-search
-.aftermath(ng-show="challocked==true && movieslocked==true")
-	.row
-		.col-xs-1
-			button.btn.btn-default(id='watched1' type='button' ng-click="showwatched1=true") Watched 
-		.col-xs-5
-			.input-group(ng-show='showwatched1 || postcomment1')
-				input.form-control(
-					type='text', 
-					ng-model='postcomment1',
-					placeholder='How was it?', 
-					autofocus='',
-					ng-blur="postcomment(3)",
-					tooltip="Tell them how you felt about {{search1}}. Be Honest.",
-					tooltip-trigger="focus",
-					tooltip-placement="bottom") 
-		.col-xs-1
-			button.btn.btn-default(id='watched1' type='button' ng-click="showwatched2=true") Watched 
-		.col-xs-5
-			.input-group(ng-show='showwatched2 || postcomment2')
-				input.form-control(
-					type='text', 
-					ng-model='postcomment2',
-					placeholder='How was it?', 
-					autofocus='',
-					ng-blur="postcomment(4)"
-					tooltip="Tell them how you felt about {{search2}}. Be Honest.",
-					tooltip-trigger="focus",
-					tooltip-placement="bottom")
+.challenge_container
+	new-challenge-button
+	.challenge
+		.col-xs-3
+		.col-xs-6.currentchallenge
+			.col-xs-12
+				span CHALLENGE: <br> <br>
+			.col-xs-12.challengeinput(
+					ng-model='challenge'
+					e-id='chalinput'
+					tooltip="Create a challenge here to start!"
+					tooltip-enable="true"
+					tooltip-placement="left"
+					e-style="font-size: 18px !important; margin: 5px; border: solid 2px #749a02; border-radius: 12px; padding: 6 12 6 12 !important; font-size: 18px !important; transition: border 0.3s;"
+					editable-textarea="challenge"
+					buttons="no"
+					blur="submit"
+					e-ng-readonly="flag"
+					ng-click="unlockchal();"
+					e-placeholder="Pick a Challenge"
+					) {{ challenge || "Pick a Challenge" }}
+			.col-xs-12
+				i.fa.fa-unlock-alt.fa-3x(
+					id='submitchal'
+					ng-href="#"
+					ng-if="challocked==false;"
+					ng-click="saveChallenge(); flag=true;")
+				i.fa.fa-lock.fa-3x(
+					ng-if="challocked==true;"
+					)
+		.col-xs-3
+	challenge-search
+	.aftermath(ng-show="challocked==true && movieslocked==true")
+		.row
+			.col-xs-1
+				button.btn.btn-default(id='watched1' type='button' ng-click="showwatched1=true") Watched 
+			.col-xs-5
+				.input-group(ng-show='showwatched1 || postcomment1')
+					input.form-control(
+						type='text', 
+						ng-model='postcomment1',
+						placeholder='How was it?', 
+						autofocus='',
+						ng-blur="postcomment(3)",
+						tooltip="Tell them how you felt about {{search1}}. Be Honest.",
+						tooltip-trigger="focus",
+						tooltip-placement="bottom") 
+			.col-xs-1
+				button.btn.btn-default(id='watched1' type='button' ng-click="showwatched2=true") Watched 
+			.col-xs-5
+				.input-group(ng-show='showwatched2 || postcomment2')
+					input.form-control(
+						type='text', 
+						ng-model='postcomment2',
+						placeholder='How was it?', 
+						autofocus='',
+						ng-blur="postcomment(4)"
+						tooltip="Tell them how you felt about {{search2}}. Be Honest.",
+						tooltip-trigger="focus",
+						tooltip-placement="bottom")
