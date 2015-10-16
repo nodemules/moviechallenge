@@ -62,21 +62,20 @@ h3
 	padding .2em 0 1em 0
 	font-weight normal
 
+.maincontainer
+	padding-top 50px
+
 .outer_row
-	height 500px
+	height 400px
 	font-family 'Open Sans'
 	text-align center
 	padding-left 10%
 	padding-right 10%
 
-.inner_row_wrapper
-	position absolute
-
 .inner_row
 	max-height 90%
 	margin 0 auto
 	position relative
-	padding-top 5%
 
 .sub_row
 	display inline-flex
@@ -86,16 +85,21 @@ h3
 	height 200px
 	width 300px
 	padding 6 12 6 12
+	margin 0 12 0 12
 	.col_row
-		position absolute
-		text-align center
-		margin 0 auto
+	    position absolute
+	    text-align center
+	    margin 0 auto
+	    width inherit
+	    height 75px
 		i
 			text-align center
 	.top
-		top 0
+		top 20%
 	.bottom
 		bottom 0
+		height 30%
+
 [class^="icon-"], [class*=" icon-"] {
     display: block;
     width: 100%;
@@ -104,11 +108,14 @@ h3
 
 
 .mainchalbutton
-	height 400px
+	height 300px
 .welcome
-	background-color #2a5922
+	background-color #749a02
+	padding-top 10px
 .div1
-	background-color #474747
+	background-color #fff
+	color black
+	padding-top 5%
 .div2
 	background-color #224659
 .div3
@@ -144,6 +151,7 @@ nav
 .newchalbtndiv
 	width 500
 	margin auto
+	padding-top 130px
 
 #listwrap
 	width 500
@@ -194,9 +202,6 @@ to uncenter the movie titles in lastlist
 */
 .lastlist nm
 	text-align center
-
-.index_container
-	padding-top 100px
 
 
 .index_container h4
