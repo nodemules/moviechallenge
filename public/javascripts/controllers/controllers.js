@@ -54,7 +54,6 @@ angular.module('MainApp.Controllers')
 
     $scope.searchMovies = function(id, term) {
         $scope.searchResults = null;
-        // console.log("search");
         $scope['search' + id] = term;
         if (d) {
             console.log('cancel earlier search, now searching: ' + term);
@@ -66,7 +65,7 @@ angular.module('MainApp.Controllers')
         var searchResults = [];
         var totalPages = 1;
         var promises = [];
-        if (term != undefined) {
+        if (term != undefined && term.length) {
         // first get, for totalPages
         $http.get(API_URL, {
             params: {
@@ -219,8 +218,10 @@ angular.module('MainApp.Controllers')
 
     }
 
-    $scope.selectMovie = function(id, tmdb_id) {
-        $http.jsonp('http://api.themoviedb.org/3/movie/' + tmdb_id, {
+    $scope.selectMovie = function(id, tmdb_id, source) {
+        console.log("selectMovie fired from " + source);
+        var search = function() { 
+            $http.jsonp('http://api.themoviedb.org/3/movie/' + tmdb_id, {
                 params: {
 
                     api_key: '11897eb1c7662904ef04389140fb6638',
@@ -237,9 +238,21 @@ angular.module('MainApp.Controllers')
 
                 $scope['focused' + id] = false;
             }).error(function() {
-                alert("Some error motherfucka");
+                // This will null out the search if the typeahead select malfunctions
+                // $scope['search' + id] = null;
+                console.log("There was likely an error with the external API");
             })
-
+        }
+        if (source == 'typeahead' && tmdb_id) {
+            search();
+        } else if (source == 'blur' && $scope['search' + id]) {
+            if ($scope['details' + id] && $scope['search' + id] == $scope['details' + id].title) {
+                $scope['focused' + id] = false;
+                return false;
+            } else {
+                $scope.fetch(id);
+            }
+        }
     }
 
 
@@ -251,28 +264,40 @@ angular.module('MainApp.Controllers')
     $scope.saveMovie = function(field) {
         var movietitle;
 
+        // Requiring $scope['details' + id] in the 'if' statements is probably deprecated
+        // We aren't calling $scope.selectMovie() on save anymore (thank god), so we shouldn't
+        // need to require details to exist before we save?
+
+        // All the validation should occur before saveMovie() fires, therefore $scope.search1
+        // should never exist as an invalid entry, allowing a save to fire. saveMovie() validation
+        // may be deprecated, but we leave it in for redundancy.
+
         $timeout(function() {
-            if (field == 1 && $scope.search1) {
+            if (field == 1 && $scope.search1 && $scope.details1) {
                 movietitle = {
                     movie1: $scope.search1,
+                    details1: $scope.details1,
                     user1: "1",
                     movie1_postdate: Date()
 
                 }
-                $scope.fetch(1);
+                //$scope.selectMovie(1, $scope.details1.id, 'saveMovie');
             }
-            if (field == 2 && $scope.search2) {
+            if (field == 2 && $scope.search2 && $scope.details2) {
                 movietitle = {
                     movie2: $scope.search2,
+                    details2: $scope.details2,
                     user2: "2",
                     movie2_postdate: Date()
                 }
-                $scope.fetch(2);
+                //$scope.selectMovie(2, $scope.details2.id, 'saveMovie');
             }
 
             if (field == 1 && $scope.details1 && $scope.search1 == $scope.details1.title && ($scope.search1 != search1 || search1 == undefined)) {
                 console.log("Save Movie 1");
                 search1 = $scope.search1;
+
+                //console.log(movietitle);
 
                 $http.get("/api/getchalbyinst/" + $routeParams.param)
                     .success(function(response) {
@@ -300,7 +325,7 @@ angular.module('MainApp.Controllers')
                     });
             }
 
-        }, 100);
+        }, 1000);
        
     }
 
@@ -325,9 +350,12 @@ angular.module('MainApp.Controllers')
     }
 
     $scope.fetch = function(id) {
+        console.log("fetch fired");
+        console.log($scope['search' + id]);
 
 
-        $http.jsonp('http://api.themoviedb.org/3/search/movie', {
+        var fetch1 = function() {
+            $http.jsonp('http://api.themoviedb.org/3/search/movie', {
                 params: {
                     api_key: '11897eb1c7662904ef04389140fb6638',
                     query: $scope['search' + id],
@@ -340,11 +368,14 @@ angular.module('MainApp.Controllers')
 
             })
             .success(function(response) {
-                // console.log(response);
+                console.log($scope['search' + id]);
+                console.log(response);
+                var tmdb_id = null;
                 // $scope.details1 = response.results[0];
-                var tmdb_id = response.results[0].id;
 
-                $http.jsonp('http://api.themoviedb.org/3/movie/' + tmdb_id, {
+                var fetch2 = function() {
+                    console.log("Now the search runs by tmdb_id from response.results[0].id")
+                    $http.jsonp('http://api.themoviedb.org/3/movie/' + tmdb_id, {
                         params: {
 
                             api_key: '11897eb1c7662904ef04389140fb6638',
@@ -356,9 +387,46 @@ angular.module('MainApp.Controllers')
                     .success(function(response) {
                         //console.log(response)
                         $scope['details' + id] = response;
-                    })
-            });
 
+                        $scope['focused' + id] = false;
+                    })
+                    .error(function(response) {
+                        $scope['search' + id] = null;
+                    })
+                }
+                if (response.results.length) {
+                    console.log("Search by movie name from blur had a response length");
+                    // TODO - Revisit this funcionality to ensure it is fulfilling expectations
+                    var stopLoop = false;
+                    var i = 0;
+                    angular.forEach(response.results, function(result) {
+                        i++;
+                        if (!stopLoop) {
+                            if (result.title == $scope['search' + id]) {
+                                tmdb_id = response.results[0].id;
+                                fetch2();
+                                stopLoop = true;
+                            } else if (!stopLoop && i == response.results.length) {
+                                $scope['focused' + id] = false;
+                                $scope['search' + id] = null;
+                                $scope['details' + id] = null;
+                                return false;                          
+                            } 
+                        }
+                    })
+                } else {
+                    $scope['focused' + id] = false;
+                    $scope['search' + id] = null;
+                    $scope['details' + id] = null;
+                }
+            })
+            .error(function(response) {
+                $scope['search' + id] = null;
+            });
+        }
+        if ($scope['search'+id].length) {
+            fetch1();
+        }
 
     };
 
@@ -379,6 +447,9 @@ angular.module('MainApp.Controllers')
                     $scope.postcomment2 = response[0].postcomment2;
                     $scope.search1 = response[0].movie1;
                     $scope.search2 = response[0].movie2;
+                    $scope.details1 = response[0].details1;
+                    $scope.details2 = response[0].details2;
+
 
                     if (response[0].challenge) {
                         $scope.challocked = true;
@@ -387,13 +458,13 @@ angular.module('MainApp.Controllers')
                     }
                     if (response[0].movie1) {
                         $scope.movie1locked = true;
-                        $scope.fetch(1);
+                        //$scope.selectMovie(1, $scope.details1.id);
                     } else {
                         $scope.movie1locked = false;
                     }
                     if (response[0].movie2) {
                         $scope.movie2locked = true;
-                        $scope.fetch(2);
+                        //$scope.selectMovie(2, $scope.details2.id);
                     } else {
                         $scope.movie2locked = false;
                     }
