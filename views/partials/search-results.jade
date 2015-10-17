@@ -1,8 +1,8 @@
-.search-results-container(ng-show="searchResults.length > 0")
+.search-results-container
 	.search-results-list
 		.search-result(ng-repeat="movie in searchResults")
-			a(ng-click="selectMovie(movie.searchId, movie.id);")
-				img(src="{{ !movie.poster_path ? 'http://placehold.it/32x50&text=Choose+your+movie' : 'http://image.tmdb.org/t/p/w500'+movie.poster_path }}")
+			a(ng-click="selectMovie(movie.searchId, movie.id, 'typeahead');")
+				img(ng-src="{{ (!movie.poster_path) ? 'http://placehold.it/32x50&text=Choose+your+movie' : 'http://image.tmdb.org/t/p/w500'+movie.poster_path }}")
 				.movie-title 
 					p {{ movie.title }}
 				.movie-info

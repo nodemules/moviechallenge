@@ -18,9 +18,9 @@ angular.module('MainApp', ['ngRoute', 'ui.bootstrap', 'MainApp.Controllers', 'Ma
             templateUrl: '/challenge',
             controller: 'challengeController'
         })
-    .when('/search', {
+    .when('/latest', {
         templateUrl: 'page',
-        controller: 'typeaheadController'
+        controller: 'challengeController'
         })
     .otherwise({redirectTo: '/'}
         );

@@ -160,6 +160,8 @@ router.route('/challenges/:chal_id')
 			if (req.body.postcomment2) { challenge.postcomment2 = req.body.postcomment2; }
 			if (req.body.user2) { challenge.user2 = req.body.user2; }
 			if (req.body.movie2_date_submitted) { challenge.movie2_date_submitted = req.body.movie2_date_submitted; }
+			if (req.body.details1) { challenge.details1 = req.body.details1; }
+			if (req.body.details2) { challenge.details2 = req.body.details2; }
 				
 
 			// save comments

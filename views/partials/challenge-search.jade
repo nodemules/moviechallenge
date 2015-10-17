@@ -11,25 +11,13 @@
 				ng-model="search1",
 				e-ng-blur="lockmovie1();isFocused(1);",
 				ng-blur="isFocused(1);",
-				onaftersave="saveMovie(1);",
+				onaftersave="selectMovie(1, null, 'blur');saveMovie(1);",
 				tooltip="Type in the name of a movie and click away to lock",
 				tooltip-placement="top",
 				buttons="no"
 				blur='submit'
 				e-placeholder="Select Movie"
 				) {{search1 || "Select Movie"}}
-		//
-			.input-group
-				input.form-control(
-					type='text', 
-					ng-model='search1',
-					ng-change='change()',
-					ng-blur="saveMovie(1); lockmovie1();",
-					placeholder='Enter full movie name',
-					tooltip="Type in the name of a movie and click away to lock",
-					tooltip-trigger="focus",
-					tooltip-placement="top"
-					)		
 		.search2-input.col-xs-6
 			div(
 				editable-text="search2",
@@ -40,32 +28,18 @@
 				e-ng-focus='searchMovies(2, $data);isFocused(2);'
 				ng-blur='isFocused(2);',
 				e-ng-blur="isFocused(2);lockmovie2()",
-				onaftersave="saveMovie(2)",
+				onaftersave="selectMovie(2, null, 'blur');saveMovie(2);",
 				tooltip="Type in the name of a movie and click away to lock",
 				tooltip-placement="top",
 				buttons="no"
 				blur='submit'
 				e-placeholder="Select Movie"	
 				) {{search2 || "Select Movie"}}
-		//
-			.input-group
-				input.form-control(
-					type='text', 
-					ng-model='search2', 
-					ng-change='change()', 
-					onclick='select()', 
-					ng-blur="saveMovie(2); lockmovie2();",
-					placeholder='Enter full movie name',
-					tooltip="Type in the name of a movie and click away to lock",
-					tooltip-trigger="focus",
-					tooltip-placement="top"
-					)
 	br
 	.row
 		.col-xs-6
 			.col-xs-12.commentinput(
 				editable-text="precomment1"
-				ng-show="movie1locked == true"
 				ng-model='precomment1',
 				placeholder='Comments', 
 				autofocus='',
@@ -80,7 +54,6 @@
 		.col-xs-6
 			.col-xs-12.commentinput(
 				editable-text="precomment2"
-				ng-show="movie2locked == true"
 				ng-model='precomment2',
 				placeholder='Comments', 
 				autofocus='',

@@ -14,6 +14,8 @@ var	ChallengeSchema			= new Schema({
 		chal_date_submitted: Date,
 		movie1: String,
 		movie2: String,
+		details1: Object,
+		details2: Object,
 		movie1_postdate: Date,
 		movie2_postdate: Date,
 		user1: String,
