@@ -327,8 +327,12 @@ angular.module('MainApp.Controllers')
 
         };        
         // console.log("selectMovie fired from " + source + " and typeahead " + (typeaheadWait ? "is" : "isn't") + " still searching");
+        
+        //make these variables so toLowerCase() can be applied to them.
         var search_title = $scope['search' + id];
-        var details_title = $scope['details' + id].title;
+        //details must exist first before setting it.
+        if ($scope['details' + id]) {var details_title = $scope['details' + id].title};
+
         if (source == 'typeahead' && tmdb_id && !($scope['details' + id] && tmdb_id == $scope['details' + id].id)) {
             console.log("Typeahead is searching");
             typeaheadWait = true;
