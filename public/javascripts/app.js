@@ -19,7 +19,7 @@ angular.module('MainApp', ['ngRoute', 'ui.bootstrap', 'MainApp.Controllers', 'Ma
             controller: 'challengeController'
         })
     .when('/latest', {
-        templateUrl: 'page',
+        templateUrl: 'lists',
         controller: 'challengeController'
         })
     .otherwise({redirectTo: '/'}

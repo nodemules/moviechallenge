@@ -7,8 +7,8 @@
       )
 	};
 
-    exports.page = function (req, res) {
-      res.render('page')
+    exports.lists = function (req, res) {
+      res.render('lists')
 
     };
     
