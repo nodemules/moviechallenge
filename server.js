@@ -60,6 +60,7 @@
     app.get('/index', routes.index);
     app.get('/challenge', routes.challenge);
     app.get('/lists', routes.lists);
+    app.get('/contact', routes.contact);
     app.get('/partials/:name', routes.partials);
     app.get('*');
 

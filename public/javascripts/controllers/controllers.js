@@ -73,42 +73,42 @@ angular.module('MainApp.Controllers')
 
         //see if challenge exists yet
         if ($scope.challenge != challengeContent || challengeContent == undefined) {
-        // challengeContent = $scope.challenge;
-        // console.log(challengeContent, $scope.challenge)
-        // console.log("Challenge Saving");
-        
-        $http.get("/api/getchalbyinst/" + $routeParams.param)
-            .success(function(response) {
+            // challengeContent = $scope.challenge;
+            // console.log(challengeContent, $scope.challenge)
+            // console.log("Challenge Saving");
+            
+            $http.get("/api/getchalbyinst/" + $routeParams.param)
+                .success(function(response) {
 
-                // if there is something in the response do a put, otherwise post
-                if (response.length > 0) {
+                    // if there is something in the response do a put, otherwise post
+                    if (response.length > 0) {
 
-                    chal_id = response[0]._id;
+                        chal_id = response[0]._id;
 
-                    challenge = {
-                        challenge: $scope.challenge,
-                        date_chal_submitted: Date()
-                    }
-                    console.log("Challenge Updated");
-                    $http.put("/api/challenges/" + chal_id, challenge)
-                    $scope.challocked = true;
-                } else {
-                    if ($scope.challenge){
                         challenge = {
                             challenge: $scope.challenge,
-                            date_chal_submitted: Date(),
-                            instance: $routeParams.param,
+                            date_chal_submitted: Date()
                         }
-                    
-                        console.log("Challenge Saved");
-
-                        $http.post("/api/postchallenge/", challenge)
+                        console.log("Challenge Updated");
+                        $http.put("/api/challenges/" + chal_id, challenge)
                         $scope.challocked = true;
+                    } else {
+                        if ($scope.challenge){
+                            challenge = {
+                                challenge: $scope.challenge,
+                                date_chal_submitted: Date(),
+                                instance: $routeParams.param,
+                            }
+                        
+                            console.log("Challenge Saved");
+
+                            $http.post("/api/postchallenge/", challenge)
+                            $scope.challocked = true;
+                        }
+                        else {
+                            console.log("Challenge was empty, not saving.")
+                        } 
                     }
-                    else {
-                        console.log("Challenge was empty, not saving.")
-                    } 
-                }
 
             });
 

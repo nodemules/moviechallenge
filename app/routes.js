@@ -22,6 +22,11 @@
       { title : 'Home' }
     };
 
+    exports.contact = function (req, res) {
+      res.render('contact'),
+      { title : 'Contact' }
+    }
+
     exports.partials = function (req, res) {
       var name = req.params.name;
       res.render('partials/' + name)

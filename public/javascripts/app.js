@@ -22,6 +22,9 @@ angular.module('MainApp', ['ngRoute', 'ui.bootstrap', 'MainApp.Controllers', 'Ma
         templateUrl: 'lists',
         controller: 'challengeController'
         })
+    .when('/contactus', {
+        templateUrl: 'contact'
+    })
     .otherwise({redirectTo: '/'}
         );
     $locationProvider.html5Mode({
