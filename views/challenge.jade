@@ -8,7 +8,7 @@
 			.col-xs-12.challengeinput(
 					ng-model='challenge'
 					e-id='chalinput'
-					tooltip="Create a challenge here to start!"
+					uib-tooltip="Create a challenge here to start!"
 					tooltip-enable="true"
 					tooltip-placement="left"
 					e-ng-change="eUpdateModel('challenge', $data)",
@@ -42,7 +42,7 @@
 						placeholder='How was it?', 
 						autofocus='',
 						ng-blur="postcomment(3)",
-						tooltip="Tell them how you felt about {{search1}}. Be Honest.",
+						uib-tooltip="Tell them how you felt about {{search1}}. Be Honest.",
 						tooltip-trigger="focus",
 						tooltip-placement="bottom") 
 			.col-xs-1
@@ -55,6 +55,6 @@
 						placeholder='How was it?', 
 						autofocus='',
 						ng-blur="postcomment(4)"
-						tooltip="Tell them how you felt about {{search2}}. Be Honest.",
+						uib-tooltip="Tell them how you felt about {{search2}}. Be Honest.",
 						tooltip-trigger="focus",
 						tooltip-placement="bottom")

@@ -12,8 +12,11 @@
 				e-ng-blur="lockmovie1();isFocused(1);",
 				ng-blur="isFocused(1);",
 				onaftersave="selectMovie(1, null, 'blur')",
-				tooltip="Type in the name of a movie and click away to lock",
+				uib-tooltip="Type in the name of a movie and click away to lock",
 				tooltip-placement="top",
+				uib-popover="Im a fuckin popover nigga"
+				tooltip-trigger="none"
+				tooltip-is-open="popoverOpen1"
 				buttons="no"
 				blur='submit'
 				e-placeholder="Select Movie"
@@ -29,8 +32,10 @@
 				ng-blur='isFocused(2);',
 				e-ng-blur="isFocused(2);lockmovie2()",
 				onaftersave="selectMovie(2, null, 'blur')",
-				tooltip="Type in the name of a movie and click away to lock",
+				uib-tooltip="Type in the name of a movie and click away to lock",
 				tooltip-placement="top",
+				uib-popover="Im a fuckin popover nigga"
+				popover-is-open="popoverOpen2"
 				buttons="no"
 				blur='submit'
 				e-placeholder="Select Movie"	
@@ -44,7 +49,7 @@
 				placeholder='Comments', 
 				autofocus='',
 				onaftersave="postcomment(1);",
-				tooltip="Tell them how you feel about having to watch {{search1}}. Be Honest.",
+				uib-tooltip="Tell them how you feel about having to watch {{search1}}. Be Honest.",
 				tooltip-trigger="focus",
 				tooltip-placement="bottom",
 				buttons="no"
@@ -58,7 +63,7 @@
 				placeholder='Comments', 
 				autofocus='',
 				onaftersave="postcomment(2);",
-				tooltip="Tell them how you feel about having to watch {{search2}}. Be Honest.",
+				uib-tooltip="Tell them how you feel about having to watch {{search2}}. Be Honest.",
 				tooltip-trigger="focus",
 				tooltip-placement="bottom",
 				buttons="no"

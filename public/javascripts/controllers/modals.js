@@ -1,6 +1,6 @@
 angular.module('MainApp.Controllers')
 
-.controller('ModalDemoCtrl', function ($scope, $modal, $log, $timeout, $rootScope) {
+.controller('ModalDemoCtrl', function ($scope, $uibModal, $log, $timeout, $rootScope) {
 
   //$scope.items = ['item1', 'item2', 'item3'];
 
@@ -12,7 +12,7 @@ angular.module('MainApp.Controllers')
           $scope.$parent.$broadcast('youtube-broadcast', id);
     })
 */
-    var modalInstance = $modal.open({
+    var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
             templateUrl: '../../partials/youtube-modal',
             controller: 'ModalInstanceCtrl',
