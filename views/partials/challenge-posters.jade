@@ -1,6 +1,6 @@
 .results(ng-show="challocked==true")
 	.row 
-		.poster.col-xs-6
+		.poster.col-xs-5
 			// img(ng-src="http://image.tmdb.org/t/p/w500{{ details1.credits.cast[0].profile_path }}")			
 			.image
 				img(style="height:450; width:300" ng-src="{{ !details1.poster_path ? 'http://placehold.it/300x450&text=Choose+your+movie' : 'http://image.tmdb.org/t/p/w500'+details1.poster_path }}") 
@@ -24,7 +24,16 @@
 						i(class="fa fa-share-alt fa-5x")
 				.show-search-results(ng-if="searchResults.length > 0 && focused1")
 					search-results
-		.poster.col-xs-6
+		.lock.col-xs-2
+			i.fa.fa-unlock-alt.fa-3x(
+				id='lockall'
+				ng-href="#"
+				ng-if="challocked && movieslocked"
+				ng-click="saveChallenge();")
+			i.fa.fa-lock.fa-3x(
+				ng-if="locked"
+				)
+		.poster.col-xs-5
 			.image
 				img(style="height:450; width:300" ng-src="{{ !details2.poster_path ? 'http://placehold.it/300x450&text=Choose+your+movie' : 'http://image.tmdb.org/t/p/w500'+details2.poster_path }}") 
 				.overlay(ng-hide="showwatched2")

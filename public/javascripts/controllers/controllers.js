@@ -81,7 +81,7 @@ angular.module('MainApp.Controllers')
                 .success(function(response) {
 
                     // if there is something in the response do a put, otherwise post
-                    if (response.length > 0) {
+                    if (response.length > 0 && !challocked) {
 
                         chal_id = response[0]._id;
 
@@ -92,7 +92,7 @@ angular.module('MainApp.Controllers')
                         console.log("Challenge Updated");
                         $http.put("/api/challenges/" + chal_id, challenge)
                         $scope.challocked = true;
-                    } else {
+                    } else if (!challocked) {
                         if ($scope.challenge){
                             challenge = {
                                 challenge: $scope.challenge,
@@ -376,7 +376,9 @@ angular.module('MainApp.Controllers')
 
                                 //why does put only seem to work with findbyid in node? why do I have to do the above step and not just find by instance
                                 console.log("Saved Movie " + id);
+                                movietitle.challocked = true;
                                 $http.put("/api/challenges/" + chal_id, movietitle)
+
                             });
 
             }

@@ -23,7 +23,7 @@
 				i.fa.fa-unlock-alt.fa-3x(
 					id='submitchal'
 					ng-href="#"
-					ng-if="challocked==false;"
+					ng-if="!challocked"
 					ng-click="saveChallenge();")
 				i.fa.fa-lock.fa-3x(
 					ng-if="challocked==true;"

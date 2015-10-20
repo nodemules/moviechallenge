@@ -23,7 +23,10 @@ var	ChallengeSchema			= new Schema({
 		precomment1: String,
 		postcomment1: String,
 		precomment2: String,
-		postcomment2: String
+		postcomment2: String,
+		locked: Boolean,
+		challocked: Boolean,
+		movieslocked: Boolean
 
 	});
 
