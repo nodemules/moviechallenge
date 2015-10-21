@@ -3,6 +3,7 @@
 		.search1-input.col-xs-6
 			div(
 				editable-text="search1",
+				e-ng-readonly="masterReadOnly"
 				e-ng-model="search1",
 				type='text',
 				e-ng-change="eUpdateModel('search1', $data); searchMovies(1, $data);",
@@ -14,7 +15,6 @@
 				onaftersave="selectMovie(1, null, 'blur')",
 				uib-tooltip="Type in the name of a movie and click away to lock",
 				tooltip-placement="top",
-				uib-popover="Im a fuckin popover nigga"
 				tooltip-trigger="none"
 				tooltip-is-open="popoverOpen1"
 				buttons="no"
@@ -24,6 +24,7 @@
 		.search2-input.col-xs-6
 			div(
 				editable-text="search2",
+				e-ng-readonly="masterReadOnly",
 				type='text',
 				ng-model='search2',
 				e-ng-change="eUpdateModel('search2', $data);searchMovies(2, $data);",
@@ -34,7 +35,6 @@
 				onaftersave="selectMovie(2, null, 'blur')",
 				uib-tooltip="Type in the name of a movie and click away to lock",
 				tooltip-placement="top",
-				uib-popover="Im a fuckin popover nigga"
 				popover-is-open="popoverOpen2"
 				buttons="no"
 				blur='submit'

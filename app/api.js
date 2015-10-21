@@ -162,6 +162,9 @@ router.route('/challenges/:chal_id')
 			if (req.body.movie2_date_submitted) { challenge.movie2_date_submitted = req.body.movie2_date_submitted; }
 			if (req.body.details1) { challenge.details1 = req.body.details1; }
 			if (req.body.details2) { challenge.details2 = req.body.details2; }
+			if (req.body.challocked) { challenge.challocked = req.body.challocked; }
+			if (req.body.movieslocked) { challenge.movieslocked = req.body.movieslocked; }
+			if (req.body.locked) { challenge.locked = req.body.locked; }
 				
 
 			// save comments

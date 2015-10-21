@@ -17,6 +17,7 @@ angular.module('MainApp.Controllers')
     var movie1, movie2, user1, user2;
     var chal_id;
     $scope.searchResults = [];
+    $scope.challocked = false;
 
     angular.element(document).ready(function() {
         $scope.getChallengeByInstance();
@@ -63,6 +64,31 @@ angular.module('MainApp.Controllers')
 
     var challengeContent;
     
+    $scope.completeLock = function(){
+      var completeLocked = {};
+     /*   completeLocked.locked = true;
+        $http.put("/api/challenges/" + $routeParams.param, completeLocked );*/
+
+
+            $http.get("/api/getchalbyinst/" + $routeParams.param)
+                .success(function(response) {
+
+                    // if there is something in the response do a put, otherwise post
+                    if (response.length > 0) {
+
+                        chal_id = response[0]._id;
+
+                        completeLocked = {
+                            locked: true
+                        }
+
+                    }
+                      
+                        $http.put("/api/challenges/" + chal_id, completeLocked)
+                    })
+
+    }
+
     $scope.saveChallenge = function() {
         
         var challenge;
@@ -81,7 +107,7 @@ angular.module('MainApp.Controllers')
                 .success(function(response) {
 
                     // if there is something in the response do a put, otherwise post
-                    if (response.length > 0 && !challocked) {
+                    if (response.length > 0) {
 
                         chal_id = response[0]._id;
 
@@ -92,7 +118,7 @@ angular.module('MainApp.Controllers')
                         console.log("Challenge Updated");
                         $http.put("/api/challenges/" + chal_id, challenge)
                         $scope.challocked = true;
-                    } else if (!challocked) {
+                    } else  {
                         if ($scope.challenge){
                             challenge = {
                                 challenge: $scope.challenge,
@@ -353,6 +379,7 @@ angular.module('MainApp.Controllers')
 
     $scope.saveMovie = function(id) {
         var movietitle = {};
+        var chalIsLocked;
 
         // Requiring $scope['details' + id] in the 'if' statements is probably deprecated
         // We aren't calling $scope.selectMovie() on save anymore (thank god), so we shouldn't
@@ -372,11 +399,19 @@ angular.module('MainApp.Controllers')
                             .success(function(response) {
                                 angular.forEach(response, function(result) {
                                     chal_id = response[0]._id;
+                                    chalIsLocked = response[0].challocked;
                                 });
+
+                                //if chalislocked is true then that means at least one movie is saved 
+                                // thus this must be saving the second one so set movieslocked to true
+                                if (chalIsLocked == true){
+                                    movietitle.movieslocked = true;
+                                }
+                                
 
                                 //why does put only seem to work with findbyid in node? why do I have to do the above step and not just find by instance
                                 console.log("Saved Movie " + id);
-                                movietitle.challocked = true;
+                                
                                 $http.put("/api/challenges/" + chal_id, movietitle)
 
                             });
@@ -388,7 +423,11 @@ angular.module('MainApp.Controllers')
             movietitle['movie' + id] = $scope['search' + id],
             movietitle['details' + id] = $scope['details' + id],
             movietitle['user' + id] = id,
-            movietitle['movie' + id + "_postdate"] = Date()
+            movietitle['movie' + id + "_postdate"] = Date(),
+            movietitle.challocked = true
+
+
+
             save(movietitle);
         }
        
@@ -413,7 +452,11 @@ angular.module('MainApp.Controllers')
                     $scope.search2 = response[0].movie2;
                     $scope.details1 = response[0].details1;
                     $scope.details2 = response[0].details2;
+                    $scope.locked = response[0].locked;
+                    $scope.chaleditable = response[0].challocked;
+                    $scope.movieslocked = response[0].movieslocked;
 
+                   
 
                     if (response[0].challenge) {
                         $scope.challocked = true;
@@ -432,11 +475,17 @@ angular.module('MainApp.Controllers')
                     } else {
                         $scope.movie2locked = false;
                     }
-                    if (response[0].movie2 && response[0].movie1) {
+                    if ($scope.chaleditable){
+                        $scope.chalreadonly = true;
+                    }
+                    if ($scope.locked) {
+                        $scope.masterReadOnly = true;
+                    }
+/*                    if (response[0].movie2 && response[0].movie1) {
                         $scope.movieslocked = true;
                     } else {
                         $scope.movieslocked = false;
-                    }
+                    }*/
                 }
             });
     };
@@ -498,7 +547,7 @@ angular.module('MainApp.Controllers')
 
     // deprecated shite
 
-    $scope.lockchal = function() {
+/*    $scope.lockchal = function() {
             $scope.challocked = true;
     }
     
@@ -516,7 +565,7 @@ angular.module('MainApp.Controllers')
         if ($scope.search2){
             $scope.movie2locked = true;
         }
-    }
+    }*/
 
 }) //end of challengeController
 

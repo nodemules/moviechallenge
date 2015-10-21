@@ -28,8 +28,8 @@
 			i.fa.fa-unlock-alt.fa-3x(
 				id='lockall'
 				ng-href="#"
-				ng-if="challocked && movieslocked"
-				ng-click="saveChallenge();")
+				ng-if="challocked && movieslocked && !locked"
+				ng-click="completeLock();")
 			i.fa.fa-lock.fa-3x(
 				ng-if="locked"
 				)

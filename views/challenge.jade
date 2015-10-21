@@ -8,6 +8,8 @@
 			.col-xs-12.challengeinput(
 					ng-model='challenge'
 					e-id='chalinput'
+					e-ng-readonly='chalreadonly'
+					ng-readonly='chalreadonly'
 					uib-tooltip="Create a challenge here to start!"
 					tooltip-enable="true"
 					tooltip-placement="left"
@@ -16,7 +18,7 @@
 					editable-textarea="challenge"
 					buttons="no"
 					blur="submit"
-					ng-click="unlockchal();"
+					ng-click="challocked = !challocked"
 					e-placeholder="Pick a Challenge"
 					) {{ challenge || "Pick a Challenge" }}
 			.col-xs-12
@@ -26,7 +28,7 @@
 					ng-if="!challocked"
 					ng-click="saveChallenge();")
 				i.fa.fa-lock.fa-3x(
-					ng-if="challocked==true;"
+					ng-if="challocked"
 					)
 		.col-xs-3
 	challenge-search
