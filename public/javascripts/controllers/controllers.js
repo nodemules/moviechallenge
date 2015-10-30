@@ -69,7 +69,7 @@ angular.module('MainApp.Controllers')
      /*   completeLocked.locked = true;
         $http.put("/api/challenges/" + $routeParams.param, completeLocked );*/
 
-
+            console.log("complete lock");
             $http.get("/api/getchalbyinst/" + $routeParams.param)
                 .success(function(response) {
 
@@ -85,6 +85,9 @@ angular.module('MainApp.Controllers')
                     }
                       
                         $http.put("/api/challenges/" + chal_id, completeLocked)
+                            .success(function(){
+                                $scope.getChallengeByInstance();
+                            })
                     })
 
     }
@@ -373,6 +376,7 @@ angular.module('MainApp.Controllers')
         else {
             typeaheadWait ? null : console.log("no search or save performed");
             $scope['focused' + id] = false;
+            $scope.movieslocked = false;
         }
 
     }    
@@ -395,25 +399,23 @@ angular.module('MainApp.Controllers')
                         window['details' + id] = $scope['details' + id];
                         window['search' + id] = $scope['search' + id];
 
+                 
+
                         $http.get("/api/getchalbyinst/" + $routeParams.param)
                             .success(function(response) {
                                 angular.forEach(response, function(result) {
                                     chal_id = response[0]._id;
-                                    chalIsLocked = response[0].challocked;
                                 });
 
-                                //if chalislocked is true then that means at least one movie is saved 
-                                // thus this must be saving the second one so set movieslocked to true
-                                if (chalIsLocked == true){
-                                    movietitle.movieslocked = true;
-                                }
-                                
+                             
 
                                 //why does put only seem to work with findbyid in node? why do I have to do the above step and not just find by instance
                                 console.log("Saved Movie " + id);
                                 
                                 $http.put("/api/challenges/" + chal_id, movietitle)
-
+                                    .success(function(){
+                                        $scope.getChallengeByInstance();
+                                    })
                             });
 
             }
@@ -423,9 +425,18 @@ angular.module('MainApp.Controllers')
             movietitle['movie' + id] = $scope['search' + id],
             movietitle['details' + id] = $scope['details' + id],
             movietitle['user' + id] = id,
-            movietitle['movie' + id + "_postdate"] = Date(),
-            movietitle.challocked = true
+            movietitle['movie' + id + "_postdate"] = Date()
+            
+            movietitle.challocked = false;
+            movietitle.movieslocked = false;
 
+            if ($scope.search1 || $scope.search2){
+                movietitle.challocked = true;
+            }
+
+            if ($scope.search1 && $scope.search2){
+                movietitle.movieslocked = true;
+            }
 
 
             save(movietitle);
