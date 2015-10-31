@@ -1,9 +1,9 @@
-.results(ng-show="challocked==true")
+.results
 	.lock(ng-if="movieslocked")
 		i.fa.fa-unlock-alt.fa-5x(
 			id='lockall'
 			ng-href="#"
-			ng-if="challocked && movieslocked && !locked"
+			ng-if="movieslocked && !locked"
 			ng-click="completeLock();")
 		i.fa.fa-lock.fa-5x(
 			ng-if="locked"

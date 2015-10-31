@@ -113,14 +113,15 @@ router.route('/postchallenge/')
 
 		var challenge = new Challenge();		    // create a new instance of the Challenge model
 		challenge.challenge = req.body.challenge;	       		
-		challenge.chal_date_submitted = Date();	    	// set date
+		challenge.date_chal_submitted = Date();	    	// set date
 		challenge.instance = req.body.instance;   
+		console.log("Challenge was submitted on " + challenge.date_chal_submitted)
 		// save the challenge and check for errors
 		challenge.save(function(err) {
 			if (err)
 				res.send(err);
 
-			res.json({ message: 'Challenge created!' });
+			res.json(challenge);
 		});
 
 	})
@@ -153,7 +154,6 @@ router.route('/challenges/:chal_id')
 			if (req.body.user1) { challenge.user1 = req.body.user1;}
 			if (req.body.movie1_date_submitted) { challenge.movie1_date_submitted = req.body.movie1_date_submitted; }
 			if (req.body.movie2) { challenge.movie2 = req.body.movie2; }
-			if (req.body.date_chal_submitted) { challenge.date_chal_submitted = req.body.date_chal_submitted; }
 			if (req.body.precomment1) { challenge.precomment1 = req.body.precomment1; }
 			if (req.body.postcomment1) { challenge.postcomment1 = req.body.postcomment1; }		
 			if (req.body.precomment2) { challenge.precomment2 = req.body.precomment2;	}	
@@ -165,6 +165,7 @@ router.route('/challenges/:chal_id')
 			if (req.body.challocked) { challenge.challocked = req.body.challocked; }
 			if (req.body.movieslocked) { challenge.movieslocked = req.body.movieslocked; }
 			if (req.body.locked) { challenge.locked = req.body.locked; }
+			if (req.body.date_chal_updated) { challenge.chal_date_updated = req.body.date_chal_updated; }
 				
 
 			// save comments

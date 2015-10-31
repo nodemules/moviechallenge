@@ -1,9 +1,9 @@
-.search(ng-show="challocked==true")
+.search
 	.row
 		.search1-input.col-xs-6
 			div(
 				editable-text="search1",
-				e-ng-readonly="masterReadOnly"
+				e-ng-readonly="locked"
 				e-ng-model="search1",
 				type='text',
 				e-ng-change="eUpdateModel('search1', $data); searchMovies(1, $data);",
@@ -24,7 +24,7 @@
 		.search2-input.col-xs-6
 			div(
 				editable-text="search2",
-				e-ng-readonly="masterReadOnly",
+				e-ng-readonly="locked",
 				type='text',
 				ng-model='search2',
 				e-ng-change="eUpdateModel('search2', $data);searchMovies(2, $data);",

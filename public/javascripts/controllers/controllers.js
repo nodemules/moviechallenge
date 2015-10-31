@@ -17,7 +17,6 @@ angular.module('MainApp.Controllers')
     var movie1, movie2, user1, user2;
     var chal_id;
     $scope.searchResults = [];
-    $scope.challocked = false;
 
     angular.element(document).ready(function() {
         $scope.getChallengeByInstance();
@@ -61,8 +60,6 @@ angular.module('MainApp.Controllers')
             $scope['focused' + val] = true;
         }
     }
-
-    var challengeContent;
     
     $scope.completeLock = function(){
       var completeLocked = {};
@@ -92,6 +89,8 @@ angular.module('MainApp.Controllers')
 
     }
 
+    $scope.challengeContent = null;
+
     $scope.saveChallenge = function() {
         
         var challenge;
@@ -101,8 +100,8 @@ angular.module('MainApp.Controllers')
         // console.log("Is challenge content undefined?" + challengeContent == undefined ? true : false);
 
         //see if challenge exists yet
-        if ($scope.challenge != challengeContent || challengeContent == undefined) {
-            // challengeContent = $scope.challenge;
+        if ($scope.challenge != $scope.challengeContent || $scope.challengeContent == undefined) {
+            $scope.challengeContent = $scope.challenge;
             // console.log(challengeContent, $scope.challenge)
             // console.log("Challenge Saving");
             
@@ -116,23 +115,29 @@ angular.module('MainApp.Controllers')
 
                         challenge = {
                             challenge: $scope.challenge,
-                            date_chal_submitted: Date()
+                            date_chal_updated: Date()
                         }
                         console.log("Challenge Updated");
                         $http.put("/api/challenges/" + chal_id, challenge)
-                        $scope.challocked = true;
+                            .success(function(){
+                                $scope.getChallengeByInstance();
+                            })
                     } else  {
                         if ($scope.challenge){
                             challenge = {
                                 challenge: $scope.challenge,
-                                date_chal_submitted: Date(),
-                                instance: $routeParams.param,
+                                instance: $routeParams.param
                             }
                         
                             console.log("Challenge Saved");
 
                             $http.post("/api/postchallenge/", challenge)
-                            $scope.challocked = true;
+                                .success(function(data){
+                                    $scope.getChallengeByInstance();
+                                })
+                                .error(function(){
+                                    alert('error mothafucka')
+                                })
                         }
                         else {
                             console.log("Challenge was empty, not saving.")
@@ -142,7 +147,6 @@ angular.module('MainApp.Controllers')
             });
 
         } else if ($scope.challenge.length){
-            $scope.challocked = true;
         }
     };
 
@@ -163,7 +167,7 @@ angular.module('MainApp.Controllers')
         var searchResults = [];
         var totalPages = 1;
         var promises = [];
-        if (term != undefined && term.length) {
+        if (!$scope.locked && term != undefined && term.length) {
         // first get, for totalPages
         $http.get(API_URL, {
             params: {
@@ -243,6 +247,7 @@ angular.module('MainApp.Controllers')
         }
     }
 
+
     var typeaheadWait;
 
     $scope.selectMovie = function(id, tmdb_id, source) {
@@ -258,6 +263,7 @@ angular.module('MainApp.Controllers')
             })
             .success(function(response) {
                 // console.log(response)
+
                 $scope['details' + id] = response;
                 $scope['search' + id] = response.title;
                 $scope['focused' + id] = false;
@@ -360,23 +366,29 @@ angular.module('MainApp.Controllers')
         //make these variables so toLowerCase() can be applied to them.
         var search_title = $scope['search' + id];
         //details must exist first before setting it.
-        if ($scope['details' + id]) {var details_title = $scope['details' + id].title};
+        if (!$scope.locked) {
 
-        if (source == 'typeahead' && tmdb_id && !($scope['details' + id] && tmdb_id == $scope['details' + id].id)) {
-            console.log("Typeahead is searching");
-            typeaheadWait = true;
-            typeaheadSearch();
+            if ($scope['details' + id]) {var details_title = $scope['details' + id].title};
 
-        } else if (!typeaheadWait && (source == 'blur' && $scope['search' + id]) && !($scope['details' + id] && search_title.toLowerCase() == details_title.toLowerCase())) {
-            console.log("Blur is searching");
-            blurSearch(id);
+            if (source == 'typeahead' && tmdb_id && !($scope['details' + id] && tmdb_id == $scope['details' + id].id)) {
+                console.log("Typeahead is searching");
+                typeaheadWait = true;
+                typeaheadSearch();
 
-        } 
-        // This might be @Deprecated
-        else {
-            typeaheadWait ? null : console.log("no search or save performed");
-            $scope['focused' + id] = false;
-            $scope.movieslocked = false;
+            } else if (!typeaheadWait && (source == 'blur' && $scope['search' + id]) && !($scope['details' + id] && search_title.toLowerCase() == details_title.toLowerCase())) {
+                console.log("Blur is searching");
+                blurSearch(id);
+
+            } 
+            // This might be @Deprecated
+            else {
+                typeaheadWait ? null : console.log("no search or save performed");
+                $scope['focused' + id] = false;
+                if (!$scope.search1 || !$scope.search2) {
+                    $scope.movieslocked = false;
+                }
+            }
+
         }
 
     }    
@@ -399,6 +411,7 @@ angular.module('MainApp.Controllers')
                         window['details' + id] = $scope['details' + id];
                         window['search' + id] = $scope['search' + id];
 
+
                  
 
                         $http.get("/api/getchalbyinst/" + $routeParams.param)
@@ -414,6 +427,7 @@ angular.module('MainApp.Controllers')
                                 
                                 $http.put("/api/challenges/" + chal_id, movietitle)
                                     .success(function(){
+
                                         $scope.getChallengeByInstance();
                                     })
                             });
@@ -425,7 +439,7 @@ angular.module('MainApp.Controllers')
             movietitle['movie' + id] = $scope['search' + id],
             movietitle['details' + id] = $scope['details' + id],
             movietitle['user' + id] = id,
-            movietitle['movie' + id + "_postdate"] = Date()
+            movietitle['movie' + id + "_date_submitted"] = Date()
             
             movietitle.challocked = false;
             movietitle.movieslocked = false;
@@ -454,7 +468,12 @@ angular.module('MainApp.Controllers')
 
                 //first check that this is an existing challenge otherwise the console errors
                 if (response.length > 0) {
+                    $scope.locked = response[0].locked;
+                    $scope.challocked = response[0].challocked;
+                    $scope.movieslocked = response[0].movieslocked;
+                    $scope.challengeDate = response[0].date_chal_submitted;
                     $scope.challenge = response[0].challenge;
+                    $scope.challengeContent = $scope.challenge;
                     $scope.precomment1 = response[0].precomment1;
                     $scope.postcomment1 = response[0].postcomment1;
                     $scope.precomment2 = response[0].precomment2;
@@ -463,40 +482,6 @@ angular.module('MainApp.Controllers')
                     $scope.search2 = response[0].movie2;
                     $scope.details1 = response[0].details1;
                     $scope.details2 = response[0].details2;
-                    $scope.locked = response[0].locked;
-                    $scope.chaleditable = response[0].challocked;
-                    $scope.movieslocked = response[0].movieslocked;
-
-                   
-
-                    if (response[0].challenge) {
-                        $scope.challocked = true;
-                    } else {
-                        $scope.challocked = false;
-                    }
-                    if (response[0].movie1) {
-                        $scope.movie1locked = true;
-                        //$scope.selectMovie(1, $scope.details1.id);
-                    } else {
-                        $scope.movie1locked = false;
-                    }
-                    if (response[0].movie2) {
-                        $scope.movie2locked = true;
-                        //$scope.selectMovie(2, $scope.details2.id);
-                    } else {
-                        $scope.movie2locked = false;
-                    }
-                    if ($scope.chaleditable){
-                        $scope.chalreadonly = true;
-                    }
-                    if ($scope.locked) {
-                        $scope.masterReadOnly = true;
-                    }
-/*                    if (response[0].movie2 && response[0].movie1) {
-                        $scope.movieslocked = true;
-                    } else {
-                        $scope.movieslocked = false;
-                    }*/
                 }
             });
     };
@@ -554,29 +539,6 @@ angular.module('MainApp.Controllers')
             });
 
     };
-
-
-    // deprecated shite
-
-/*    $scope.lockchal = function() {
-            $scope.challocked = true;
-    }
-    
-    $scope.unlockchal = function() {
-        $scope.challocked = false;
-    }
-
-    $scope.lockmovie1 = function() {
-        if ($scope.search1){
-            $scope.movie1locked = true;
-        }
-    }
-
-    $scope.lockmovie2 = function() {
-        if ($scope.search2){
-            $scope.movie2locked = true;
-        }
-    }*/
 
 }) //end of challengeController
 

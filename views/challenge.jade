@@ -5,11 +5,13 @@
 		.col-xs-6.currentchallenge
 			.col-xs-12
 				span CHALLENGE: <br> <br>
+			em.col-xs-12.challengeinput.challengelocked(ng-show="challocked") {{ challenge }}
 			.col-xs-12.challengeinput(
+					ng-show="!challocked"
 					ng-model='challenge'
 					e-id='chalinput'
-					e-ng-readonly='chalreadonly'
-					ng-readonly='chalreadonly'
+					e-ng-readonly='challocked'
+					ng-readonly='challocked'
 					uib-tooltip="Create a challenge here to start!"
 					tooltip-enable="true"
 					tooltip-placement="left"
@@ -18,20 +20,20 @@
 					editable-textarea="challenge"
 					buttons="no"
 					blur="submit"
-					ng-click="challocked = !challocked"
 					e-placeholder="Pick a Challenge"
 					) {{ challenge || "Pick a Challenge" }}
 			.col-xs-12
-				i.fa.fa-unlock-alt.fa-3x(
+				i.fa.fa-check.fa-3x(
 					id='submitchal'
 					ng-href="#"
-					ng-if="!challocked"
+					ng-if="challenge != challengeContent"
 					ng-click="saveChallenge();")
+			//
 				i.fa.fa-lock.fa-3x(
 					ng-if="challocked"
 					)
 		.col-xs-3
-	challenge-search
+	challenge-search(ng-show="challenge && challengeDate")
 	//
 		.aftermath(ng-show="challocked==true && movieslocked==true")
 			.row
