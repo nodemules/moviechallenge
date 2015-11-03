@@ -150,10 +150,10 @@ router.route('/challenges/:chal_id')
 
 
 			if (req.body.challenge) { challenge.challenge = req.body.challenge;}
-			if (req.body.movie1) { challenge.movie1 = req.body.movie1;}
+			if (req.body.movie1) { challenge.movie1 = req.body.movie1;} else if (req.body.movie1 == '') {challenge.movie1 = null;}
 			if (req.body.user1) { challenge.user1 = req.body.user1;}
 			if (req.body.movie1_date_submitted) { challenge.movie1_date_submitted = req.body.movie1_date_submitted; }
-			if (req.body.movie2) { challenge.movie2 = req.body.movie2; }
+			if (req.body.movie2) { challenge.movie2 = req.body.movie2; } else if (req.body.movie2 == '') {challenge.movie2 = null;}
 			if (req.body.precomment1) { challenge.precomment1 = req.body.precomment1; }
 			if (req.body.postcomment1) { challenge.postcomment1 = req.body.postcomment1; }		
 			if (req.body.precomment2) { challenge.precomment2 = req.body.precomment2;	}	
@@ -173,7 +173,7 @@ router.route('/challenges/:chal_id')
 				if (err)
 					res.send(err);
 
-				res.json({ message:  'updated!' });
+				res.json(challenge);
 			});
 		});
 

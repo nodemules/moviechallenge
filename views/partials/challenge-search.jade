@@ -1,7 +1,9 @@
 .search
 	.row
 		.search1-input.col-xs-6
+			.movielocked(ng-show="locked") {{ search1 }}
 			div(
+				ng-show="!locked"
 				editable-text="search1",
 				e-ng-readonly="locked"
 				e-ng-model="search1",
@@ -22,7 +24,9 @@
 				e-placeholder="Select Movie"
 				) {{search1 || "Select Movie"}}
 		.search2-input.col-xs-6
+			.movielocked(ng-show="locked") {{ search2 }}
 			div(
+				ng-show="!locked"
 				editable-text="search2",
 				e-ng-readonly="locked",
 				type='text',

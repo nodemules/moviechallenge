@@ -48,6 +48,29 @@ angular.module('MainApp.Controllers')
         $scope[field] = term;
     }
 
+    $scope.posterOverlay1 = false;
+    $scope.posterOverlay2 = false;
+
+    $scope.hidePosterOverlay = function(id, source) {
+
+        var ele;
+        if (id == 1) {
+            ele = 'one';
+        } else if (id == 2) {
+            ele = 'two';
+        } else {
+            return false;
+        }
+        if (source == 'typeahead') {
+            console.log("I'm true");
+            $scope['posterOverlay' + id] = true;
+        } else {
+            console.log("I flipped");
+            $scope['posterOverlay' + id] = !$scope['posterOverlay' + id];
+        }
+        $('.poster .image .overlay .' + ele).attr('hidden', $scope['posterOverlay' + id]);
+    }
+
     $scope.focused1 = false;
     $scope.focused2 = false;
 
@@ -55,6 +78,7 @@ angular.module('MainApp.Controllers')
         if ($scope['focused' + val] == true) {
             $timeout(function() {
                 $scope['focused' + val] = false;
+                $scope.hidePosterOverlay(val, 'isFocused');
             }, 200)
         } else {
             $scope['focused' + val] = true;
@@ -155,6 +179,7 @@ angular.module('MainApp.Controllers')
     var API_KEY = '11897eb1c7662904ef04389140fb6638';
 
     $scope.searchMovies = function(id, term) {
+
         $scope.searchResults = null;
         // $scope['search' + id] = term;
         if (d) {
@@ -168,6 +193,7 @@ angular.module('MainApp.Controllers')
         var totalPages = 1;
         var promises = [];
         if (!$scope.locked && term != undefined && term.length) {
+        $scope.hidePosterOverlay(id, 'typeahead');
         // first get, for totalPages
         $http.get(API_URL, {
             params: {
@@ -238,6 +264,7 @@ angular.module('MainApp.Controllers')
                         object.searchId = id;
                     })
                     //console.log(movies);
+
 
                 $scope.searchResults = movies;
 
@@ -368,7 +395,9 @@ angular.module('MainApp.Controllers')
         //details must exist first before setting it.
         if (!$scope.locked) {
 
-            if ($scope['details' + id]) {var details_title = $scope['details' + id].title};
+            if ($scope['details' + id]) {
+                var details_title = $scope['details' + id].title
+            };
 
             if (source == 'typeahead' && tmdb_id && !($scope['details' + id] && tmdb_id == $scope['details' + id].id)) {
                 console.log("Typeahead is searching");
@@ -382,8 +411,18 @@ angular.module('MainApp.Controllers')
             } 
             // This might be @Deprecated
             else {
-                typeaheadWait ? null : console.log("no search or save performed");
+                typeaheadWait ? null : console.log("no search performed");
                 $scope['focused' + id] = false;
+                $scope.searchResults = [];
+                if ($scope['search' + id] == '') {
+                    $scope['details' + id] = null;
+                    $scope.saveMovie(id);
+                    console.log("saving null entry");
+                } else {
+                    console.log("no save performed");
+                }
+
+                // $scope['search' + id] = $scope['details' + id].title;
                 if (!$scope.search1 || !$scope.search2) {
                     $scope.movieslocked = false;
                 }
@@ -406,10 +445,14 @@ angular.module('MainApp.Controllers')
         // may be deprecated, but we leave it in for redundancy.
 
         var save = function(movietitle) {
-            if ($scope['details' + id] && $scope['search' + id] == $scope['details' + id].title && ($scope['search' + id] != window['search' + id] || $scope['details' + id] != window['details' + id] || 'search' + id == undefined)) {
+            console.log(window['search' + id])
+            console.log($scope['search' + id])
+            if ((window['search' + id] != undefined && $scope['search' + id] == '') || ($scope['details' + id] && $scope['search' + id] == $scope['details' + id].title && ($scope['search' + id] != window['search' + id] || $scope['details' + id] != window['details' + id] || 'search' + id == undefined))) {
                         console.log("Saving Movie " + id);
                         window['details' + id] = $scope['details' + id];
                         window['search' + id] = $scope['search' + id];
+
+                        console.log(movietitle);
 
 
                  
@@ -426,8 +469,8 @@ angular.module('MainApp.Controllers')
                                 console.log("Saved Movie " + id);
                                 
                                 $http.put("/api/challenges/" + chal_id, movietitle)
-                                    .success(function(){
-
+                                    .success(function(data){
+                                        console.log(data);
                                         $scope.getChallengeByInstance();
                                     })
                             });
@@ -436,6 +479,7 @@ angular.module('MainApp.Controllers')
         }
 
         if ($scope['search' + id] && $scope['details' + id]) {
+
             movietitle['movie' + id] = $scope['search' + id],
             movietitle['details' + id] = $scope['details' + id],
             movietitle['user' + id] = id,
@@ -444,7 +488,7 @@ angular.module('MainApp.Controllers')
             movietitle.challocked = false;
             movietitle.movieslocked = false;
 
-            if ($scope.search1 || $scope.search2){
+            if ($scope.search1.length || $scope.search2.length){
                 movietitle.challocked = true;
             }
 
@@ -452,6 +496,19 @@ angular.module('MainApp.Controllers')
                 movietitle.movieslocked = true;
             }
 
+
+            save(movietitle);
+            
+        } else if (!$scope['search' + id].length) {
+            movietitle.challocked = false;
+            movietitle.movieslocked = false;
+
+            if ($scope.search1.length || $scope.search2.length){
+                movietitle.challocked = true;
+            }
+
+            movietitle['movie' + id] = '';
+            movietitle['details' + id] = {};
 
             save(movietitle);
         }
@@ -482,6 +539,12 @@ angular.module('MainApp.Controllers')
                     $scope.search2 = response[0].movie2;
                     $scope.details1 = response[0].details1;
                     $scope.details2 = response[0].details2;
+                    if ($scope.search1 != null) {
+                        window.search1 = $scope.search1;
+                    }
+                    if ($scope.search2 != null) {
+                        window.search2 = $scope.search2;
+                    }
                 }
             });
     };

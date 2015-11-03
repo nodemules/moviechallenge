@@ -15,44 +15,46 @@
 			.image
 				img(style="height:450; width:300" ng-src="{{ !details1.poster_path ? 'http://placehold.it/300x450&text=Choose+your+movie' : 'http://image.tmdb.org/t/p/w500'+details1.poster_path }}") 
 				// deprecated poster style 'http://imdb.wemakesites.net/api/1.0/img?url='+details1.Poster }}
-				.overlay(ng-hide="showwatched1")
-				.finished(ng-show="showwatched1  || postcomment1")
-					img(ng-src="/images/checkmark.png")
-				.text(ng-show="details1")
-					p(style="font-style:italic; font-size:1.5em; text-align: center") {{ details1.tagline }}
-					p Director: {{ details1.credits.crew[0].name }}
-					p Release Date: {{ details1.release_date | date }}
-					p Actors: {{ details1.credits.cast[0].name }}, {{ details1.credits.cast[1].name }}, {{ details1.credits.cast[2].name }}
-					p Plot: {{ details1.overview }}
-				.linkbuttons(ng-controller='ModalDemoCtrl')
-					.youtube-play-button(class="col-xs-4")
-						i(class="fa fa-youtube fa-5x" ng-click="open(details1.videos.results[0].key)")
-					.imdb-button(class="col-xs-4")
-						a(ng-href="http://www.imdb.com/title/{{details1.imdb_id}}" target="_blank") 
-							img(style="height:70; width: 90; padding-left: -10px;"  ng-src="/images/imdblogo.png")
-					.share-button(class="col-xs-4")
-						i(class="fa fa-share-alt fa-5x")
+				.overlay(ng-hide="showwatched1 || searchResults == null || !search1")
+					.one
+						.finished(ng-show="showwatched1  || postcomment1")
+							img(ng-src="/images/checkmark.png")
+						.text(ng-show="details1")
+							p(style="font-style:italic; font-size:1.5em; text-align: center") {{ details1.tagline }}
+							p Director: {{ details1.credits.crew[0].name }}
+							p Release Date: {{ details1.release_date | date }}
+							p Actors: {{ details1.credits.cast[0].name }}, {{ details1.credits.cast[1].name }}, {{ details1.credits.cast[2].name }}
+							p Plot: {{ details1.overview }}
+						.linkbuttons(ng-controller='ModalDemoCtrl')
+							.youtube-play-button(class="col-xs-4")
+								i(class="fa fa-youtube fa-5x" ng-click="open(details1.videos.results[0].key)")
+							.imdb-button(class="col-xs-4")
+								a(ng-href="http://www.imdb.com/title/{{details1.imdb_id}}" target="_blank") 
+									img(style="height:70; width: 90; padding-left: -10px;"  ng-src="/images/imdblogo.png")
+							.share-button(class="col-xs-4")
+								i(class="fa fa-share-alt fa-5x")
 				.show-search-results(ng-if="searchResults.length > 0 && focused1")
 					search-results
 		.poster.col-xs-6
 			.image
 				img(style="height:450; width:300" ng-src="{{ !details2.poster_path ? 'http://placehold.it/300x450&text=Choose+your+movie' : 'http://image.tmdb.org/t/p/w500'+details2.poster_path }}") 
-				.overlay(ng-hide="showwatched2")
-				.finished(ng-show="showwatched2  || postcomment2")
-					img(ng-src="/images/checkmark.png")
-				.text(ng-show="details2")
-					p(style="font-style:italic; font-size:1.5em; text-align: center") {{ details2.tagline }}
-					p Director: {{ details2.credits.crew[0].name }}
-					p Release Date: {{ details2.release_date | date }}
-					p Actors: {{ details2.credits.cast[0].name }}, {{ details2.credits.cast[1].name }}, {{ details2.credits.cast[2].name }}
-					p Plot: {{ details2.overview }}
-				.linkbuttons(ng-controller='ModalDemoCtrl')
-					.youtube-play-button(class="col-xs-4")
-						i(class="fa fa-youtube fa-5x" ng-click="open(details2.videos.results[0].key)")
-					.imdb-button(class="col-xs-4")
-						a(ng-href="http://www.imdb.com/title/{{details2.imdb_id}}" target="_blank") 
-							img(style="height:70; width: 90; padding-left: -10px;"  ng-src="/images/imdblogo.png")
-					.share-button(class="col-xs-4")
-						i(class="fa fa-share-alt fa-5x")
+				.overlay(ng-hide="showwatched2 || searchResults == null || !search2 ")
+					.two
+						.finished(ng-show="showwatched2  || postcomment2")
+							img(ng-src="/images/checkmark.png")
+						.text(ng-show="details2")
+							p(style="font-style:italic; font-size:1.5em; text-align: center") {{ details2.tagline }}
+							p Director: {{ details2.credits.crew[0].name }}
+							p Release Date: {{ details2.release_date | date }}
+							p Actors: {{ details2.credits.cast[0].name }}, {{ details2.credits.cast[1].name }}, {{ details2.credits.cast[2].name }}
+							p Plot: {{ details2.overview }}
+						.linkbuttons(ng-controller='ModalDemoCtrl')
+							.youtube-play-button(class="col-xs-4")
+								i(class="fa fa-youtube fa-5x" ng-click="open(details2.videos.results[0].key)")
+							.imdb-button(class="col-xs-4")
+								a(ng-href="http://www.imdb.com/title/{{details2.imdb_id}}" target="_blank") 
+									img(style="height:70; width: 90; padding-left: -10px;"  ng-src="/images/imdblogo.png")
+							.share-button(class="col-xs-4")
+								i(class="fa fa-share-alt fa-5x")
 				.show-search-results(ng-if="searchResults.length > 0 && focused2")
 					search-results
