@@ -162,8 +162,8 @@ router.route('/challenges/:chal_id')
 			if (req.body.movie2_date_submitted) { challenge.movie2_date_submitted = req.body.movie2_date_submitted; }
 			if (req.body.details1) { challenge.details1 = req.body.details1; }
 			if (req.body.details2) { challenge.details2 = req.body.details2; }
-			if (req.body.challocked) { challenge.challocked = req.body.challocked; }
-			if (req.body.movieslocked) { challenge.movieslocked = req.body.movieslocked; }
+			if (req.body.challocked != null) { challenge.challocked = req.body.challocked; }
+			if (req.body.movieslocked != null) { challenge.movieslocked = req.body.movieslocked; }
 			if (req.body.locked) { challenge.locked = req.body.locked; }
 			if (req.body.date_chal_updated) { challenge.chal_date_updated = req.body.date_chal_updated; }
 				
@@ -183,7 +183,7 @@ router.route('/challenges/:chal_id')
 // get latest 10 challenges entered into the db for front page list
 router.route('/latest/')
     .get(function(req, res) {
-         Challenge.find({}).sort('-chal_date_submitted').limit(10).exec(function(err, response) { 
+         Challenge.find({}).sort('-date_chal_submitted').limit(10).exec(function(err, response) { 
         	if (err)
 				res.send(err);
 

@@ -52,7 +52,7 @@ angular.module('MainApp.Controllers')
     $scope.posterOverlay2 = false;
 
     $scope.hidePosterOverlay = function(id, source) {
-
+        console.log("Hi " + source);
         var ele;
         if (id == 1) {
             ele = 'one';
@@ -75,6 +75,7 @@ angular.module('MainApp.Controllers')
     $scope.focused2 = false;
 
     $scope.isFocused = function(val) {
+        console.log("isFocused " + val);
         if ($scope['focused' + val] == true) {
             $timeout(function() {
                 $scope['focused' + val] = false;
@@ -344,7 +345,8 @@ angular.module('MainApp.Controllers')
                             //console.log(response)
                             $scope['search' + id] = response.title;
                             $scope['details' + id] = response;
-                            $scope['focused' + id] = false;
+                          //  $scope['focused' + id] = false;
+                          $scope.isFocused(id);
 
                             $scope.saveMovie(id);
                         })
@@ -413,6 +415,7 @@ angular.module('MainApp.Controllers')
             else {
                 typeaheadWait ? null : console.log("no search performed");
                 $scope['focused' + id] = false;
+               // $scope.isFocused(id);
                 $scope.searchResults = [];
                 if ($scope['search' + id] == '') {
                     $scope['details' + id] = null;
@@ -447,15 +450,10 @@ angular.module('MainApp.Controllers')
         var save = function(movietitle) {
             console.log(window['search' + id])
             console.log($scope['search' + id])
-            if ((window['search' + id] != undefined && $scope['search' + id] == '') || ($scope['details' + id] && $scope['search' + id] == $scope['details' + id].title && ($scope['search' + id] != window['search' + id] || $scope['details' + id] != window['details' + id] || 'search' + id == undefined))) {
+            if ((window['search' + id] != undefined && $scope['search' + id] == null) || ($scope['details' + id] && $scope['search' + id] == $scope['details' + id].title && ($scope['search' + id] != window['search' + id] || $scope['details' + id] != window['details' + id] || 'search' + id == undefined))) {
                         console.log("Saving Movie " + id);
                         window['details' + id] = $scope['details' + id];
                         window['search' + id] = $scope['search' + id];
-
-                        console.log(movietitle);
-
-
-                 
 
                         $http.get("/api/getchalbyinst/" + $routeParams.param)
                             .success(function(response) {
@@ -466,10 +464,12 @@ angular.module('MainApp.Controllers')
                              
 
                                 //why does put only seem to work with findbyid in node? why do I have to do the above step and not just find by instance
-                                console.log("Saved Movie " + id);
                                 
+                                console.log(movietitle);
                                 $http.put("/api/challenges/" + chal_id, movietitle)
                                     .success(function(data){
+                                        console.log(movietitle.movieslocked);
+                                        console.log("Saved Movie " + id);
                                         console.log(data);
                                         $scope.getChallengeByInstance();
                                     })
@@ -483,19 +483,14 @@ angular.module('MainApp.Controllers')
             movietitle['movie' + id] = $scope['search' + id],
             movietitle['details' + id] = $scope['details' + id],
             movietitle['user' + id] = id,
-            movietitle['movie' + id + "_date_submitted"] = Date()
-            
-            movietitle.challocked = false;
-            movietitle.movieslocked = false;
+            movietitle['movie' + id + "_date_submitted"] = Date(),
+            movietitle.movieslocked = false,
+            movietitle.challocked = true;
 
-            if ($scope.search1.length || $scope.search2.length){
-                movietitle.challocked = true;
-            }
 
             if ($scope.search1 && $scope.search2){
                 movietitle.movieslocked = true;
             }
-
 
             save(movietitle);
             
@@ -503,7 +498,9 @@ angular.module('MainApp.Controllers')
             movietitle.challocked = false;
             movietitle.movieslocked = false;
 
-            if ($scope.search1.length || $scope.search2.length){
+            $scope['search' + id] = null;
+
+            if ($scope.search1 != null || $scope.search2 != null){
                 movietitle.challocked = true;
             }
 
@@ -541,9 +538,13 @@ angular.module('MainApp.Controllers')
                     $scope.details2 = response[0].details2;
                     if ($scope.search1 != null) {
                         window.search1 = $scope.search1;
+                    }else {
+                        window.search1 = null;
                     }
                     if ($scope.search2 != null) {
                         window.search2 = $scope.search2;
+                    }else {
+                        window.search2 = null;
                     }
                 }
             });
