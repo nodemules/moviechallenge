@@ -16,11 +16,39 @@ angular.module('MainApp.Controllers')
     var precomment1, precomment2, postcomment1, postcomment2;
     var movie1, movie2, user1, user2;
     var chal_id;
+
+
+
     $scope.searchResults = [];
+
+    $scope.fontResize = function() {
+         setTimeout(function(){
+            console.log("console log brah");
+            var foo = $('.moviesearch');
+            $.each(foo,function(){            
+                    
+                    //var heightRatio = $(this).height()/$(this).parent().height();
+                   // var divisor = heightRatio / 2;
+
+                    if ($(this).height() > 80 && !$(this).hasClass('ng-hide') ) {
+                        console.log($(this).height());
+                       $(this).css('font-size', ( $(this).height() / 12  ).toString() + 'px');  
+                    }
+
+            })
+
+        }, 100)
+    }
+
 
     angular.element(document).ready(function() {
         $scope.getChallengeByInstance();
+        $scope.fontResize();
+ 
+    });
 
+    $(window).resize(function(){
+        $scope.fontResize();
     });
 
     $scope.alert = function(text) {

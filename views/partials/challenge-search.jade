@@ -1,8 +1,9 @@
 .search
 	.row
 		.search1-input.col-xs-6
-			.movielocked(ng-show="locked") {{ search1 }}
-			div(
+			.moviesearch.movielocked(ng-show="locked") {{ search1 }}
+			.moviesearch(
+				e-class="moviesearch"
 				ng-show="!locked"
 				editable-text="search1",
 				e-ng-readonly="locked"
@@ -12,7 +13,7 @@
 				e-ng-focus="searchMovies(1, $data);isFocused(1);",
 				ng-focus="isFocused(1);",
 				ng-model="search1",
-				onaftersave="isFocused(1);selectMovie(1, null, 'blur')",
+				onaftersave="isFocused(1);selectMovie(1, null, 'blur');fontResize();",
 				uib-tooltip="Type in the name of a movie and click away to lock",
 				tooltip-placement="top",
 				tooltip-trigger="none"
@@ -22,8 +23,9 @@
 				e-placeholder="Select Movie"
 				) {{search1 || "Select Movie"}}
 		.search2-input.col-xs-6
-			.movielocked(ng-show="locked") {{ search2 }}
-			div(
+			.moviesearch.movielocked(ng-show="locked") {{ search2 }}
+			.moviesearch(
+				e-class="moviesearch"
 				ng-show="!locked"
 				editable-text="search2",
 				e-ng-readonly="locked",
@@ -32,7 +34,7 @@
 				e-ng-change="eUpdateModel('search2', $data);searchMovies(2, $data);",
 				ng-focus='isFocused(2);',
 				e-ng-focus='searchMovies(2, $data);isFocused(2);',
-				onaftersave="isFocused(2);selectMovie(2, null, 'blur')",
+				onaftersave="isFocused(2);selectMovie(2, null, 'blur');fontResize();",
 				uib-tooltip="Type in the name of a movie and click away to lock",
 				tooltip-placement="top",
 				popover-is-open="popoverOpen2"
