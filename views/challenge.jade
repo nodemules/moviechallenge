@@ -1,6 +1,7 @@
 .challenge_container
-	new-challenge-button
-	.challenge
+	.row
+		new-challenge-button
+	.challenge.row
 		.col-xs-3
 		.col-xs-6.currentchallenge
 			.col-xs-12
@@ -33,7 +34,8 @@
 					ng-if="challocked"
 					)
 		.col-xs-3
-	challenge-search(ng-show="challenge && challengeDate")
+	.row
+		challenge-search(ng-show="challenge && challengeDate")
 	//
 		.aftermath(ng-show="challocked==true && movieslocked==true")
 			.row
