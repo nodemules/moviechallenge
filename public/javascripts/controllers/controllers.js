@@ -345,8 +345,7 @@ angular.module('MainApp.Controllers')
                             //console.log(response)
                             $scope['search' + id] = response.title;
                             $scope['details' + id] = response;
-                          //  $scope['focused' + id] = false;
-                          $scope.isFocused(id);
+                            $scope['focused' + id] = false;
 
                             $scope.saveMovie(id);
                         })
@@ -415,7 +414,6 @@ angular.module('MainApp.Controllers')
             else {
                 typeaheadWait ? null : console.log("no search performed");
                 $scope['focused' + id] = false;
-               // $scope.isFocused(id);
                 $scope.searchResults = [];
                 if ($scope['search' + id] == '') {
                     $scope['details' + id] = null;

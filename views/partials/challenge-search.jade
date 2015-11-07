@@ -12,9 +12,7 @@
 				e-ng-focus="searchMovies(1, $data);isFocused(1);",
 				ng-focus="isFocused(1);",
 				ng-model="search1",
-				e-ng-blur="lockmovie1();isFocused(1);",
-				ng-blur="isFocused(1);",
-				onaftersave="selectMovie(1, null, 'blur')",
+				onaftersave="isFocused(1);selectMovie(1, null, 'blur')",
 				uib-tooltip="Type in the name of a movie and click away to lock",
 				tooltip-placement="top",
 				tooltip-trigger="none"
@@ -33,10 +31,8 @@
 				ng-model='search2',
 				e-ng-change="eUpdateModel('search2', $data);searchMovies(2, $data);",
 				ng-focus='isFocused(2);',
-				e-ng-focus='searchMovies(2, $data);isFocused(2);'
-				ng-blur='isFocused(2);',
-				e-ng-blur="isFocused(2);lockmovie2()",
-				onaftersave="selectMovie(2, null, 'blur')",
+				e-ng-focus='searchMovies(2, $data);isFocused(2);',
+				onaftersave="isFocused(2);selectMovie(2, null, 'blur')",
 				uib-tooltip="Type in the name of a movie and click away to lock",
 				tooltip-placement="top",
 				popover-is-open="popoverOpen2"
