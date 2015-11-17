@@ -3,6 +3,7 @@
 		.search1-input.col-xs-6
 			.moviesearch.movielocked(ng-show="locked") {{ search1 }}
 			.moviesearch(
+				id="search1"
 				e-class="moviesearch"
 				ng-show="!locked"
 				editable-text="search1",
@@ -10,7 +11,7 @@
 				e-ng-model="search1",
 				type='text',
 				e-ng-change="eUpdateModel('search1', $data); searchMovies(1, $data);",
-				e-ng-focus="searchMovies(1, $data);isFocused(1);",
+				e-ng-focus="searchMovies(1, $data);isFocused(1);fontResize()",
 				ng-focus="isFocused(1);",
 				ng-model="search1",
 				onaftersave="isFocused(1);selectMovie(1, null, 'blur');fontResize();",
@@ -25,6 +26,7 @@
 		.search2-input.col-xs-6
 			.moviesearch.movielocked(ng-show="locked") {{ search2 }}
 			.moviesearch(
+				id="search2"
 				e-class="moviesearch"
 				ng-show="!locked"
 				editable-text="search2",
@@ -33,7 +35,7 @@
 				ng-model='search2',
 				e-ng-change="eUpdateModel('search2', $data);searchMovies(2, $data);",
 				ng-focus='isFocused(2);',
-				e-ng-focus='searchMovies(2, $data);isFocused(2);',
+				e-ng-focus='searchMovies(2, $data);isFocused(2);fontResize();',
 				onaftersave="isFocused(2);selectMovie(2, null, 'blur');fontResize();",
 				uib-tooltip="Type in the name of a movie and click away to lock",
 				tooltip-placement="top",

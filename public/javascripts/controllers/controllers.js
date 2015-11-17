@@ -16,28 +16,67 @@ angular.module('MainApp.Controllers')
     var precomment1, precomment2, postcomment1, postcomment2;
     var movie1, movie2, user1, user2;
     var chal_id;
+    $scope.ready = false;
 
 
 
     $scope.searchResults = [];
 
-    $scope.fontResize = function() {
-         setTimeout(function(){
-            console.log("console log brah");
-            var foo = $('.moviesearch');
-            $.each(foo,function(){            
-                    
-                    //var heightRatio = $(this).height()/$(this).parent().height();
-                   // var divisor = heightRatio / 2;
+    var lastResized = {};
 
-                    if ($(this).height() > 80 && !$(this).hasClass('ng-hide') ) {
-                        console.log($(this).height());
-                       $(this).css('font-size', ( $(this).height() / 12  ).toString() + 'px');  
-                    }
+    $scope.fontResize = function() {
+        var foo = $('.moviesearch');
+
+        console.log(foo);
+
+        if ($scope.ready) {
+            $timeout(function(){
+                console.log("console log brah");
+                $.each(foo,function(){            
+                        
+                        var heightRatio = $(this).height()/$(this).parent().height();
+                       // var divisor = heightRatio / 2;
+                            //console.log($(this).height());
+                        console.log( lastResized.id)
+
+
+                        if ($(this).height() > 80 && !$(this).hasClass('ng-hide') ) {
+                            lastResized = {
+                                id : $(this).attr('id'),
+                                height : $(this).height()
+                            }
+                            console.log(lastResized);
+                            //console.log($(this).height());
+                            if (heightRatio < 2) {
+                                $(this).css('font-size', ( $(this).height() / 6  ).toString() + 'px');  
+                            }                        
+                            if (heightRatio > 2) {
+                                $(this).css('font-size', ( $(this).height() / 12  ).toString() + 'px');  
+                            }
+                        } else if ($(this).hasClass('editable-input')) {
+                            var brother = $(this).parent().parent().parent().find('.editable-hide').css('font-size');
+                            //console.log(brother);
+                            //console.log($(this).css('font-size'));
+                            $(this).css('font-size', brother);
+                            //console.log($(this).css('font-size'));
+                        } 
+
+                        /*else if ($(this).height() < 80 && $(this).hasClass('editable-click') && lastResized.height > 80) {
+                            console.log('hi mom')
+                            $(this).find('#' + lastResized.id).css('font-size', '36px');
+                        }*/
+
+                })
 
             })
 
-        }, 100)
+        } else {
+            $timeout(function(){
+                console.log('again')
+                $scope.fontResize();
+            }, 100)
+
+        }
     }
 
 
@@ -573,6 +612,7 @@ angular.module('MainApp.Controllers')
                         window.search2 = null;
                     }
                 }
+                $scope.ready = true;
             });
     };
 
