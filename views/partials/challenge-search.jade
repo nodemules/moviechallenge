@@ -1,4 +1,6 @@
-.search
+.search.row
+	.row
+		.searcherror(ng-show="searchError") Movie Not Found Please Try Again. #[span(class="errorClose pull-right" ng-click="closeSearchError()")#[i(class="fa fa-times")]]
 	.row
 		.search1-input.col-xs-6
 			.movielocked(ng-show="locked") {{ search1 }}

@@ -48,6 +48,11 @@ slightly-darker-blue = rgb(0, 31, 46)
 .form-control[readonly]
     background-color inherit
 
+.pull-right
+    float right !important
+.pull-left
+    float left !important
+
 body
     font-family 'Georgia'
     background none repeat scroll left top
@@ -269,7 +274,7 @@ to uncenter the movie titles in lastlist
 
 
 .challenge
-    padding 30px 0px 50px
+    overflow hidden
     
 .challenge .input 
     padding 10px
@@ -290,7 +295,35 @@ to uncenter the movie titles in lastlist
     z-index 2
     font-family Oswald
     cursor hand
-    
+
+.searcherror
+    position relative
+    background-color #D14
+    font-size 1.5em
+    font-style italic
+    font-family Oswald
+    line-height 2
+    text-align center
+
+.errorClose
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 15px;
+    margin-right: 15px;
+    cursor: hand;
+    background-color: #fff;
+    color: #d14;
+    height: 24px;
+    width: 24px;
+    border-radius: 12px;
+
+.errorClose i
+    font-size 1em
+    position absolute
+    top 50%
+    left 50%
+    transform translate(-50%, -50%)
     
 .results
     position relative

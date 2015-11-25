@@ -17,6 +17,7 @@ angular.module('MainApp.Controllers')
     var movie1, movie2, user1, user2;
     var chal_id;
     $scope.searchResults = [];
+    $scope.searchError = false;
 
     angular.element(document).ready(function() {
         $scope.getChallengeByInstance();
@@ -26,6 +27,34 @@ angular.module('MainApp.Controllers')
     $scope.alert = function(text) {
         alert(text);
     }
+
+    $scope.closeSearchError = function() {
+        $scope.searchError = false;
+    }
+
+    $scope.showSearchError = function() {
+        $scope.searchError = true;
+
+        var cinterval;
+        $scope.timeLeft = 10;
+        
+        var timeDec = function() {
+        $scope.timeLeft--;
+        if($scope.timeLeft === 0){
+           clearInterval(cinterval);
+           $scope.searchError = false;
+          
+        }
+        $scope.$apply(function() {
+        $scope.timeLeft;
+        })
+        
+        }
+        
+        cinterval = setInterval(timeDec, 1000)
+     }
+
+    
 
     // @Deprecated
     $scope.change = function() {
@@ -76,6 +105,7 @@ angular.module('MainApp.Controllers')
 
     $scope.isFocused = function(val) {
         console.log("isFocused " + val);
+        $scope.closeSearchError();
         if ($scope['focused' + val] == true) {
             $timeout(function() {
                 $scope['focused' + val] = false;
@@ -370,6 +400,7 @@ angular.module('MainApp.Controllers')
                                     $scope['focused' + id] = false;
                                     $scope['search' + id] = null;
                                     $scope['details' + id] = null;
+                                    $scope.showSearchError();
                                     return false;                          
                                 } 
                             }
@@ -378,6 +409,7 @@ angular.module('MainApp.Controllers')
                         $scope['focused' + id] = false;
                         $scope['search' + id] = null;
                         $scope['details' + id] = null;
+                        $scope.showSearchError();
                     }
                 })
                 .error(function(response) {
