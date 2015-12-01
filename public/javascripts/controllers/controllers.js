@@ -19,6 +19,50 @@ angular.module('MainApp.Controllers')
     $scope.searchResults = [];
     $scope.searchError = false;
 
+    // TODO -- RENAME THIS FUNCTION
+
+    $scope.textFill = function(e) {
+        var id;
+        if (isNaN(e)) {
+            id = $(e.target).attr('id');
+        } else {
+             id = $scope.locked ? 'searchlocked' + e : ($scope['focused' + e] ? 'e-search' + e : 'search' + e);
+        }
+
+        $timeout(function() {
+            var length;
+    
+            var fontsize = $('#' + id).css('font-size');
+            var w = $('#' + id).css('width');
+    
+            w = parseInt(w);
+            fontsize = parseInt(fontsize);
+
+            id = id.replace(/\D/g,'');
+        
+            if ($scope['search' + id]) {
+                length = $scope['search' + id].length;
+            }
+    
+            var maxChars = w / (fontsize/Math.E);
+    
+            // console.log(length, parseInt(w), parseInt(fontsize), maxChars);
+
+            /*
+            *  TODO - The function should increase font-size as length
+            *         becomes shorter, up to 36px;
+            */
+
+            if (length > maxChars) {
+                fontsize = fontsize * maxChars/length;
+            }
+        
+            $('#e-search' + id).css('font-size', fontsize);
+            $('#search' + id).css('font-size', fontsize);
+            $('#searchlocked' + id).css('font-size', fontsize);
+        });
+    }
+
     angular.element(document).ready(function() {
         $scope.getChallengeByInstance();
 
@@ -62,7 +106,7 @@ angular.module('MainApp.Controllers')
         if (pendingTask) {
             clearTimeout(pendingTask);
         }
-        console.log("change is occuring");
+        // //console.log("change is occuring");
         pendingTask = setTimeout($scope.fetch(id), 800);
     };
 
@@ -81,7 +125,7 @@ angular.module('MainApp.Controllers')
     $scope.posterOverlay2 = false;
 
     $scope.hidePosterOverlay = function(id, source) {
-        console.log("Hi " + source);
+        // //console.log("Hi " + source);
         var ele;
         if (id == 1) {
             ele = 'one';
@@ -91,10 +135,10 @@ angular.module('MainApp.Controllers')
             return false;
         }
         if (source == 'typeahead') {
-            console.log("I'm true");
+            // //console.log("I'm true");
             $scope['posterOverlay' + id] = true;
         } else {
-            console.log("I flipped");
+            // //console.log("I flipped");
             $scope['posterOverlay' + id] = !$scope['posterOverlay' + id];
         }
         $('.poster .image .overlay .' + ele).attr('hidden', $scope['posterOverlay' + id]);
@@ -104,7 +148,7 @@ angular.module('MainApp.Controllers')
     $scope.focused2 = false;
 
     $scope.isFocused = function(val) {
-        console.log("isFocused " + val);
+        //// //console.log("isFocused " + val);
         $scope.closeSearchError();
         if ($scope['focused' + val] == true) {
             $timeout(function() {
@@ -121,7 +165,7 @@ angular.module('MainApp.Controllers')
      /*   completeLocked.locked = true;
         $http.put("/api/challenges/" + $routeParams.param, completeLocked );*/
 
-            console.log("complete lock");
+            // //console.log("complete lock");
             $http.get("/api/getchalbyinst/" + $routeParams.param)
                 .success(function(response) {
 
@@ -151,14 +195,14 @@ angular.module('MainApp.Controllers')
         var challenge;
         var chal_id = 0;
 
-        // console.log($scope.challenge != challengeContent ? true : false);
-        // console.log("Is challenge content undefined?" + challengeContent == undefined ? true : false);
+        // // //console.log($scope.challenge != challengeContent ? true : false);
+        // // //console.log("Is challenge content undefined?" + challengeContent == undefined ? true : false);
 
         //see if challenge exists yet
         if ($scope.challenge != $scope.challengeContent || $scope.challengeContent == undefined) {
             $scope.challengeContent = $scope.challenge;
-            // console.log(challengeContent, $scope.challenge)
-            // console.log("Challenge Saving");
+            // // //console.log(challengeContent, $scope.challenge)
+            // // //console.log("Challenge Saving");
             
             $http.get("/api/getchalbyinst/" + $routeParams.param)
                 .success(function(response) {
@@ -172,7 +216,7 @@ angular.module('MainApp.Controllers')
                             challenge: $scope.challenge,
                             date_chal_updated: Date()
                         }
-                        console.log("Challenge Updated");
+                        // //console.log("Challenge Updated");
                         $http.put("/api/challenges/" + chal_id, challenge)
                             .success(function(){
                                 $scope.getChallengeByInstance();
@@ -184,7 +228,7 @@ angular.module('MainApp.Controllers')
                                 instance: $routeParams.param
                             }
                         
-                            console.log("Challenge Saved");
+                            // //console.log("Challenge Saved");
 
                             $http.post("/api/postchallenge/", challenge)
                                 .success(function(data){
@@ -195,7 +239,7 @@ angular.module('MainApp.Controllers')
                                 })
                         }
                         else {
-                            console.log("Challenge was empty, not saving.")
+                            // //console.log("Challenge was empty, not saving.")
                         } 
                     }
 
@@ -214,7 +258,7 @@ angular.module('MainApp.Controllers')
         $scope.searchResults = null;
         // $scope['search' + id] = term;
         if (d) {
-            // console.log('cancel earlier search, now searching: ' + term);
+            // // //console.log('cancel earlier search, now searching: ' + term);
             d.resolve();
         }
         d = $q.defer();
@@ -236,7 +280,7 @@ angular.module('MainApp.Controllers')
             },
             timeout: d.promise
         }).then(function(result) {
-           // console.log('got 1st page')
+           // // //console.log('got 1st page')
             angular.forEach(result.data.results, function(item) {
                 movies.push(item);
             })
@@ -279,9 +323,9 @@ angular.module('MainApp.Controllers')
                                   callback: 'JSON_CALLBACK'
                               }
                           }).success(function(response){
-                              console.log(response);
+                              // //console.log(response);
                               searchResults.push(response);
-                              console.log(searchResults);
+                              // //console.log(searchResults);
                           })
                       }, 100);
                           
@@ -294,7 +338,7 @@ angular.module('MainApp.Controllers')
                     angular.forEach(movies, function(object) {
                         object.searchId = id;
                     })
-                    //console.log(movies);
+                    //// //console.log(movies);
 
 
                 $scope.searchResults = movies;
@@ -320,7 +364,7 @@ angular.module('MainApp.Controllers')
                 }
             })
             .success(function(response) {
-                // console.log(response)
+                // // //console.log(response)
 
                 $scope['details' + id] = response;
                 $scope['search' + id] = response.title;
@@ -331,14 +375,14 @@ angular.module('MainApp.Controllers')
             }).error(function() {
                 // This will null out the search if the typeahead select malfunctions
                 // $scope['search' + id] = null;
-                console.log("There was likely an error with the external API");
+                // //console.log("There was likely an error with the external API");
                 typeaheadWait = false;
             })
         }
 
         var blurSearch = function(id) {
-            console.log("fetch fired");
-            console.log($scope['search' + id]);
+            // //console.log("fetch fired");
+            // //console.log($scope['search' + id]);
 
 
             var a = function() {
@@ -355,13 +399,13 @@ angular.module('MainApp.Controllers')
 
                 })
                 .success(function(response) {
-                    // console.log($scope['search' + id]);
-                    // console.log(response);
+                    // // //console.log($scope['search' + id]);
+                    // // //console.log(response);
                     var tmdb_id = null;
                     // $scope.details1 = response.results[0];
 
                     var b = function() {
-                        console.log("Now the search runs by tmdb_id from result.id")
+                        // //console.log("Now the search runs by tmdb_id from result.id")
                         $http.jsonp('http://api.themoviedb.org/3/movie/' + tmdb_id, {
                             params: {
 
@@ -372,7 +416,7 @@ angular.module('MainApp.Controllers')
                             }
                         })
                         .success(function(response) {
-                            //console.log(response)
+                            //// //console.log(response)
                             $scope['search' + id] = response.title;
                             $scope['details' + id] = response;
                             $scope['focused' + id] = false;
@@ -384,7 +428,7 @@ angular.module('MainApp.Controllers')
                         })
                     }
                     if (response.results.length) {
-                        console.log("Search by movie name from blur had a response length");
+                        // //console.log("Search by movie name from blur had a response length");
                         // TODO - Revisit this funcionality to ensure it is fulfilling expectations
                         var stopLoop = false;
                         var i = 0;
@@ -421,7 +465,7 @@ angular.module('MainApp.Controllers')
             }
 
         };        
-        // console.log("selectMovie fired from " + source + " and typeahead " + (typeaheadWait ? "is" : "isn't") + " still searching");
+        // // //console.log("selectMovie fired from " + source + " and typeahead " + (typeaheadWait ? "is" : "isn't") + " still searching");
         
         //make these variables so toLowerCase() can be applied to them.
         var search_title = $scope['search' + id];
@@ -433,26 +477,26 @@ angular.module('MainApp.Controllers')
             };
 
             if (source == 'typeahead' && tmdb_id && !($scope['details' + id] && tmdb_id == $scope['details' + id].id)) {
-                console.log("Typeahead is searching");
+                // //console.log("Typeahead is searching");
                 typeaheadWait = true;
                 typeaheadSearch();
 
             } else if (!typeaheadWait && (source == 'blur' && $scope['search' + id]) && !($scope['details' + id] && search_title.toLowerCase() == details_title.toLowerCase())) {
-                console.log("Blur is searching");
+                // //console.log("Blur is searching");
                 blurSearch(id);
 
             } 
             // This might be @Deprecated
             else {
-                typeaheadWait ? null : console.log("no search performed");
+                typeaheadWait ? null : // //console.log("no search performed");
                 $scope['focused' + id] = false;
                 $scope.searchResults = [];
                 if ($scope['search' + id] == '') {
                     $scope['details' + id] = null;
                     $scope.saveMovie(id);
-                    console.log("saving null entry");
+                    // //console.log("saving null entry");
                 } else {
-                    console.log("no save performed");
+                    // //console.log("no save performed");
                 }
 
                 // $scope['search' + id] = $scope['details' + id].title;
@@ -478,10 +522,10 @@ angular.module('MainApp.Controllers')
         // may be deprecated, but we leave it in for redundancy.
 
         var save = function(movietitle) {
-            console.log(window['search' + id])
-            console.log($scope['search' + id])
+            // //console.log(window['search' + id])
+            // //console.log($scope['search' + id])
             if ((window['search' + id] != undefined && $scope['search' + id] == null) || ($scope['details' + id] && $scope['search' + id] == $scope['details' + id].title && ($scope['search' + id] != window['search' + id] || $scope['details' + id] != window['details' + id] || 'search' + id == undefined))) {
-                        console.log("Saving Movie " + id);
+                        // //console.log("Saving Movie " + id);
                         window['details' + id] = $scope['details' + id];
                         window['search' + id] = $scope['search' + id];
 
@@ -495,12 +539,12 @@ angular.module('MainApp.Controllers')
 
                                 //why does put only seem to work with findbyid in node? why do I have to do the above step and not just find by instance
                                 
-                                console.log(movietitle);
+                                // //console.log(movietitle);
                                 $http.put("/api/challenges/" + chal_id, movietitle)
                                     .success(function(data){
-                                        console.log(movietitle.movieslocked);
-                                        console.log("Saved Movie " + id);
-                                        console.log(data);
+                                        // //console.log(movietitle.movieslocked);
+                                        // //console.log("Saved Movie " + id);
+                                        // //console.log(data);
                                         $scope.getChallengeByInstance();
                                     })
                             });
@@ -576,6 +620,9 @@ angular.module('MainApp.Controllers')
                     }else {
                         window.search2 = null;
                     }
+
+                    $scope.textFill(1);
+                    $scope.textFill(2);
                 }
             });
     };
@@ -627,7 +674,7 @@ angular.module('MainApp.Controllers')
 
 
                 //feed ID into put
-                    console.log("Save comments");
+                    // //console.log("Save comments");
                 $http.put("/api/challenges/" + chal_id, comments)
 
             });
@@ -660,5 +707,5 @@ angular.module('MainApp.Controllers')
 
 .controller('RouteController', function($scope, $routeParams) {
     $scope.param = $routeParams.param;
-    console.log($scope.param)
+    // //console.log($scope.param)
 });

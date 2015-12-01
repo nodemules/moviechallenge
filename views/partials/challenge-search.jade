@@ -3,18 +3,19 @@
 		.searcherror(ng-show="searchError") Movie Not Found Please Try Again. #[span(class="errorClose pull-right" ng-click="closeSearchError()")#[i(class="fa fa-times")]]
 	.row
 		.search1-input.col-xs-6
-			.movielocked(ng-show="locked") {{ search1 }}
 			div(
+				e-id="e-search1"
+				id="search1"
 				ng-show="!locked"
 				editable-text="search1",
 				e-ng-readonly="locked"
 				e-ng-model="search1",
 				type='text',
-				e-ng-change="eUpdateModel('search1', $data); searchMovies(1, $data);",
-				e-ng-focus="searchMovies(1, $data);isFocused(1);",
-				ng-focus="isFocused(1);",
+				e-ng-change="eUpdateModel('search1', $data); searchMovies(1, $data);textFill(1);",
+				e-ng-focus="searchMovies(1, $data);isFocused(1);textFill($event)",
+				ng-focus="isFocused(1);textFill($event);",
 				ng-model="search1",
-				onaftersave="isFocused(1);selectMovie(1, null, 'blur')",
+				onaftersave="isFocused(1);selectMovie(1, null, 'blur');",
 				uib-tooltip="Type in the name of a movie and click away to lock",
 				tooltip-placement="top",
 				tooltip-trigger="none"
@@ -23,17 +24,19 @@
 				blur='submit'
 				e-placeholder="Select Movie"
 				) {{search1 || "Select Movie"}}
+			.movielocked(id="searchlocked1" ng-show="locked") {{ search1 }}
 		.search2-input.col-xs-6
-			.movielocked(ng-show="locked") {{ search2 }}
 			div(
+				e-id="e-search2"
+				id="search2"
 				ng-show="!locked"
 				editable-text="search2",
 				e-ng-readonly="locked",
 				type='text',
 				ng-model='search2',
-				e-ng-change="eUpdateModel('search2', $data);searchMovies(2, $data);",
+				e-ng-change="eUpdateModel('search2', $data);searchMovies(2, $data);textFill(2);",
 				ng-focus='isFocused(2);',
-				e-ng-focus='searchMovies(2, $data);isFocused(2);',
+				e-ng-focus='searchMovies(2, $data);isFocused(2);textFill($event);',
 				onaftersave="isFocused(2);selectMovie(2, null, 'blur')",
 				uib-tooltip="Type in the name of a movie and click away to lock",
 				tooltip-placement="top",
@@ -42,6 +45,7 @@
 				blur='submit'
 				e-placeholder="Select Movie"	
 				) {{search2 || "Select Movie"}}
+			.movielocked(ng-show="locked" id="searchlocked2") {{ search2 }}
 	br
 	.row
 		.col-xs-6
